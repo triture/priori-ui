@@ -1,0 +1,9 @@
+-cp src
+-cp src-demo
+
+-lib priori
+-lib actuate
+
+-main PrioriUIDemo
+
+-js build/js/priori.js

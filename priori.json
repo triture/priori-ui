@@ -1,0 +1,22 @@
+{
+  "project_name" : "Priori UI",
+
+  "lang" : "en",
+
+  "meta" : [],
+
+  "link" : [
+    "<script type=\"text/javascript\" src=\"js/tinycolor-min.js\"></script>"
+  ],
+
+  "dependencies" : [
+    "actuate"
+  ],
+
+  "main": "PrioriUIDemo",
+
+  "src" : [
+    "src",
+    "src-demo"
+  ]
+}

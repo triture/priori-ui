@@ -1,8 +1,8 @@
-package priori.ui.pallete;
+package priori.ui.style;
 
 import priori.geom.PriColor;
 
-class ColorSwatch {
+class PriUIColorSwatch {
 
     static public var LIGHT_REFERENCE:Array<TinyColor> = generateLight();
 
@@ -23,6 +23,8 @@ class ColorSwatch {
     public function new(baseColor:PriColor) {
         this.baseColor = baseColor;
     }
+
+    public function clone():PriUIColorSwatch return new PriUIColorSwatch(this.baseColor);
 
     private function get_colorBrighter3():PriColor return this.getScale()[6];
     private function get_colorBrighter2():PriColor return this.getScale()[5];
@@ -64,7 +66,7 @@ class ColorSwatch {
         
         for (i in 0 ... LIGHT_REFERENCE.length) {
             var newRatio:Float = TinyColor.readability(base, LIGHT_REFERENCE[i]);
-            trace(newRatio, lastIndex, lastRatio);
+            
             if (lastIndex == null || (lastRatio - 1) > (newRatio - 1)) {
                 lastIndex = i;
                 lastRatio = newRatio;
@@ -80,8 +82,6 @@ class ColorSwatch {
         var indexStart:Int = this.getIndexReference(this.baseColor);
         var result:Array<PriColor> = [0, 0, 0, 0, 0, 0, 0];
         result[indexStart] = this.baseColor;
-
-        trace(indexStart);
 
         var color:TinyColor = new TinyColor(this.baseColor.toString());
 

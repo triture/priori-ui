@@ -6,6 +6,32 @@
   "meta" : [],
 
   "link" : [
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-regular/Open-Sans-regular.eot\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-regular/Open-Sans-regular.svg\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-regular/Open-Sans-regular.ttf\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-regular/Open-Sans-regular.woff\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-regular/Open-Sans-regular.woff2\" as=\"font\" crossorigin>",
+
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-italic/Open-Sans-italic.eot\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-italic/Open-Sans-italic.svg\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-italic/Open-Sans-italic.ttf\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-italic/Open-Sans-italic.woff\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-italic/Open-Sans-italic.woff2\" as=\"font\" crossorigin>",
+
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700/Open-Sans-700.eot\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700/Open-Sans-700.svg\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700/Open-Sans-700.ttf\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700/Open-Sans-700.woff\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700/Open-Sans-700.woff2\" as=\"font\" crossorigin>",
+
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700italic/Open-Sans-700italic.eot\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700italic/Open-Sans-700italic.svg\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700italic/Open-Sans-700italic.ttf\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700italic/Open-Sans-700italic.woff\" as=\"font\" crossorigin>",
+    "<link rel=\"preload\" href=\"fonts/opensans/fonts/Open-Sans-700italic/Open-Sans-700italic.woff2\" as=\"font\" crossorigin>",
+
+    "<link href=\"fonts/opensans/css/fonts.css\" rel=\"stylesheet\">",
+
     "<script type=\"text/javascript\" src=\"js/tinycolor-min.js\"></script>"
   ],
 

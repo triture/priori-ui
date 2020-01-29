@@ -1,63 +1,89 @@
 package priori.ui.container;
 
 import priori.event.PriEvent;
-import priori.ui.pallete.ColorPallete;
+import priori.ui.style.PriUIStyle;
 import priori.style.shadow.PriShadowStyle;
 import priori.view.builder.PriBuilder;
 import priori.ui.event.PriUIEvent;
+import priori.ui.container.PriUIContainerType;
 
 class PriUIContainer extends PriBuilder {
 
-    @:isVar public var pallete(get, set):ColorPallete;
-    
-    @:noCompletion private var _palleteCache:ColorPallete;
+    @:isVar public var style(get, set):PriUIStyle;
+    @:isVar public var type(get, set):PriUIContainerType;
+
+    @:noCompletion private var _styleCache:PriUIStyle;
     @:noCompletion private var _z:Float = 0;
 
     public var z(get, set):Float;
 
     public function new() {
         super();
-        this.addEventListener(PriUIEvent.CHANGE_PALLETE_EVENT, this.onChangePallete);
-        this.updatePallete();
+        this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
+        this.updateStyle();
     }
 
-    private function onChangePalleteColor(e:PriUIEvent) {
-        this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_PALLETE_EVENT, true, false));
+    private function set_type(value:PriUIContainerType):PriUIContainerType {
+        this.type = value;
+        this.onChangeStyleData(null);
+        return type;
     }
 
-    private function onChangePallete(e:PriUIEvent):Void {
-        this._palleteCache = null;
-        this.updatePallete();
+    private function get_type():PriUIContainerType {
+        if (this.type == null) return PriUIContainerType.NONE;
+        else return this.type;
     }
 
-    private function updatePallete():Void {
+    private function onChangeStyleData(e:PriUIEvent) {
+        this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
+    }
 
+    private function onChangeStyle(e:PriUIEvent):Void {
+        this._styleCache = null;
+        this.updateStyle();
+    }
+
+    private function updateStyle():Void {
+        if (this.type != PriUIContainerType.NONE) {
+            this.bgColor = this.type.getBackgroundSwatch(this.style).baseColor;
+        }
+    }
+
+    private function isInsideContainerType():PriUIContainerType {
+        if (this.parent == null) return PriUIContainerType.NONE;
+        else if (Std.is(this.parent, PriUIContainer)) {
+            var c:PriUIContainer = cast this.parent;
+            if (c.type == PriUIContainerType.NONE) return c.isInsideContainerType();
+            else return c.type;
+        }
+        
+        return PriUIContainerType.NONE;
     }
     
-    private function get_pallete():ColorPallete {
-        if (this.pallete == null) {
-            if (this._palleteCache != null) return _palleteCache;
+    private function get_style():PriUIStyle {
+        if (this.style == null) {
+            if (this._styleCache != null) return _styleCache;
             else if (this.parent != null && Std.is(this.parent, PriUIContainer)) {
                 var parent:PriUIContainer = cast this.parent;
-                this._palleteCache = parent.pallete;
+                this._styleCache = parent.style;
             }
 
-            if (this._palleteCache == null) this._palleteCache = new ColorPallete();
+            if (this._styleCache == null) this._styleCache = new PriUIStyle();
             
-            return _palleteCache;
+            return _styleCache;
         }
 
-        return this.pallete;
+        return this.style;
     }
 
-    private function set_pallete(value:ColorPallete):ColorPallete {
-        if (this.pallete != value) {
-            if (this.pallete != null) this.pallete.removeEventListener(PriUIEvent.CHANGE_PALLETE_EVENT, this.onChangePalleteColor);
+    private function set_style(value:PriUIStyle):PriUIStyle {
+        if (this.style != value) {
+            if (this.style != null) this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
 
-            this.pallete = value;
-
-            this.pallete.addEventListener(PriUIEvent.CHANGE_PALLETE_EVENT, this.onChangePalleteColor);
-            this.onChangePalleteColor(null);
+            this.style = value;
+            
+            this.style.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
+            this.onChangeStyleData(null);
         }
 
         return value;
@@ -65,7 +91,7 @@ class PriUIContainer extends PriBuilder {
 
     @:noCompletion
     override private function ___onAdded(e:PriEvent):Void {
-        this._palleteCache = null;
+        this._styleCache = null;
         super.___onAdded(e);
     }
 
@@ -115,11 +141,11 @@ class PriUIContainer extends PriBuilder {
     }
 
     override public function kill() {
-        this.removeEventListener(PriUIEvent.CHANGE_PALLETE_EVENT, this.onChangePallete);
-        this.pallete.removeEventListener(PriUIEvent.CHANGE_PALLETE_EVENT, this.onChangePalleteColor);
-        if (this._palleteCache != null) this._palleteCache.removeEventListener(PriUIEvent.CHANGE_PALLETE_EVENT, this.onChangePalleteColor);
+        this.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
+        this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
+        if (this._styleCache != null) this._styleCache.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
         
-        this._palleteCache = null;
+        this._styleCache = null;
 
         super.kill();
     }

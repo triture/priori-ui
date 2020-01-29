@@ -1,12 +1,15 @@
 package;
 
+import priori.ui.text.PriUILabel;
 import priori.style.border.PriBorderStyle;
 import motion.Actuate;
 import priori.geom.PriColor;
 import priori.ui.container.PriUIContainer;
 import priori.app.PriApp;
-import priori.ui.pallete.ColorSwatch;
-import priori.ui.pallete.ColorPallete;
+import priori.ui.style.PriUIColorSwatch;
+import priori.ui.style.PriUIStyle;
+import priori.ui.container.PriUISurface;
+import priori.ui.container.PriUIContainerType;
 
 class PrioriUIDemo extends PriApp {
 
@@ -20,41 +23,75 @@ class PrioriUIDemo extends PriApp {
 
     override private function setup():Void {
 
-        var pallete:ColorPallete = new ColorPallete();
+        var label:PriUILabel = new PriUILabel();
+        label.x = 10;
+        label.y = 10;
+        label.text = 'Hello World';
+        this.addChild(label);
+
+        var s:PriUISurface = new PriUISurface();
+        s.x = 550;
+        s.y = 400;
+        s.width = 150;
+        s.corners = [5];
+        this.addChild(s);
+
+        haxe.Timer.delay(
+            function ():Void {
+                s.addChild(label);
+
+                haxe.Timer.delay(
+                    function ():Void {
+                        s.type = PriUIContainerType.ERROR;
+                    }, 3000
+                );
+
+            }, 3000
+        );
+
         
-        for (color in ColorSwatch.LIGHT_REFERENCE) {
+
+        var style:PriUIStyle = new PriUIStyle();
+        
+        for (color in PriUIColorSwatch.LIGHT_REFERENCE) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = PriColor.fromString(color.toHexString());
         }
 
-        for (color in pallete.primary.getScale()) {
+        for (color in style.primary.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == pallete.primary.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+            if (color == style.primary.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
-        for (color in pallete.secondary.getScale()) {
+        for (color in style.secondary.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == pallete.secondary.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+            if (color == style.secondary.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
-        for (color in pallete.primaryAlt.getScale()) {
+        for (color in style.primaryAlt.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == pallete.primaryAlt.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+            if (color == style.primaryAlt.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
-        for (color in pallete.secondaryAlt.getScale()) {
+        for (color in style.secondaryAlt.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == pallete.secondaryAlt.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+            if (color == style.secondaryAlt.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
-        for (color in pallete.background.getScale()) {
+        for (color in style.background.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == pallete.background.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+            if (color == style.background.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+        }
+
+        for (color in style.error.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+            if (color == style.error.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
         this.addChildList(this.colors);

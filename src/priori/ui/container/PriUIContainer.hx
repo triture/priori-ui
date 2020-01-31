@@ -23,6 +23,16 @@ class PriUIContainer extends PriBuilder {
         this.updateStyle();
     }
 
+    override public function addChildList(childList:Array<Dynamic>):Void {
+        super.addChildList(childList);
+        this.updateDisplay();
+    }
+
+    override public function removeChildList(childList:Array<Dynamic>):Void {
+        super.removeChildList(childList);
+        this.updateDisplay();
+    }
+
     private function set_type(value:PriUIContainerType):PriUIContainerType {
         this.type = value;
         this.onChangeStyleData(null);

@@ -5,17 +5,19 @@ class PriUIRow extends PriUILayout {
     override private function paint():Void {
         super.paint();
         
+        if (this.numChildren == 0) return;
+
         var lastx:Float = 0;
         var maxHeight:Float = 0;
         var totalWidth:Float = 0;
-        var totalHeight:Float = 0;
         var spaceX:Float = 0;
 
         for (i in 0 ... this.numChildren) {
             maxHeight = Math.max(maxHeight, this.getChild(i).height);
             totalWidth += this.getChild(i).width;
-            totalHeight += this.getChild(i).height;
         }
+
+        totalWidth = totalWidth + this.gap * (this.numChildren-1);
 
         if (this.heightAutoSize == PriUIAutoSizeType.FIT) this.height = maxHeight;
         if (this.widthAutoSize == PriUIAutoSizeType.FIT) this.width = totalWidth;
@@ -44,7 +46,7 @@ class PriUIRow extends PriUILayout {
             }
 
             this.getChild(i).x = lastx;
-            lastx = this.getChild(i).maxX + spaceX;
+            lastx = this.getChild(i).maxX + spaceX + this.gap;
         }
         
     }

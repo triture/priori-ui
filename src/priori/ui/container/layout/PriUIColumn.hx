@@ -10,14 +10,32 @@ class PriUIColumn extends PriUILayout {
         var lasty:Float = 0;
         var maxWidth:Float = 0;
         var totalHeight:Float = 0;
+        var gapHeight:Float = this.gap * (this.numChildren-1);
         var spaceY:Float = 0;
+
+        var totalWeight:Float = 0;
+        var flexRef:Array<PriUIFlex> = [];
 
         for (i in 0 ... this.numChildren) {
             maxWidth = Math.max(maxWidth, this.getChild(i).width);
-            totalHeight += this.getChild(i).height;
+            
+            if (Std.is(this.getChild(i), PriUIFlex)) {
+                flexRef.push(cast this.getChild(i));
+                totalWeight += flexRef[flexRef.length-1].weight;
+            } else {
+                totalHeight += this.getChild(i).height;
+            }
         }
 
-        totalHeight = totalHeight + this.gap * (this.numChildren-1);
+        totalHeight += gapHeight;
+
+        if (flexRef.length > 0) {
+            var emptySpace:Float = this.height - totalHeight;
+            for (flex in flexRef) {
+                flex.height = emptySpace * (flex.weight/totalWeight);
+                totalHeight += flex.height;
+            }
+        }
 
         if (this.heightAutoSize == PriUIAutoSizeType.FIT) this.height = totalHeight;
         if (this.widthAutoSize == PriUIAutoSizeType.FIT) this.width = maxWidth;

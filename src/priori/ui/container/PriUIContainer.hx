@@ -20,9 +20,12 @@ class PriUIContainer extends PriBuilder {
     public function new() {
         super();
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
+        this.addEventListener(PriUIEvent.UPDATE_DISPLAY, this.onRequestUpdateDisplay);
         this.updateStyle();
     }
 
+    private function onRequestUpdateDisplay(e:PriUIEvent):Void this.updateDisplay();
+    
     override public function addChildList(childList:Array<Dynamic>):Void {
         super.addChildList(childList);
         this.updateDisplay();

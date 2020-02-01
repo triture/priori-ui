@@ -30,36 +30,39 @@ class PriUIColumn extends PriUILayout {
         totalHeight += gapHeight;
 
         if (flexRef.length > 0) {
-            var emptySpace:Float = this.height - totalHeight;
+            var emptySpace:Float = this.height - totalHeight - this.__paddingTop - this.__paddingBottom;
             for (flex in flexRef) {
                 flex.height = emptySpace * (flex.weight/totalWeight);
                 totalHeight += flex.height;
             }
         }
 
-        if (this.heightAutoSize == PriUIAutoSizeType.FIT) this.height = totalHeight;
-        if (this.widthAutoSize == PriUIAutoSizeType.FIT) this.width = maxWidth;
+        if (this.heightAutoSize == PriUIAutoSizeType.FIT) this.height = totalHeight + this.__paddingTop + this.__paddingBottom;
+        if (this.widthAutoSize == PriUIAutoSizeType.FIT) this.width = maxWidth + this.__paddingLeft + this.__paddingRight;
 
         switch (this.verticalAlign) {
-            case PriUIVerticalAlignmentType.BOTTOM : lasty = this.height - totalHeight;
+            case PriUIVerticalAlignmentType.BOTTOM : lasty = this.height - totalHeight - this.__paddingBottom;
             case PriUIVerticalAlignmentType.CENTER : lasty = (this.height - totalHeight) / 2;
-            case PriUIVerticalAlignmentType.SPACE_BETWEEN : spaceY = (this.height - totalHeight) / (this.numChildren - 1);
+            case PriUIVerticalAlignmentType.SPACE_BETWEEN : {
+                spaceY = (this.height - totalHeight - this.__paddingTop - this.__paddingBottom) / (this.numChildren - 1);
+                lasty = this.__paddingTop;
+            }
             case PriUIVerticalAlignmentType.SPACE_AROUND : {
-                spaceY = (this.height - totalHeight) / this.numChildren;
-                lasty = spaceY/2;
+                spaceY = (this.height - totalHeight - this.__paddingTop - this.__paddingBottom) / this.numChildren;
+                lasty = spaceY/2 + this.__paddingTop;
             }
             case PriUIVerticalAlignmentType.SPACE_EVENLY : {
-                spaceY = (this.height - totalHeight) / (this.numChildren + 1);
-                lasty = spaceY;
+                spaceY = (this.height - totalHeight - this.__paddingTop - this.__paddingBottom) / (this.numChildren + 1);
+                lasty = spaceY + this.__paddingTop;
             }
-            case _ : lasty = 0;
+            case _ : lasty = this.__paddingTop;
         }
         
         for (i in 0 ... this.numChildren) {
             
             switch (this.horizontalAlign) {
-                case PriUIHorizontalAlignmentType.LEFT : this.getChild(i).x = 0;
-                case PriUIHorizontalAlignmentType.RIGHT : this.getChild(i).maxX = this.width;
+                case PriUIHorizontalAlignmentType.LEFT : this.getChild(i).x = this.__paddingLeft;
+                case PriUIHorizontalAlignmentType.RIGHT : this.getChild(i).maxX = this.width - this.__paddingRight;
                 case _ : this.getChild(i).centerX = this.width/2;
             }
 

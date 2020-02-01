@@ -32,81 +32,81 @@ import priori.ui.container.PriUIContainer;
         </PriUIRow>
         -->
         
-        <PriUIColumn top="0" bottom="0" width="150" gap="10">
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc">
+        <PriUIRow left="0" right="0" height="150" gap="10">
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" verticalAlign="TOP">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" verticalAlign="TOP">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" verticalAlign="BOTTOM">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" verticalAlign="BOTTOM">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" horizontalAlign="LEFT">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" horizontalAlign="LEFT">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" horizontalAlign="RIGHT">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" horizontalAlign="RIGHT">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" gap="3">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" gap="3">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" widthAutoSize="FIT" heightAutoSize="FIT" gap="10">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" widthAutoSize="FIT" heightAutoSize="FIT" gap="10">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" verticalAlign="TOP" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" verticalAlign="TOP" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" verticalAlign="BOTTOM" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" verticalAlign="BOTTOM" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" horizontalAlign="LEFT" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" horizontalAlign="LEFT" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-            <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" horizontalAlign="RIGHT" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
+            </PriUIColumn>
+            <PriUIColumn top="0" bottom="0" height="60" bgColor="#cccccc" horizontalAlign="RIGHT" widthAutoSize="FIT" heightAutoSize="FIT" padding="10">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
                 <PriUIContainer bgColor="#00FF00" width="40" height="40" />
                 <PriUIContainer bgColor="#0000FF" width="20" height="20" />
                 <PriUIContainer bgColor="#FF00FF" width="10" height="10" />
-            </PriUIRow>
-        </PriUIColumn>
-
+            </PriUIColumn>
+        </PriUIRow>
+<!--
         <PriUIColumn top="0" bottom="0" width="150" x="160" gap="10">
             <PriUIRow left="0" right="0" height="60" bgColor="#cccccc" horizontalAlign="SPACE_BETWEEN">
                 <PriUIContainer bgColor="#FF0000" width="30" height="30" />
@@ -185,10 +185,11 @@ import priori.ui.container.PriUIContainer;
             </PriUIRow>
 
         </PriUIColumn>
+        -->
     </view>
 </priori>
 '
 )
-class Composition extends PriUIContainer {
+class ColumnTests extends PriUIContainer {
     
 }

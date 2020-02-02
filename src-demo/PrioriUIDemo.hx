@@ -18,6 +18,7 @@ class PrioriUIDemo extends PriApp {
     var colors:Array<PriUIContainer> = [];
     var rowTests:RowTests;
     var columnTests:ColumnTests;
+    var builderTest:BuilderTest;
 
     public function new() {
         super();
@@ -55,7 +56,10 @@ class PrioriUIDemo extends PriApp {
         this.addChild(this.rowTests);
 
         this.columnTests = new ColumnTests();
-        this.addChild(this.columnTests);
+        // this.addChild(this.columnTests);
+
+        this.builderTest = new BuilderTest();
+        // this.addChild(this.builderTest);
 
         var style:PriUIStyle = new PriUIStyle();
         
@@ -148,6 +152,12 @@ class PrioriUIDemo extends PriApp {
         this.columnTests.width = this.width/2;
         this.columnTests.height = this.height;
         this.columnTests.right = 0;
+
+        this.builderTest.width = this.width/2;
+        this.builderTest.height = this.height;
+        this.builderTest.maxX = this.width;
+
+        
     }
 
 }

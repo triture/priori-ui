@@ -1,5 +1,6 @@
 package;
 
+import priori.ui.app.PriUIApp;
 import priori.ui.text.PriUILabel;
 import priori.style.border.PriBorderStyle;
 import motion.Actuate;
@@ -11,7 +12,23 @@ import priori.ui.style.PriUIStyle;
 import priori.ui.container.PriUISurface;
 import priori.ui.container.PriUIContainerType;
 
-class PrioriUIDemo extends PriApp {
+@priori('
+<priori>
+    <includes>
+        <image id="logo" path="logo/logo.png" />
+    </includes>
+    <imports>
+        <priori.ui.container.layout.PriUIColumn alias="Col" />
+        <priori.ui.container.layout.PriUIRow alias="Row" />
+        <priori.ui.container.PriUIFlex alias="Flex" />
+        <priori.ui.container.PriUIContainer alias="Container" />
+    </imports>
+    <view>
+        <Container left="0" right="0" bgColor="0x0000ff" />
+    </view>
+</priori>
+')
+class PrioriUIDemo extends PriUIApp {
 
     static public function main() new PrioriUIDemo();
     
@@ -25,13 +42,12 @@ class PrioriUIDemo extends PriApp {
     }
 
     override private function setup():Void {
-
         var label:PriUILabel = new PriUILabel();
         label.x = 10;
         label.y = 10;
         label.text = 'Hello World';
         this.addChild(label);
-
+        
         var s:PriUISurface = new PriUISurface();
         s.x = 550;
         s.y = 400;
@@ -39,6 +55,7 @@ class PrioriUIDemo extends PriApp {
         s.corners = [5];
         this.addChild(s);
 
+        
         haxe.Timer.delay(
             function ():Void {
                 s.addChild(label);
@@ -53,13 +70,13 @@ class PrioriUIDemo extends PriApp {
         );
 
         this.rowTests = new RowTests();
-        this.addChild(this.rowTests);
+        // this.addChild(this.rowTests);
 
         this.columnTests = new ColumnTests();
         // this.addChild(this.columnTests);
 
         this.builderTest = new BuilderTest();
-        // this.addChild(this.builderTest);
+        this.addChild(this.builderTest);
 
         var style:PriUIStyle = new PriUIStyle();
         
@@ -90,6 +107,12 @@ class PrioriUIDemo extends PriApp {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
             if (color == style.secondaryAlt.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+        }
+
+        for (color in style.surface.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+            if (color == style.surface.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
         for (color in style.background.getScale()) {

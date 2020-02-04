@@ -6,19 +6,25 @@ import priori.style.shadow.PriShadowStyle;
 import priori.view.builder.PriBuilder;
 import priori.ui.event.PriUIEvent;
 import priori.ui.container.PriUIContainerType;
+import priori.ui.interfaces.IPriUIStyle;
+import priori.ui.style.ControllerStyle;
 
-class PriUIContainer extends PriBuilder {
+class PriUIContainer extends PriBuilder implements IPriUIStyle {
 
-    @:isVar public var style(get, set):PriUIStyle;
+    private var controllerStyle:ControllerStyle;
+
+    public var style(get, set):PriUIStyle;
     @:isVar public var type(get, set):PriUIContainerType;
 
-    @:noCompletion private var _styleCache:PriUIStyle;
     @:noCompletion private var _z:Float = 0;
 
     public var z(get, set):Float;
 
     public function new() {
+        this.controllerStyle = new ControllerStyle(this);
+
         super();
+
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
         this.addEventListener(PriUIEvent.UPDATE_DISPLAY, this.onRequestUpdateDisplay);
         this.updateStyle();
@@ -36,25 +42,22 @@ class PriUIContainer extends PriBuilder {
         this.updateDisplay();
     }
 
+    public function isInsideContainerType():PriUIContainerType return this.controllerStyle.isInsideContainerType();
+    
+    private function get_style():PriUIStyle return this.controllerStyle.getStyle();
+    private function set_style(value:PriUIStyle):PriUIStyle {
+        this.controllerStyle.setStyle(value);
+        return value;
+    }
+
+    private function get_type():PriUIContainerType return this.controllerStyle.getType();
     private function set_type(value:PriUIContainerType):PriUIContainerType {
-        this.type = value;
-        this.onChangeStyleData(null);
+        this.controllerStyle.setType(value);
         return type;
     }
 
-    private function get_type():PriUIContainerType {
-        if (this.type == null) return PriUIContainerType.NONE;
-        else return this.type;
-    }
-
-    private function onChangeStyleData(e:PriUIEvent) {
-        this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
-    }
-
-    private function onChangeStyle(e:PriUIEvent):Void {
-        this._styleCache = null;
-        this.updateStyle();
-    }
+    private function onChangeStyleData(e:PriUIEvent) this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
+    private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
 
     private function updateStyle():Void {
         if (this.type != PriUIContainerType.NONE) {
@@ -62,49 +65,10 @@ class PriUIContainer extends PriBuilder {
         }
     }
 
-    private function isInsideContainerType():PriUIContainerType {
-        if (this.parent == null) return PriUIContainerType.NONE;
-        else if (Std.is(this.parent, PriUIContainer)) {
-            var c:PriUIContainer = cast this.parent;
-            if (c.type == PriUIContainerType.NONE) return c.isInsideContainerType();
-            else return c.type;
-        }
-        
-        return PriUIContainerType.NONE;
-    }
-    
-    private function get_style():PriUIStyle {
-        if (this.style == null) {
-            if (this._styleCache != null) return _styleCache;
-            else if (this.parent != null && Std.is(this.parent, PriUIContainer)) {
-                var parent:PriUIContainer = cast this.parent;
-                this._styleCache = parent.style;
-            }
-
-            if (this._styleCache == null) this._styleCache = new PriUIStyle();
-            
-            return _styleCache;
-        }
-
-        return this.style;
-    }
-
-    private function set_style(value:PriUIStyle):PriUIStyle {
-        if (this.style != value) {
-            if (this.style != null) this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
-
-            this.style = value;
-            
-            this.style.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
-            this.onChangeStyleData(null);
-        }
-
-        return value;
-    }
-
     @:noCompletion
     override private function ___onAdded(e:PriEvent):Void {
-        this._styleCache = null;
+        this.controllerStyle.clearCache();
+        this.updateStyle();
         super.___onAdded(e);
     }
 
@@ -155,11 +119,7 @@ class PriUIContainer extends PriBuilder {
 
     override public function kill() {
         this.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
-        this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
-        if (this._styleCache != null) this._styleCache.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
-        
-        this._styleCache = null;
-
+        this.controllerStyle.kill();
         super.kill();
     }
 }

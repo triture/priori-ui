@@ -10,13 +10,13 @@ class PriUIStyle extends PriEventDispatcher {
     @:isVar public var secondary(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xE9B56A);
     @:isVar public var secondaryAlt(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xB1A9A2);
     @:isVar public var surface(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xF4F1E8);
-    @:isVar public var background(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xF4F1E8);
+    @:isVar public var background(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xF5F5F5);
     @:isVar public var error(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xB00020);
 
     @:isVar public var onPrimary(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
     @:isVar public var onSecondary(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
     @:isVar public var onSurface(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x000000);
-    @:isVar public var onBackground(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x000000);
+    @:isVar public var onBackground(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x00ff00);
     @:isVar public var onError(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
 
     @:isVar public var fontFamily(default, set):String = "'Open Sans', sans-serif";

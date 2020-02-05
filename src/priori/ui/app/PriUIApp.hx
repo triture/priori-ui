@@ -74,12 +74,16 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     @:noCompletion private function __priBuilderSetup():Void {}
     @:noCompletion private function __priBuilderPaint():Void {}
     @:noCompletion private function __priAppInclude():Void {}
+    @:noCompletion private function __priAppRoutes():Void {}
     
     @:noCompletion private function __on_preloader_error():Void {}
     @:noCompletion private function __on_preloader_success():Void {
         this.__delayedStart = false;
+        this.__priAppRoutes();
         this.onLoad();
         this.startApplication();
+        
+        PriSceneManager.singleton().navigateToCurrent();
     }
 
 }

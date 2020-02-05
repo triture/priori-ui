@@ -63,7 +63,7 @@ class ControllerStyle {
     }
 
     private function onChangeStyleData(e:PriUIEvent) {
-        this.o.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
+        if (this.o != null) this.o.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
     }
 
     public function clearCache():Void {
@@ -72,7 +72,7 @@ class ControllerStyle {
     }
 
     public function kill():Void {
-        this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
+        if (this.style != null) this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
         this.clearCache();
         this.o = null;
     }

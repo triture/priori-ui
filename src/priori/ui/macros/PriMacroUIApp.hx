@@ -26,6 +26,67 @@ class PriMacroUIApp {
                 var xmlBase:Xml = xml.firstElement();
                 var access = new XmlAccessHelper(xmlBase);
 
+                if (access.hasNode('routes')) {
+                    var routes:Array<Expr> = [];
+
+                    var starRoute:String = null;
+
+                    for (item in access.getElementsFromNode('routes')) {
+                        if (item.nodeName == 'route') {
+                            if (item.exists('scene') && StringTools.trim(item.get('scene')).length > 0 &&
+                                item.exists('route') && StringTools.trim(item.get('route')).length > 0                                
+                            ) {
+                                var scene:String = item.get('scene');
+                                var route:String = item.get('route');
+                                var scope:String = item.get('scope');
+
+                                var code:String = 'priori.scene.PriSceneManager.use().addRoute("${route}", ${scene}, ${scope == null ? 'null' : scope})';
+                                
+                                if (starRoute == null) {
+                                    starRoute = 'priori.scene.PriSceneManager.use().addRoute("**", ${scene}, ${scope == null ? 'null' : scope})';
+                                }
+
+                                if (route == "**") starRoute = '';
+
+                                var e:Expr = Context.parse(
+                                    code,
+                                    Context.currentPos()
+                                );
+
+                                routes.push(e);
+                            }
+                        }
+                    }
+
+                    if (starRoute != null && starRoute.length > 0) {
+                        var e:Expr = Context.parse(
+                            starRoute,
+                            Context.currentPos()
+                        );
+                        routes.push(e);
+                    }
+
+                    if (routes.length > 0) {
+                        fields.push(
+                            {
+                                name : '__priAppRoutes',
+                                pos: Context.currentPos(),
+                                access: [Access.APrivate, Access.AOverride],
+                                kind : FieldType.FFun(
+                                    {
+                                        args : [],
+                                        ret : null,
+                                        expr: macro {
+                                            super.__priAppRoutes();
+                                            $b{routes}
+                                        }
+                                    }
+                                )
+                            }
+                        );
+                    }
+                }
+
                 if (access.hasNode('includes')) {
                     
                     var medias:Array<Expr> = [];

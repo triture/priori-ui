@@ -17,6 +17,9 @@ import priori.ui.container.PriUIContainerType;
     <includes>
         <image id="logo" path="logo/logo.png" />
     </includes>
+    <routes>
+        <route scene="scenes.HomeScene" route="home" />
+    </routes>
     <imports>
         <priori.ui.container.layout.PriUIColumn alias="Col" />
         <priori.ui.container.layout.PriUIRow alias="Row" />
@@ -24,7 +27,7 @@ import priori.ui.container.PriUIContainerType;
         <priori.ui.container.PriUIContainer alias="Container" />
     </imports>
     <view>
-        <Container left="0" right="0" bgColor="0x0000ff" />
+        <!--<Container left="0" right="0" bgColor="0x0000ff" />-->
     </view>
 </priori>
 ')
@@ -42,32 +45,6 @@ class PrioriUIDemo extends PriUIApp {
     }
 
     override private function setup():Void {
-        var label:PriUILabel = new PriUILabel();
-        label.x = 10;
-        label.y = 10;
-        label.text = 'Hello World';
-        this.addChild(label);
-        
-        var s:PriUISurface = new PriUISurface();
-        s.x = 550;
-        s.y = 400;
-        s.width = 150;
-        s.corners = [5];
-        this.addChild(s);
-
-        
-        haxe.Timer.delay(
-            function ():Void {
-                s.addChild(label);
-
-                haxe.Timer.delay(
-                    function ():Void {
-                        s.type = PriUIContainerType.ERROR;
-                    }, 3000
-                );
-
-            }, 3000
-        );
 
         this.rowTests = new RowTests();
         // this.addChild(this.rowTests);

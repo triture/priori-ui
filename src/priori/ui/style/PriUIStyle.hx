@@ -25,20 +25,17 @@ class PriUIStyle extends PriEventDispatcher {
 
     @:isVar public var onPrimary(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
     @:isVar public var onSecondary(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
-
     @:isVar public var onContainer(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x000000);
     @:isVar public var onBoard(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x000000);
     @:isVar public var onOverlay(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x000000);
     @:isVar public var onElement(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x000000);
-
     @:isVar public var onSubtle(default, set):PriUIColorSwatch = new PriUIColorSwatch(0x000000);
     @:isVar public var onHighlight(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
-
     @:isVar public var onDanger(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
     @:isVar public var onCaution(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
     @:isVar public var onSuccess(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
     @:isVar public var onInformation(default, set):PriUIColorSwatch = new PriUIColorSwatch(0xFFFFFF);
-
+    
     @:isVar public var fontFamily(default, set):String = "'Open Sans', sans-serif";
 
     public function new() {
@@ -48,7 +45,37 @@ class PriUIStyle extends PriEventDispatcher {
     public function clone():PriUIStyle {
         var result:PriUIStyle = new PriUIStyle();
 
+        result.primary = this.primary.clone();
+        result.primaryAlt = this.primaryAlt.clone();
+        result.secondary = this.secondary.clone();
+        result.secondaryAlt = this.secondaryAlt.clone();
         
+        result.subtle = this.subtle.clone();
+        result.highlight = this.highlight.clone();
+
+        result.container = this.container.clone();
+        result.board = this.board.clone();
+        result.overlay = this.overlay.clone();
+        result.element = this.element.clone();
+        
+        result.danger = this.danger.clone();
+        result.caution = this.caution.clone();
+        result.success = this.success.clone();
+        result.information = this.information.clone();
+
+        result.onPrimary = this.onPrimary.clone();
+        result.onSecondary = this.onSecondary.clone();
+        result.onContainer = this.onContainer.clone();
+        result.onBoard = this.onBoard.clone();
+        result.onOverlay = this.onOverlay.clone();
+        result.onElement = this.onElement.clone();
+        result.onSubtle = this.onSubtle.clone();
+        result.onHighlight = this.onHighlight.clone();
+        result.onDanger = this.onDanger.clone();
+        result.onCaution = this.onCaution.clone();
+        result.onSuccess = this.onSuccess.clone();
+        result.onInformation = this.onInformation.clone();
+
         result.fontFamily = this.fontFamily;
 
         return result;

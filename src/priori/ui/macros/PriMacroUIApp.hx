@@ -1,5 +1,6 @@
 package priori.ui.macros;
 
+#if macro
 import haxe.macro.PositionTools;
 import haxe.xml.Parser.XmlParserException;
 import haxe.macro.TypeTools;
@@ -13,9 +14,13 @@ import haxe.macro.Expr.Access;
 import haxe.macro.Expr.Field;
 import haxe.macro.Context;
 import haxe.macro.Expr;
+#end
 
 class PriMacroUIApp {
+    
+    #if macro
     static public function build():Array<Field> {
+        
         var fields:Array<Field> = Context.getBuildFields();
 
         var xml:Xml = priori.view.builder.PriBuilderMacros.loadPrioriXML();
@@ -136,6 +141,7 @@ class PriMacroUIApp {
 
         return fields;
     }
+    #end
 
 }
 

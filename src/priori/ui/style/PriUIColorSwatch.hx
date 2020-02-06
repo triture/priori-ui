@@ -4,8 +4,6 @@ import priori.geom.PriColor;
 
 class PriUIColorSwatch {
 
-    static public var LIGHT_REFERENCE:Array<TinyColor> = generateLight();
-
     @:isVar public var baseColor(default, null):PriColor;
     @:isVar public var colorRotation(default, null):Float;
     
@@ -35,35 +33,6 @@ class PriUIColorSwatch {
         this.grayScale = null;
 
         return value;
-    }
-    
-    private static function generateLight():Array<TinyColor> {
-        var result:Array<TinyColor> = [null, null, null, new TinyColor('#808080'), null, null, null];
-        
-        var tc:TinyColor = new TinyColor('#808080');
-        for (i in 0 ... 3) result[i + 4] = tc.lighten(13).clone();
-
-        tc = new TinyColor('#808080');
-        for (i in 0 ... 3) result[2 - i] = tc.darken(13).clone();
-
-        return result;
-    };
-
-    public function getIndexReference(color:PriColor):Int {
-        var base:TinyColor = new TinyColor(color.toString());
-        var lastIndex:Int = null;
-        var lastRatio:Float = null;
-        
-        for (i in 0 ... LIGHT_REFERENCE.length) {
-            var newRatio:Float = TinyColor.readability(base, LIGHT_REFERENCE[i]);
-            
-            if (lastIndex == null || (lastRatio - 1) > (newRatio - 1)) {
-                lastIndex = i;
-                lastRatio = newRatio;
-            }
-        }
-
-        return lastIndex;
     }
 
     public function getScale():Array<PriColor> {
@@ -97,7 +66,7 @@ class PriUIColorSwatch {
 
     public function getGrayScale():Array<PriColor> {
         if (this.grayScale != null) return this.grayScale.copy();
-
+        
         var color:Array<PriColor> = this.getScale();
         var result:Array<PriColor> = [];
 

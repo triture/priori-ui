@@ -1,11 +1,12 @@
 package scenes;
 
+import priori.ui.style.PriUIStyle;
+import priori.ui.app.PriUIScene;
 import priori.ui.container.PriUIContainerType;
-import priori.ui.container.PriUISurface;
+import priori.ui.container.PriUIBoard;
 import priori.ui.text.PriUILabel;
-import priori.scene.view.PriSceneView;
 
-class HomeScene extends PriSceneView {
+class HomeScene extends PriUIScene {
     
     override private function setup():Void {
         
@@ -15,7 +16,7 @@ class HomeScene extends PriSceneView {
         label.text = 'Hello World';
         this.addChild(label);
         
-        var s:PriUISurface = new PriUISurface();
+        var s:PriUIBoard = new PriUIBoard();
         s.x = 550;
         s.y = 400;
         s.width = 150;
@@ -29,11 +30,30 @@ class HomeScene extends PriSceneView {
 
                 haxe.Timer.delay(
                     function ():Void {
-                        s.type = PriUIContainerType.ERROR;
-                    }, 3000
+                        trace('default caution orange');
+                        s.type = PriUIContainerType.CAUTION;
+
+
+                        haxe.Timer.delay(
+                            function ():Void {
+                                trace('default caution orange');
+                                this.style = new PriUIStyle();
+                                
+                                haxe.Timer.delay(
+                                    function ():Void {
+                                        trace('current none - app has blue as caution');
+                                        this.style = null;
+                                        
+                                    }, 2000
+                                );
+
+                            }, 6000
+                        );
+
+                    }, 2000
                 );
 
-            }, 3000
+            }, 2000
         );
     }
 

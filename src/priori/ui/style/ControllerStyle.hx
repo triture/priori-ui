@@ -29,16 +29,23 @@ class ControllerStyle {
 
     public function getStyle():PriUIStyle {
         if (this.style == null) {
-            if (this._styleCache != null) return _styleCache;
+            
+            var parentStyle:PriUIStyle = null;
 
-            else if (this.o.parent != null && Std.is(this.o.parent, IPriUIStyle)) {
+            if (this.o.parent != null && Std.is(this.o.parent, IPriUIStyle)) {
                 var parent:IPriUIStyle = cast this.o.parent;
                 
-                this.clearCache();
-                this._styleCache = parent.style;
+                parentStyle = parent.style;
+
+                if (parentStyle != this._styleCache) {
+                    this.clearCache();
+
+                    this._styleCache = parent.style;
+                    this._styleCache.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
+                }
             }
 
-            if (this._styleCache == null) {
+            if (parentStyle == null) {
                 this._styleCache = new PriUIStyle();
                 this._styleCache.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
             }
@@ -57,12 +64,14 @@ class ControllerStyle {
 
             this.style = value;
             
-            this.style.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
+            if (value != null) this.style.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
+
             this.onChangeStyleData(null);
         }
     }
 
     private function onChangeStyleData(e:PriUIEvent) {
+        this.clearCache();
         if (this.o != null) this.o.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
     }
 

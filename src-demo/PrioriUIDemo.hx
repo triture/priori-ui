@@ -9,7 +9,7 @@ import priori.ui.container.PriUIContainer;
 import priori.app.PriApp;
 import priori.ui.style.PriUIColorSwatch;
 import priori.ui.style.PriUIStyle;
-import priori.ui.container.PriUISurface;
+import priori.ui.container.PriUIBoard;
 import priori.ui.container.PriUIContainerType;
 
 @priori('
@@ -45,6 +45,24 @@ class PrioriUIDemo extends PriUIApp {
     }
 
     override private function setup():Void {
+        
+
+        haxe.Timer.delay(
+            function ():Void {
+                
+                trace('green');
+                this.style.caution = new PriUIColorSwatch(0x00ff00, 10);
+                
+                haxe.Timer.delay(
+                    function ():Void {
+                        trace('blue');
+                        this.style.caution = new PriUIColorSwatch(0x0000ff, 10);
+
+                    }, 2000
+                );
+
+            }, 6000
+        );
 
         this.rowTests = new RowTests();
         // this.addChild(this.rowTests);
@@ -57,51 +75,78 @@ class PrioriUIDemo extends PriUIApp {
 
         var style:PriUIStyle = new PriUIStyle();
         
-        for (color in PriUIColorSwatch.LIGHT_REFERENCE) {
-            this.colors.push(new PriUIContainer());
-            this.colors[this.colors.length-1].bgColor = PriColor.fromString(color.toHexString());
-        }
-
         for (color in style.primary.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == style.primary.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
-        }
-
-        for (color in style.secondary.getScale()) {
-            this.colors.push(new PriUIContainer());
-            this.colors[this.colors.length-1].bgColor = color;
-            if (color == style.secondary.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
         for (color in style.primaryAlt.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == style.primaryAlt.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+        }
+
+        for (color in style.secondary.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
         }
 
         for (color in style.secondaryAlt.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == style.secondaryAlt.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
-        for (color in style.surface.getScale()) {
+        for (color in style.subtle.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == style.surface.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
-        for (color in style.background.getScale()) {
+        for (color in style.highlight.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == style.background.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
         }
 
-        for (color in style.error.getScale()) {
+        // backgrounds
+
+        for (color in style.container.getScale()) {
             this.colors.push(new PriUIContainer());
             this.colors[this.colors.length-1].bgColor = color;
-            if (color == style.error.baseColor) this.colors[this.colors.length-1].border = new PriBorderStyle().setColor(0xff0000);
+        }
+
+        for (color in style.board.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+        }
+
+        for (color in style.overlay.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+        }
+
+        for (color in style.element.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+        }
+
+        // moods
+
+        for (color in style.danger.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+        }
+
+        for (color in style.caution.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+        }
+
+        for (color in style.success.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
+        }
+
+        for (color in style.information.getScale()) {
+            this.colors.push(new PriUIContainer());
+            this.colors[this.colors.length-1].bgColor = color;
         }
 
         this.addChildList(this.colors);
@@ -135,14 +180,14 @@ class PrioriUIDemo extends PriUIApp {
     }
 
     override public function paint():Void {
-        var cols:Int = 7;
+        var cols:Int = 3;
 
         for (i in 0 ... this.colors.length) {
             var item = this.colors[i];
 
             item.width = item.height = 50;
-            item.x = 100 + (i%7 * 50);
-            item.y = 100 + (Math.floor(i/7))*50;
+            item.x = 100 + (i%cols * 50);
+            item.y = 100 + (Math.floor(i/cols))*50;
         }
 
         this.rowTests.width = this.width/2;

@@ -13,9 +13,9 @@ import priori.ui.style.ControllerStyle;
 @:autoBuild(priori.ui.macros.PriMacroUIApp.build())
 class PriUIApp extends PriApp implements IPriUIStyle {
 
-    @:noCompletion private var controllerStyle:ControllerStyle;
     @:noCompletion private var __delayedStart:Bool = true;
 
+    @:noCompletion private var controllerStyle:ControllerStyle;
     @:isVar public var style(get, set):PriUIStyle;
     @:isVar public var type(get, set):PriUIContainerType;
 
@@ -25,9 +25,11 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         this.controllerStyle = new ControllerStyle(this);
 
         super();
+
+        this.style = new PriUIStyle();
         
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
-        this.type = PriUIContainerType.BACKGROUND;
+        this.type = PriUIContainerType.CONTAINER;
 
         this.__priAppInclude();
 

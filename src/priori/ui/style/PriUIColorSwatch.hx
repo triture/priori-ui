@@ -6,47 +6,37 @@ class PriUIColorSwatch {
 
     static public var LIGHT_REFERENCE:Array<TinyColor> = generateLight();
 
-    @:isVar public var baseColor(default, set):PriColor;
+    @:isVar public var baseColor(default, null):PriColor;
+    @:isVar public var colorRotation(default, null):Float;
     
-    public var colorDark1(get, null):PriColor;
-    public var colorDark2(get, null):PriColor;
-    public var colorDark3(get, null):PriColor;
-    public var centerColor(get, null):PriColor;
-    public var colorBrighter1(get, null):PriColor;
-    public var colorBrighter2(get, null):PriColor;
-    public var colorBrighter3(get, null):PriColor;
-
+    public var color(get, null):PriColor;
+    public var brighter(get, null):PriColor;
+    public var darker(get, null):PriColor;
+    
     private var tc:TinyColor;
     private var scale:Array<PriColor>;
     private var grayScale:Array<PriColor>;
 
-    public function new(baseColor:PriColor) {
+    public function new(baseColor:PriColor, colorRotation:Float = 0.0) {
         this.baseColor = baseColor;
+        this.colorRotation = colorRotation;
     }
 
     public function clone():PriUIColorSwatch return new PriUIColorSwatch(this.baseColor);
 
-    private function get_colorBrighter3():PriColor return this.getScale()[6];
-    private function get_colorBrighter2():PriColor return this.getScale()[5];
-    private function get_colorBrighter1():PriColor return this.getScale()[4];
-    private function get_centerColor():PriColor return this.getScale()[3];
-    private function get_colorDark1():PriColor return this.getScale()[2];
-    private function get_colorDark2():PriColor return this.getScale()[1];
-    private function get_colorDark3():PriColor return this.getScale()[0];
+    private function get_brighter():PriColor return this.getScale()[2];
+    private function get_darker():PriColor return this.getScale()[0];
+    private function get_color():PriColor return this.getScale()[1];
     
-
-    private function set_baseColor(value:PriColor):PriColor {
-        if (value == null) return value;
-
-        this.baseColor = value;
-        this.tc = new TinyColor(baseColor.toString());
+    private function set_colorRotation(value:Float):Float {
+        this.colorRotation = value;
         
         this.scale = null;
         this.grayScale = null;
-        
+
         return value;
     }
-
+    
     private static function generateLight():Array<TinyColor> {
         var result:Array<TinyColor> = [null, null, null, new TinyColor('#808080'), null, null, null];
         
@@ -79,29 +69,30 @@ class PriUIColorSwatch {
     public function getScale():Array<PriColor> {
         if (this.scale != null) return this.scale.copy();
 
-        var indexStart:Int = this.getIndexReference(this.baseColor);
-        var result:Array<PriColor> = [0, 0, 0, 0, 0, 0, 0];
-        result[indexStart] = this.baseColor;
+        var result:Array<PriColor> = [];
+        this.scale = result;
 
-        var color:TinyColor = new TinyColor(this.baseColor.toString());
+        var color:TinyColor;
 
-        for (i in (indexStart+1) ... 7) {
-            var color:TinyColor = color.lighten(13);
-            if (color.toHsl().s > 0.1) color.saturate(5);
-            result[i] = PriColor.fromString(color.toHexString());
-        }
-
-        color = new TinyColor(this.baseColor.toString());
-
-        for (i in 0 ... indexStart) {
-            var color:TinyColor = color.darken(13);
-            if (color.toHsl().s > 0.1) color.saturate(5);
-            result[indexStart - i - 1] = PriColor.fromString(color.toHexString());
-        }
+        // darker
+        color = new TinyColor(this.baseColor.toString()).spin(this.colorRotation*-1);
         
-        this.scale = result.copy();
+        color.darken(color.isDark() ? 10 : 10);
+        if (color.toHsl().s > 0.1) color.saturate(7);
+        result.push(color.toHexString());
 
-        return result;
+        // basecolor
+        result.push(this.baseColor);
+
+        // brighter
+        color = new TinyColor(this.baseColor.toString()).spin(this.colorRotation);
+        
+        color.lighten(color.isLight() ? 18 : 10);
+        if (color.toHsl().s > 0.1) color.saturate(7);
+        result.push(color.toHexString());
+        
+
+        return result.copy();
     }
 
     public function getGrayScale():Array<PriColor> {
@@ -165,6 +156,8 @@ private extern class TinyColor
     public static function random():TinyColor;
 
     public static function complement():TinyColor;
+
+    public function spin(amount:Float):TinyColor;
     
     public static function triad():Array<TinyColor>;
     public static function tetrad():Array<TinyColor>;
@@ -206,6 +199,7 @@ private typedef RGB =
     a:Float
 }
 
+// hue, saturation, value
 private typedef HSV = {
     h:Float,
     s:Float,
@@ -213,6 +207,7 @@ private typedef HSV = {
     a:Float
 }
 
+// hue, saturation, lightness
 private typedef HSL = {
     h:Float,
     s:Float,

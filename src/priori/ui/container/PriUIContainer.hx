@@ -1,11 +1,12 @@
 package priori.ui.container;
 
+import priori.ui.style.PriUIDensity;
 import priori.event.PriEvent;
 import priori.ui.style.PriUIStyle;
 import priori.style.shadow.PriShadowStyle;
 import priori.view.builder.PriBuilder;
 import priori.ui.event.PriUIEvent;
-import priori.ui.container.PriUIContainerType;
+import priori.ui.style.PriUIType;
 import priori.ui.interfaces.IPriUIStyle;
 import priori.ui.style.ControllerStyle;
 
@@ -14,7 +15,8 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
     private var controllerStyle:ControllerStyle;
 
     public var style(get, set):PriUIStyle;
-    @:isVar public var type(get, set):PriUIContainerType;
+    public var density(get, set):PriUIDensity;
+    public var type(get, set):PriUIType;
 
     @:noCompletion private var _z:Float = 0;
 
@@ -42,7 +44,7 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
         this.updateDisplay();
     }
 
-    public function isInsideContainerType():PriUIContainerType return this.controllerStyle.isInsideContainerType();
+    public function isInsideContainerType():PriUIType return this.controllerStyle.isInsideContainerType();
     
     private function get_style():PriUIStyle return this.controllerStyle.getStyle();
     private function set_style(value:PriUIStyle):PriUIStyle {
@@ -50,17 +52,23 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
         return value;
     }
 
-    private function get_type():PriUIContainerType return this.controllerStyle.getType();
-    private function set_type(value:PriUIContainerType):PriUIContainerType {
+    private function get_type():PriUIType return this.controllerStyle.getType();
+    private function set_type(value:PriUIType):PriUIType {
         this.controllerStyle.setType(value);
-        return type;
+        return value;
+    }
+
+    private function get_density():PriUIDensity return this.controllerStyle.getDensity();
+    private function set_density(value:PriUIDensity):PriUIDensity {
+        this.controllerStyle.setDesity(value);
+        return value;
     }
 
     private function onChangeStyleData(e:PriUIEvent) this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
 
     private function updateStyle():Void {
-        if (this.type != PriUIContainerType.NONE) {
+        if (this.type != PriUIType.NONE) {
             this.bgColor = this.type.getBackgroundSwatch(this.style).baseColor;
         }
     }

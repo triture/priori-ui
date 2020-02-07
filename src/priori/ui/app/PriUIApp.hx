@@ -1,11 +1,12 @@
 package priori.ui.app;
 
+import priori.ui.style.PriUIDensity;
 import priori.scene.PriSceneManager;
 import priori.scene.view.PriPreloaderView;
 import priori.ui.event.PriUIEvent;
 import priori.ui.interfaces.IPriUIStyle;
 import priori.ui.style.PriUIStyle;
-import priori.ui.container.PriUIContainerType;
+import priori.ui.style.PriUIType;
 import priori.app.PriApp;
 import priori.ui.style.ControllerStyle;
 
@@ -16,8 +17,9 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     @:noCompletion private var __delayedStart:Bool = true;
 
     @:noCompletion private var controllerStyle:ControllerStyle;
-    @:isVar public var style(get, set):PriUIStyle;
-    @:isVar public var type(get, set):PriUIContainerType;
+    public var style(get, set):PriUIStyle;
+    public var type(get, set):PriUIType;
+    public var density(get, set):PriUIDensity;
 
     public var customPreloader:Class<PriPreloaderView>;
 
@@ -29,7 +31,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         this.style = new PriUIStyle();
         
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
-        this.type = PriUIContainerType.CONTAINER;
+        this.type = PriUIType.CONTAINER;
 
         this.__priAppInclude();
 
@@ -53,13 +55,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
 
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
 
-    public function isInsideContainerType():PriUIContainerType return this.controllerStyle.isInsideContainerType();
-
-    private function get_type():PriUIContainerType return this.controllerStyle.getType();
-    private function set_type(value:PriUIContainerType):PriUIContainerType {
-        this.controllerStyle.setType(value);
-        return type;
-    }
+    public function isInsideContainerType():PriUIType return this.controllerStyle.isInsideContainerType();
 
     private function get_style():PriUIStyle return this.controllerStyle.getStyle();
     private function set_style(value:PriUIStyle):PriUIStyle {
@@ -67,8 +63,20 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         return value;
     }
 
+    private function get_type():PriUIType return this.controllerStyle.getType();
+    private function set_type(value:PriUIType):PriUIType {
+        this.controllerStyle.setType(value);
+        return value;
+    }
+
+    private function get_density():PriUIDensity return this.controllerStyle.getDensity();
+    private function set_density(value:PriUIDensity):PriUIDensity {
+        this.controllerStyle.setDesity(value);
+        return value;
+    }
+
     private function updateStyle():Void {
-        if (this.type != PriUIContainerType.NONE) {
+        if (this.type != PriUIType.NONE) {
             this.bgColor = this.type.getBackgroundSwatch(this.style).baseColor;
         }
     }

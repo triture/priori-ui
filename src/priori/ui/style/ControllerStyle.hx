@@ -1,14 +1,16 @@
 package priori.ui.style;
 
-import priori.ui.container.PriUIContainerType;
+import priori.ui.style.PriUIType;
 import priori.view.PriDisplay;
 import priori.ui.event.PriUIEvent;
 import priori.ui.interfaces.IPriUIStyle;
 
 class ControllerStyle {
 
-    private var type:PriUIContainerType;
+    private var type:PriUIType;
     private var style:PriUIStyle;
+    private var density:PriUIDensity;
+
     private var _styleCache:PriUIStyle;
 
     private var o:PriDisplay;
@@ -17,12 +19,27 @@ class ControllerStyle {
         this.o = reference;
     }
 
-    public function getType():PriUIContainerType {
-        if (this.type == null) return PriUIContainerType.NONE;
+    public function getDensity():PriUIDensity {
+        if (this.density == null) {
+            if (this.o.parent == null) return PriUIDensity.DEFAULT;
+            else if (Std.is(this.o.parent, IPriUIStyle)) {
+                var c:IPriUIStyle = cast this.o.parent;
+                return c.density;
+            } else return PriUIDensity.DEFAULT;
+        } else return this.density;
+    }
+
+    public function setDesity(value:PriUIDensity):Void {
+        this.density = value;
+        this.onChangeStyleData(null);
+    }
+
+    public function getType():PriUIType {
+        if (this.type == null) return PriUIType.NONE;
         else return this.type;
     }
 
-    public function setType(value:PriUIContainerType):Void {
+    public function setType(value:PriUIType):Void {
         this.type = value;
         this.onChangeStyleData(null);
     }
@@ -86,15 +103,15 @@ class ControllerStyle {
         this.o = null;
     }
 
-    public function isInsideContainerType():PriUIContainerType {
-        if (this.o.parent == null) return PriUIContainerType.NONE;
+    public function isInsideContainerType():PriUIType {
+        if (this.o.parent == null) return PriUIType.NONE;
         else if (Std.is(this.o.parent, IPriUIStyle)) {
             var c:IPriUIStyle = cast this.o.parent;
-            if (c.type == PriUIContainerType.NONE) return c.isInsideContainerType();
+            if (c.type == PriUIType.NONE) return c.isInsideContainerType();
             else return c.type;
         }
         
-        return PriUIContainerType.NONE;
+        return PriUIType.NONE;
     }
 
 }

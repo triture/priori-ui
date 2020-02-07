@@ -2,9 +2,10 @@ package scenes;
 
 import priori.ui.style.PriUIStyle;
 import priori.ui.app.PriUIScene;
-import priori.ui.container.PriUIContainerType;
+import priori.ui.style.PriUIType;
 import priori.ui.container.PriUIBoard;
 import priori.ui.text.PriUILabel;
+import priori.ui.bar.PriUIAppBar;
 
 class HomeScene extends PriUIScene {
     
@@ -23,6 +24,8 @@ class HomeScene extends PriUIScene {
         s.corners = [5];
         this.addChild(s);
 
+        var bar:PriUIAppBar = new PriUIAppBar();
+        this.addChild(bar);
         
         haxe.Timer.delay(
             function ():Void {
@@ -31,7 +34,7 @@ class HomeScene extends PriUIScene {
                 haxe.Timer.delay(
                     function ():Void {
                         trace('default caution orange');
-                        s.type = PriUIContainerType.CAUTION;
+                        s.type = PriUIType.CAUTION;
 
 
                         haxe.Timer.delay(

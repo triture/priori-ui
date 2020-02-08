@@ -1,5 +1,7 @@
 package priori.ui.style;
 
+import priori.style.font.PriFontStyleVariant;
+import priori.style.font.PriFontStyleWeight;
 import haxe.ds.StringMap;
 import priori.event.PriEventDispatcher;
 import priori.ui.event.PriUIEvent;
@@ -7,21 +9,27 @@ import priori.ui.event.PriUIEvent;
 class PriUIStyle extends PriEventDispatcher {
 
     private var colorMap:StringMap<PriUIColorSwatch> = new StringMap<PriUIColorSwatch>();
+    private var fontStyleMap:StringMap<PriUIFont> = new StringMap<PriUIFont>();
     
     public var primary(get, set):PriUIColorSwatch;
     public var primaryAlt(get, set):PriUIColorSwatch;
+
     public var secondary(get, set):PriUIColorSwatch;
     public var secondaryAlt(get, set):PriUIColorSwatch;
+    
     public var subtle(get, set):PriUIColorSwatch;
     public var highlight(get, set):PriUIColorSwatch;
+    
     public var container(get, set):PriUIColorSwatch;
     public var board(get, set):PriUIColorSwatch;
     public var overlay(get, set):PriUIColorSwatch;
     public var element(get, set):PriUIColorSwatch;
+    
     public var danger(get, set):PriUIColorSwatch;
     public var caution(get, set):PriUIColorSwatch;
     public var success(get, set):PriUIColorSwatch;
     public var information(get, set):PriUIColorSwatch;
+    
     public var onPrimary(get, set):PriUIColorSwatch;
     public var onSecondary(get, set):PriUIColorSwatch;
     public var onContainer(get, set):PriUIColorSwatch;
@@ -37,6 +45,16 @@ class PriUIStyle extends PriEventDispatcher {
     
     @:isVar public var fontFamily(default, set):String = "'Open Sans', sans-serif";
 
+    public var fontHeader1(get, set):PriUIFont;
+    public var fontHeader2(get, set):PriUIFont;
+    public var fontSubtitle1(get, set):PriUIFont;
+    public var fontSubtitle2(get, set):PriUIFont;
+    public var fontBody1(get, set):PriUIFont;
+    public var fontBody2(get, set):PriUIFont;
+    public var fontButton(get, set):PriUIFont;
+    public var fontCaption(get, set):PriUIFont;
+    public var fontOverline(get, set):PriUIFont;
+    
     public function new() {
         super();
 
@@ -71,6 +89,18 @@ class PriUIStyle extends PriEventDispatcher {
         this.onCaution = new PriUIColorSwatch(0xFFFFFF);
         this.onSuccess = new PriUIColorSwatch(0xFFFFFF);
         this.onInformation = new PriUIColorSwatch(0xFFFFFF);
+
+        // font definitions
+
+        this.fontHeader1 = new PriUIFont(24, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontHeader2 = new PriUIFont(18, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
+        this.fontSubtitle1 = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontSubtitle2 = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
+        this.fontBody1 = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontBody2 = new PriUIFont(14, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontButton = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.SMALL_CAPS);
+        this.fontCaption = new PriUIFont(12, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontOverline = new PriUIFont(10, PriFontStyleWeight.NORMAL, PriFontStyleVariant.SMALL_CAPS);
     }
 
     private function updateColor(key:String, value:PriUIColorSwatch):PriUIColorSwatch {
@@ -80,6 +110,15 @@ class PriUIStyle extends PriEventDispatcher {
         return value;
     }
 
+    private function setFont(key:String, value:PriUIFont):PriUIFont {
+        if (value == null) return value;
+        this.fontStyleMap.set(key, value);
+        this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT));
+        return value;
+    }
+
+    inline private function getFont(key:String):PriUIFont return this.fontStyleMap.get(key);
+    
 
     public function clone():PriUIStyle {
         var result:PriUIStyle = new PriUIStyle();
@@ -88,20 +127,16 @@ class PriUIStyle extends PriEventDispatcher {
         result.primaryAlt = this.primaryAlt.clone();
         result.secondary = this.secondary.clone();
         result.secondaryAlt = this.secondaryAlt.clone();
-        
         result.subtle = this.subtle.clone();
         result.highlight = this.highlight.clone();
-
         result.container = this.container.clone();
         result.board = this.board.clone();
         result.overlay = this.overlay.clone();
         result.element = this.element.clone();
-        
         result.danger = this.danger.clone();
         result.caution = this.caution.clone();
         result.success = this.success.clone();
         result.information = this.information.clone();
-
         result.onPrimary = this.onPrimary.clone();
         result.onSecondary = this.onSecondary.clone();
         result.onContainer = this.onContainer.clone();
@@ -117,6 +152,16 @@ class PriUIStyle extends PriEventDispatcher {
 
         result.fontFamily = this.fontFamily;
 
+        result.fontHeader1 = this.fontHeader1.clone();
+        result.fontHeader2 = this.fontHeader2.clone();
+        result.fontSubtitle1 = this.fontSubtitle1.clone();
+        result.fontSubtitle2 = this.fontSubtitle2.clone();
+        result.fontBody1 = this.fontBody1.clone();
+        result.fontBody2 = this.fontBody2.clone();
+        result.fontButton = this.fontButton.clone();
+        result.fontCaption = this.fontCaption.clone();
+        result.fontOverline = this.fontOverline.clone();
+
         return result;
     }
 
@@ -129,6 +174,33 @@ class PriUIStyle extends PriEventDispatcher {
 
         return value;
     }
+
+    private function get_fontHeader1():PriUIFont return this.getFont('header1');
+    private function set_fontHeader1(value:PriUIFont):PriUIFont return this.setFont('header1', value);
+
+    private function get_fontHeader2():PriUIFont return this.getFont('header2');
+    private function set_fontHeader2(value:PriUIFont):PriUIFont return this.setFont('header2', value);
+
+    private function get_fontSubtitle1():PriUIFont return this.getFont('subtitle1');
+    private function set_fontSubtitle1(value:PriUIFont):PriUIFont return this.setFont('subtitle1', value);
+
+    private function get_fontSubtitle2():PriUIFont return this.getFont('subtitle2');
+    private function set_fontSubtitle2(value:PriUIFont):PriUIFont return this.setFont('subtitle2', value);
+
+    private function get_fontBody1():PriUIFont return this.getFont('body1');
+    private function set_fontBody1(value:PriUIFont):PriUIFont return this.setFont('body1', value);
+
+    private function get_fontBody2():PriUIFont return this.getFont('body2');
+    private function set_fontBody2(value:PriUIFont):PriUIFont return this.setFont('body2', value);
+
+    private function get_fontButton():PriUIFont return this.getFont('button');
+    private function set_fontButton(value:PriUIFont):PriUIFont return this.setFont('button', value);
+
+    private function get_fontCaption():PriUIFont return this.getFont('caption');
+    private function set_fontCaption(value:PriUIFont):PriUIFont return this.setFont('caption', value);
+
+    private function get_fontOverline():PriUIFont return this.getFont('overline');
+    private function set_fontOverline(value:PriUIFont):PriUIFont return this.setFont('overline', value);
 
     private function get_board():PriUIColorSwatch return this.colorMap.get('board');
     private function set_board(value:PriUIColorSwatch):PriUIColorSwatch return this.updateColor('board', value);

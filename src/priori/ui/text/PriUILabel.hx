@@ -1,6 +1,7 @@
 package priori.ui.text;
 
-import priori.style.font.PriFontStyle;
+import priori.geom.PriColor;
+import priori.ui.style.PriUIFont;
 import priori.ui.container.PriUIContainer;
 import priori.types.PriTransitionType;
 
@@ -29,10 +30,17 @@ class PriUILabel extends PriUIContainer {
 
     override private function updateStyle():Void {
         super.updateStyle();
-        this.label.fontStyle = new PriFontStyle()
-            .setFamily(this.style.fontFamily)
-            .setColor(this.isInsideContainerType().getForegroundSwatch(this.style).baseColor)
-        ;
+        this.updateFont();
+    }
+
+    private function updateFont():Void {
+        var font:PriUIFont = this.style.fontHeader2;
+        var color:PriColor = this.isInsideContainerType().getForegroundSwatch(this.style).baseColor;
+
+        this.label.fontSize = font.size;
+        this.label.fontStyle = font.getFontStyle(this.style.fontFamily, color);
+
+        this.updateDisplay();
     }
 
     private function set_text(value:String):String {

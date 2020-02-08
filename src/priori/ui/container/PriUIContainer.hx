@@ -32,6 +32,10 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
         this.updateStyle();
     }
 
+    override private function ___onResize(e:PriEvent):Void {
+        super.___onResize(e);
+    }
+
     private function onRequestUpdateDisplay(e:PriUIEvent):Void this.updateDisplay();
     
     override public function addChildList(childList:Array<Dynamic>):Void {

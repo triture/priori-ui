@@ -1,13 +1,13 @@
 package priori.ui.style;
 
-import priori.ui.style.PriUIType;
+import priori.ui.style.PriUIContainerType;
 import priori.view.PriDisplay;
 import priori.ui.event.PriUIEvent;
 import priori.ui.interfaces.IPriUIStyle;
 
 class ControllerStyle {
 
-    private var type:PriUIType;
+    private var type:PriUIContainerType;
     private var style:PriUIStyle;
     private var density:PriUIDensity;
 
@@ -34,12 +34,12 @@ class ControllerStyle {
         this.onChangeStyleData(null);
     }
 
-    public function getType():PriUIType {
-        if (this.type == null) return PriUIType.NONE;
+    public function getType():PriUIContainerType {
+        if (this.type == null) return PriUIContainerType.NONE;
         else return this.type;
     }
 
-    public function setType(value:PriUIType):Void {
+    public function setType(value:PriUIContainerType):Void {
         this.type = value;
         this.onChangeStyleData(null);
     }
@@ -103,15 +103,15 @@ class ControllerStyle {
         this.o = null;
     }
 
-    public function isInsideContainerType():PriUIType {
-        if (this.o.parent == null) return PriUIType.NONE;
+    public function isInsideContainerType():PriUIContainerType {
+        if (this.o.parent == null) return PriUIContainerType.NONE;
         else if (Std.is(this.o.parent, IPriUIStyle)) {
             var c:IPriUIStyle = cast this.o.parent;
-            if (c.styleType == PriUIType.NONE) return c.isInsideContainerType();
-            else return c.styleType;
+            if (c.styleContainerType == PriUIContainerType.NONE) return c.isInsideContainerType();
+            else return c.styleContainerType;
         }
         
-        return PriUIType.NONE;
+        return PriUIContainerType.NONE;
     }
 
 }

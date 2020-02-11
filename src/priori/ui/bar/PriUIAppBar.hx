@@ -1,6 +1,6 @@
 package priori.ui.bar;
 
-import priori.ui.style.PriUIType;
+import priori.ui.style.PriUIContainerType;
 import priori.ui.container.layout.PriUIRow;
 import priori.ui.style.PriUIDensity;
 import priori.ui.text.PriUILabel;
@@ -26,7 +26,7 @@ class PriUIAppBar extends PriUIRow {
     public function new() {
         super();
 
-        this.styleType = PriUIType.PRIMARY;
+        this.styleContainerType = PriUIContainerType.PRIMARY;
     }
 
     private function set_text(value:String):String {

@@ -4,7 +4,7 @@ import priori.ui.style.PriUIDensity;
 import priori.ui.event.PriUIEvent;
 import priori.ui.style.PriUIStyle;
 import priori.ui.style.ControllerStyle;
-import priori.ui.style.PriUIType;
+import priori.ui.style.PriUIContainerType;
 import priori.ui.interfaces.IPriUIStyle;
 import priori.scene.view.PriSceneView;
 
@@ -12,7 +12,7 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
     
     @:noCompletion private var controllerStyle:ControllerStyle;
     public var style(get, set):PriUIStyle;
-    public var styleType(get, set):PriUIType;
+    public var styleContainerType(get, set):PriUIContainerType;
     public var styleDensity(get, set):PriUIDensity;
     
     public function new(data:Dynamic) {
@@ -25,7 +25,7 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
 
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
 
-    public function isInsideContainerType():PriUIType return this.controllerStyle.isInsideContainerType();
+    public function isInsideContainerType():PriUIContainerType return this.controllerStyle.isInsideContainerType();
 
     private function get_style():PriUIStyle return this.controllerStyle.getStyle();
     private function set_style(value:PriUIStyle):PriUIStyle {
@@ -33,8 +33,8 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
         return value;
     }
 
-    private function get_styleType():PriUIType return this.controllerStyle.getType();
-    private function set_styleType(value:PriUIType):PriUIType {
+    private function get_styleContainerType():PriUIContainerType return this.controllerStyle.getType();
+    private function set_styleContainerType(value:PriUIContainerType):PriUIContainerType {
         this.controllerStyle.setType(value);
         return value;
     }
@@ -46,8 +46,8 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
     }
 
     private function updateStyle():Void {
-        if (this.styleType != PriUIType.NONE) {
-            this.bgColor = this.styleType.getBackgroundSwatch(this.style).baseColor;
+        if (this.styleContainerType != PriUIContainerType.NONE) {
+            this.bgColor = this.styleContainerType.getBackgroundSwatch(this.style).baseColor;
         }
     }
 }

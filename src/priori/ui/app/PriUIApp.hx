@@ -6,7 +6,7 @@ import priori.scene.view.PriPreloaderView;
 import priori.ui.event.PriUIEvent;
 import priori.ui.interfaces.IPriUIStyle;
 import priori.ui.style.PriUIStyle;
-import priori.ui.style.PriUIType;
+import priori.ui.style.PriUIContainerType;
 import priori.app.PriApp;
 import priori.ui.style.ControllerStyle;
 
@@ -18,7 +18,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
 
     @:noCompletion private var controllerStyle:ControllerStyle;
     public var style(get, set):PriUIStyle;
-    public var styleType(get, set):PriUIType;
+    public var styleContainerType(get, set):PriUIContainerType;
     public var styleDensity(get, set):PriUIDensity;
 
     public var customPreloader:Class<PriPreloaderView>;
@@ -31,7 +31,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         this.style = new PriUIStyle();
         
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
-        this.styleType = PriUIType.CONTAINER;
+        this.styleContainerType = PriUIContainerType.CONTAINER;
 
         this.__priAppInclude();
 
@@ -55,7 +55,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
 
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
 
-    public function isInsideContainerType():PriUIType return this.controllerStyle.isInsideContainerType();
+    public function isInsideContainerType():PriUIContainerType return this.controllerStyle.isInsideContainerType();
 
     private function get_style():PriUIStyle return this.controllerStyle.getStyle();
     private function set_style(value:PriUIStyle):PriUIStyle {
@@ -63,8 +63,8 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         return value;
     }
 
-    private function get_styleType():PriUIType return this.controllerStyle.getType();
-    private function set_styleType(value:PriUIType):PriUIType {
+    private function get_styleContainerType():PriUIContainerType return this.controllerStyle.getType();
+    private function set_styleContainerType(value:PriUIContainerType):PriUIContainerType {
         this.controllerStyle.setType(value);
         return value;
     }
@@ -76,8 +76,8 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     }
 
     private function updateStyle():Void {
-        if (this.styleType != PriUIType.NONE) {
-            this.bgColor = this.styleType.getBackgroundSwatch(this.style).baseColor;
+        if (this.styleContainerType != PriUIContainerType.NONE) {
+            this.bgColor = this.styleContainerType.getBackgroundSwatch(this.style).baseColor;
         }
     }
 

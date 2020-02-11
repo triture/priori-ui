@@ -8,7 +8,7 @@ class PriUIBoard extends PriUIContainer {
     public function new() {
         super();
 
-        this.type = PriUIType.BOARD;
+        this.styleType = PriUIType.BOARD;
         this.z = 1;
         
         this.allowTransition(PriTransitionType.BACKGROUND_COLOR, 0.4);

@@ -8,12 +8,12 @@ import priori.ui.text.PriUILabel;
 @priori('
 <priori>
     <view>
-        <p:left value="0" />
-        <p:right value="0" />
-        <p:paddingLeft value="12" />
-        <p:paddingRight value="12" />
-        <p:horizontalAlign value="LEFT" />
-        <p:z value="3" />
+        <p:left                 value="0" />
+        <p:right                value="0" />
+        <p:paddingLeft          value="12" />
+        <p:paddingRight         value="12" />
+        <p:horizontalAlign      value="LEFT" />
+        <p:z                    value="3" />
 
         <private:PriUILabel text="Title Bar" id="label" />
     </view>
@@ -26,7 +26,7 @@ class PriUIAppBar extends PriUIRow {
     public function new() {
         super();
 
-        this.type = PriUIType.PRIMARY;
+        this.styleType = PriUIType.PRIMARY;
     }
 
     private function set_text(value:String):String {
@@ -39,7 +39,7 @@ class PriUIAppBar extends PriUIRow {
     override private function updateStyle():Void {
         super.updateStyle();
 
-        switch (this.density) {
+        switch (this.styleDensity) {
             case PriUIDensity.DEFAULT : {
                 this.height = 44;
             }

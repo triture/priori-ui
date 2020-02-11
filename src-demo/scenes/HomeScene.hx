@@ -34,7 +34,7 @@ class HomeScene extends PriUIScene {
                 haxe.Timer.delay(
                     function ():Void {
                         trace('default caution orange');
-                        s.type = PriUIType.CAUTION;
+                        s.styleType = PriUIType.CAUTION;
 
 
                         haxe.Timer.delay(
@@ -59,8 +59,5 @@ class HomeScene extends PriUIScene {
             }, 2000
         );
     }
-
-    override private function paint():Void {
-        
-    }
+    
 }

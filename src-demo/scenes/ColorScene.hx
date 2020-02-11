@@ -18,7 +18,7 @@ import priori.ui.bar.PriUIAppBar;
 
     <view>
         <Col left="0" right="0" top="0" bottom="0" verticalAlign="TOP" gap="20">
-            <PriUIAppBar text="Color Scheme" />
+            <PriUIAppBar text="H6" />
             <Col id="col" left="0" right="0" heightAutoSize="FIT" />
         </Col>
     </view>

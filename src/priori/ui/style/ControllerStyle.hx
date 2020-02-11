@@ -24,7 +24,7 @@ class ControllerStyle {
             if (this.o.parent == null) return PriUIDensity.DEFAULT;
             else if (Std.is(this.o.parent, IPriUIStyle)) {
                 var c:IPriUIStyle = cast this.o.parent;
-                return c.density;
+                return c.styleDensity;
             } else return PriUIDensity.DEFAULT;
         } else return this.density;
     }
@@ -107,8 +107,8 @@ class ControllerStyle {
         if (this.o.parent == null) return PriUIType.NONE;
         else if (Std.is(this.o.parent, IPriUIStyle)) {
             var c:IPriUIStyle = cast this.o.parent;
-            if (c.type == PriUIType.NONE) return c.isInsideContainerType();
-            else return c.type;
+            if (c.styleType == PriUIType.NONE) return c.isInsideContainerType();
+            else return c.styleType;
         }
         
         return PriUIType.NONE;

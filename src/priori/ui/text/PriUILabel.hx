@@ -24,7 +24,7 @@ class PriUILabel extends PriUIContainer {
         super();
 
         this.clipping = false;
-
+        
         this.label.allowTransition(PriTransitionType.TEXT_COLOR, 0.4);
     }
 
@@ -36,9 +36,11 @@ class PriUILabel extends PriUIContainer {
     private function updateFont():Void {
         var font:PriUIFont = this.style.fontHeader2;
         var color:PriColor = this.isInsideContainerType().getForegroundSwatch(this.style).baseColor;
-
+        
+        this.label.startBatchUpdate();
         this.label.fontSize = font.size;
         this.label.fontStyle = font.getFontStyle(this.style.fontFamily, color);
+        this.label.endBatchUpdate();
 
         this.updateDisplay();
     }

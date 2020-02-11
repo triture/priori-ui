@@ -15,8 +15,8 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
     private var controllerStyle:ControllerStyle;
 
     public var style(get, set):PriUIStyle;
-    public var density(get, set):PriUIDensity;
-    public var type(get, set):PriUIType;
+    public var styleDensity(get, set):PriUIDensity;
+    public var styleType(get, set):PriUIType;
 
     @:noCompletion private var _z:Float = 0;
 
@@ -56,14 +56,14 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
         return value;
     }
 
-    private function get_type():PriUIType return this.controllerStyle.getType();
-    private function set_type(value:PriUIType):PriUIType {
+    private function get_styleType():PriUIType return this.controllerStyle.getType();
+    private function set_styleType(value:PriUIType):PriUIType {
         this.controllerStyle.setType(value);
         return value;
     }
 
-    private function get_density():PriUIDensity return this.controllerStyle.getDensity();
-    private function set_density(value:PriUIDensity):PriUIDensity {
+    private function get_styleDensity():PriUIDensity return this.controllerStyle.getDensity();
+    private function set_styleDensity(value:PriUIDensity):PriUIDensity {
         this.controllerStyle.setDesity(value);
         return value;
     }
@@ -72,8 +72,8 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
 
     private function updateStyle():Void {
-        if (this.type != PriUIType.NONE) {
-            this.bgColor = this.type.getBackgroundSwatch(this.style).baseColor;
+        if (this.styleType != PriUIType.NONE) {
+            this.bgColor = this.styleType.getBackgroundSwatch(this.style).baseColor;
         }
     }
 

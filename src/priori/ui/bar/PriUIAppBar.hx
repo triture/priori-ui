@@ -17,7 +17,7 @@ import priori.ui.text.PriUILabel;
         
         <p:styleIntent          value="HEADER" />
         <p:styleSize            value="SMALLER" />
-        
+
         <p:text                 value="Title Bar" />
 
         <private:PriUILabel id="label" />
@@ -26,7 +26,7 @@ import priori.ui.text.PriUILabel;
 ')
 class PriUIAppBar extends PriUIRow {
 
-    @:isVar public var text(default, set):String;
+    public var text(get, set):String;
     
     public function new() {
         super();
@@ -34,10 +34,9 @@ class PriUIAppBar extends PriUIRow {
         this.styleContainerType = PriUIContainerType.PRIMARY;
     }
 
+    private function get_text():String return this.label.text;
     private function set_text(value:String):String {
-        this.text = value;
         this.label.text = value;
-        
         return value;
     }
 
@@ -46,10 +45,10 @@ class PriUIAppBar extends PriUIRow {
 
         switch (this.styleDensity) {
             case PriUIDensity.DEFAULT : {
-                this.height = 44;
+                this.height = this.label.height + 20;
             }
             case PriUIDensity.COMPACT : {
-                this.height = 38;
+                this.height = this.label.height + 14;
             }
         }
 

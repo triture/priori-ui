@@ -18,7 +18,7 @@ import priori.types.PriTransitionType;
 ')
 class PriUILabel extends PriUIContainer {
     
-    public var text(get, set):String;
+    @:isVar public var text(default, set):String;
     public var autoSize(get, set):Bool;
     
     public function new() {
@@ -48,11 +48,19 @@ class PriUILabel extends PriUIContainer {
     }
 
     private function set_text(value:String):String {
-        this.label.text = value;
+        this.text = value == null ? '' : value;
+        
+        if (value == null || value.length == 0) {
+            this.label.text = ".";
+            this.label.visible = false;
+        } else {
+            this.label.text = value;
+            this.label.visible = true;
+        }
+        
         this.updateDisplay();
         return value;
     }
-    private function get_text():String return this.label.text;
 
     private function set_autoSize(value:Bool):Bool return this.label.autoSize = value;
     private function get_autoSize():Bool return this.label.autoSize;

@@ -26,6 +26,29 @@ abstract PriUIContainerType(String) {
     // details
     var SUBTLE = 'SUBTLE';
     var HIGHLIGHT = 'HIGHLIGHT';
+
+    @:from
+    static public function fromString(s:String):PriUIContainerType {
+        if (s == null) return null;
+        else if ([
+            'NONE',
+            'PRIMARY',
+            'PRIMARY_ALTERNATIVE',
+            'SECONDARY',
+            'SECONDARY_ALTERNATIVE',
+            'CONTAINER',
+            'BOARD',
+            'OVERLAY',
+            'ELEMENT',
+            'DANGER',
+            'CAUTION',
+            'SUCCESS',
+            'INFORMATION',
+            'SUBTLE',
+            'HIGHLIGHT'
+        ].indexOf(s.toUpperCase()) == -1) return PriUIContainerType.PRIMARY;
+        else return cast s.toUpperCase();
+    }
     
     public function getBackgroundSwatch(style:PriUIStyle):PriUIColorSwatch {
         if (style == null) return null;

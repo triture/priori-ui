@@ -1,5 +1,7 @@
 package priori.ui.app;
 
+import priori.ui.style.PriUISize;
+import priori.ui.style.PriUIIntent;
 import priori.ui.style.PriUIDensity;
 import priori.scene.PriSceneManager;
 import priori.scene.view.PriPreloaderView;
@@ -20,6 +22,8 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     public var style(get, set):PriUIStyle;
     public var styleContainerType(get, set):PriUIContainerType;
     public var styleDensity(get, set):PriUIDensity;
+    public var styleIntent(get, set):PriUIIntent;
+    public var styleSize(get, set):PriUISize;
 
     public var customPreloader:Class<PriPreloaderView>;
 
@@ -54,26 +58,21 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     }
 
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
-
-    public function isInsideContainerType():PriUIContainerType return this.controllerStyle.isInsideContainerType();
-
+    
     private function get_style():PriUIStyle return this.controllerStyle.getStyle();
-    private function set_style(value:PriUIStyle):PriUIStyle {
-        this.controllerStyle.setStyle(value);
-        return value;
-    }
+    private function set_style(value:PriUIStyle):PriUIStyle return this.controllerStyle.setStyle(value);
 
     private function get_styleContainerType():PriUIContainerType return this.controllerStyle.getType();
-    private function set_styleContainerType(value:PriUIContainerType):PriUIContainerType {
-        this.controllerStyle.setType(value);
-        return value;
-    }
+    private function set_styleContainerType(value:PriUIContainerType):PriUIContainerType return this.controllerStyle.setType(value);
 
     private function get_styleDensity():PriUIDensity return this.controllerStyle.getDensity();
-    private function set_styleDensity(value:PriUIDensity):PriUIDensity {
-        this.controllerStyle.setDesity(value);
-        return value;
-    }
+    private function set_styleDensity(value:PriUIDensity):PriUIDensity return this.controllerStyle.setDesity(value);
+
+    private function get_styleIntent():PriUIIntent return this.controllerStyle.getIntent();
+    private function set_styleIntent(value:PriUIIntent):PriUIIntent return this.controllerStyle.setIntent(value);
+
+    private function get_styleSize():PriUISize return this.controllerStyle.getSize();
+    private function set_styleSize(value:PriUISize):PriUISize return this.controllerStyle.setSize(value);
 
     private function updateStyle():Void {
         if (this.styleContainerType != PriUIContainerType.NONE) {

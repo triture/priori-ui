@@ -45,12 +45,12 @@ class PriUIStyle extends PriEventDispatcher {
     
     @:isVar public var fontFamily(default, set):String = "'Open Sans', sans-serif";
 
-    public var fontHeader1(get, set):PriUIFont;
-    public var fontHeader2(get, set):PriUIFont;
-    public var fontSubtitle1(get, set):PriUIFont;
-    public var fontSubtitle2(get, set):PriUIFont;
-    public var fontBody1(get, set):PriUIFont;
-    public var fontBody2(get, set):PriUIFont;
+    public var fontHeaderBigger(get, set):PriUIFont;
+    public var fontHeaderSmaller(get, set):PriUIFont;
+    public var fontSubtitleBigger(get, set):PriUIFont;
+    public var fontSubtitleSmaller(get, set):PriUIFont;
+    public var fontBodyBigger(get, set):PriUIFont;
+    public var fontBodySmaller(get, set):PriUIFont;
     public var fontButton(get, set):PriUIFont;
     public var fontCaption(get, set):PriUIFont;
     public var fontOverline(get, set):PriUIFont;
@@ -92,12 +92,12 @@ class PriUIStyle extends PriEventDispatcher {
 
         // font definitions
 
-        this.fontHeader1 = new PriUIFont(24, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontHeader2 = new PriUIFont(18, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
-        this.fontSubtitle1 = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontSubtitle2 = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
-        this.fontBody1 = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontBody2 = new PriUIFont(14, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontHeaderBigger = new PriUIFont(24, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontHeaderSmaller = new PriUIFont(18, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
+        this.fontSubtitleBigger = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontSubtitleSmaller = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
+        this.fontBodyBigger = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontBodySmaller = new PriUIFont(14, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
         this.fontButton = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.SMALL_CAPS);
         this.fontCaption = new PriUIFont(12, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
         this.fontOverline = new PriUIFont(10, PriFontStyleWeight.NORMAL, PriFontStyleVariant.SMALL_CAPS);
@@ -152,12 +152,12 @@ class PriUIStyle extends PriEventDispatcher {
 
         result.fontFamily = this.fontFamily;
 
-        result.fontHeader1 = this.fontHeader1.clone();
-        result.fontHeader2 = this.fontHeader2.clone();
-        result.fontSubtitle1 = this.fontSubtitle1.clone();
-        result.fontSubtitle2 = this.fontSubtitle2.clone();
-        result.fontBody1 = this.fontBody1.clone();
-        result.fontBody2 = this.fontBody2.clone();
+        result.fontHeaderBigger = this.fontHeaderBigger.clone();
+        result.fontHeaderSmaller = this.fontHeaderSmaller.clone();
+        result.fontSubtitleBigger = this.fontSubtitleBigger.clone();
+        result.fontSubtitleSmaller = this.fontSubtitleSmaller.clone();
+        result.fontBodyBigger = this.fontBodyBigger.clone();
+        result.fontBodySmaller = this.fontBodySmaller.clone();
         result.fontButton = this.fontButton.clone();
         result.fontCaption = this.fontCaption.clone();
         result.fontOverline = this.fontOverline.clone();
@@ -175,23 +175,23 @@ class PriUIStyle extends PriEventDispatcher {
         return value;
     }
 
-    private function get_fontHeader1():PriUIFont return this.getFont('header1');
-    private function set_fontHeader1(value:PriUIFont):PriUIFont return this.setFont('header1', value);
+    private function get_fontHeaderBigger():PriUIFont return this.getFont('header1');
+    private function set_fontHeaderBigger(value:PriUIFont):PriUIFont return this.setFont('header1', value);
 
-    private function get_fontHeader2():PriUIFont return this.getFont('header2');
-    private function set_fontHeader2(value:PriUIFont):PriUIFont return this.setFont('header2', value);
+    private function get_fontHeaderSmaller():PriUIFont return this.getFont('header2');
+    private function set_fontHeaderSmaller(value:PriUIFont):PriUIFont return this.setFont('header2', value);
 
-    private function get_fontSubtitle1():PriUIFont return this.getFont('subtitle1');
-    private function set_fontSubtitle1(value:PriUIFont):PriUIFont return this.setFont('subtitle1', value);
+    private function get_fontSubtitleBigger():PriUIFont return this.getFont('subtitle1');
+    private function set_fontSubtitleBigger(value:PriUIFont):PriUIFont return this.setFont('subtitle1', value);
 
-    private function get_fontSubtitle2():PriUIFont return this.getFont('subtitle2');
-    private function set_fontSubtitle2(value:PriUIFont):PriUIFont return this.setFont('subtitle2', value);
+    private function get_fontSubtitleSmaller():PriUIFont return this.getFont('subtitle2');
+    private function set_fontSubtitleSmaller(value:PriUIFont):PriUIFont return this.setFont('subtitle2', value);
 
-    private function get_fontBody1():PriUIFont return this.getFont('body1');
-    private function set_fontBody1(value:PriUIFont):PriUIFont return this.setFont('body1', value);
+    private function get_fontBodyBigger():PriUIFont return this.getFont('body1');
+    private function set_fontBodyBigger(value:PriUIFont):PriUIFont return this.setFont('body1', value);
 
-    private function get_fontBody2():PriUIFont return this.getFont('body2');
-    private function set_fontBody2(value:PriUIFont):PriUIFont return this.setFont('body2', value);
+    private function get_fontBodySmaller():PriUIFont return this.getFont('body2');
+    private function set_fontBodySmaller(value:PriUIFont):PriUIFont return this.setFont('body2', value);
 
     private function get_fontButton():PriUIFont return this.getFont('button');
     private function set_fontButton(value:PriUIFont):PriUIFont return this.setFont('button', value);

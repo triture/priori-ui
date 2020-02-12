@@ -14,18 +14,23 @@ import priori.ui.text.PriUILabel;
         <p:paddingRight         value="12" />
         <p:horizontalAlign      value="LEFT" />
         <p:z                    value="3" />
+        
+        <p:styleIntent          value="HEADER" />
+        <p:styleSize            value="SMALLER" />
+        
+        <p:text                 value="Title Bar" />
 
-        <private:PriUILabel text="Title Bar" id="label" />
+        <private:PriUILabel id="label" />
     </view>
 </priori>
 ')
 class PriUIAppBar extends PriUIRow {
 
-    @:isVar public var text(default, set):String = "";
+    @:isVar public var text(default, set):String;
     
     public function new() {
         super();
-
+        
         this.styleContainerType = PriUIContainerType.PRIMARY;
     }
 

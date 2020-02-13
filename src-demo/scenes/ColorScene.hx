@@ -1,5 +1,6 @@
 package scenes;
 
+import priori.ui.style.PriUIIntent;
 import priori.ui.container.layout.PriUIAutoSizeType;
 import priori.ui.style.PriUIStyle;
 import priori.ui.container.PriUIFlex;
@@ -18,7 +19,7 @@ import priori.ui.bar.PriUIAppBar;
 
     <view>
         <Col left="0" right="0" top="0" bottom="0" verticalAlign="TOP" gap="20">
-            <PriUIAppBar text="H6" />
+            <PriUIAppBar text="Overline" id="bar"/>
             <Col id="col" left="0" right="0" heightAutoSize="FIT" />
         </Col>
     </view>
@@ -28,6 +29,10 @@ import priori.ui.bar.PriUIAppBar;
 class ColorScene extends PriUIScene {
 
     override private function setup():Void {
+
+        this.bar.styleIntent = PriUIIntent.OVERLINE;
+        this.bar.styleSize = "BIGGER";
+
         var style:PriUIStyle = new PriUIStyle();
 
         var swatches:Array<PriUIColorSwatch> = [

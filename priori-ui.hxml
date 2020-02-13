@@ -2,7 +2,6 @@
 -cp src-demo
 
 -lib priori
--lib actuate
 
 -main PrioriUIDemo
 

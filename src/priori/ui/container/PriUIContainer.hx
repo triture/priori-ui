@@ -36,8 +36,10 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
         this.updateStyle();
     }
 
+    @:noCompletion
     override private function ___onResize(e:PriEvent):Void {
         super.___onResize(e);
+        if (this.parent != null) this.parent.dispatchEvent(new PriUIEvent(PriUIEvent.UPDATE_DISPLAY));
     }
 
     private function onRequestUpdateDisplay(e:PriUIEvent):Void this.updateDisplay();

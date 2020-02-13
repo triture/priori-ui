@@ -1,5 +1,6 @@
 package scenes;
 
+import priori.ui.style.PriUIIntent;
 import priori.ui.style.PriUIStyle;
 import priori.ui.app.PriUIScene;
 import priori.ui.style.PriUIContainerType;
@@ -25,6 +26,8 @@ class HomeScene extends PriUIScene {
         this.addChild(s);
 
         var bar:PriUIAppBar = new PriUIAppBar();
+        bar.styleIntent = PriUIIntent.BODY;
+        bar.styleSize = "SMALLER";
         this.addChild(bar);
         
         haxe.Timer.delay(

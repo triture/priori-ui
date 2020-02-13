@@ -92,15 +92,15 @@ class PriUIStyle extends PriEventDispatcher {
 
         // font definitions
 
-        this.fontHeaderBigger = new PriUIFont(24, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontHeaderSmaller = new PriUIFont(18, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
+        this.fontHeaderBigger = new PriUIFont(20.4, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontHeaderSmaller = new PriUIFont(16.0, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
         this.fontSubtitleBigger = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
         this.fontSubtitleSmaller = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
-        this.fontBodyBigger = new PriUIFont(16, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontBodySmaller = new PriUIFont(14, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontButton = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.SMALL_CAPS);
-        this.fontCaption = new PriUIFont(12, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontOverline = new PriUIFont(10, PriFontStyleWeight.NORMAL, PriFontStyleVariant.SMALL_CAPS);
+        this.fontBodyBigger = new PriUIFont(14.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontBodySmaller = new PriUIFont(12.5, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontButton = new PriUIFont(13, PriFontStyleWeight.THICK600, PriFontStyleVariant.SMALL_CAPS);
+        this.fontCaption = new PriUIFont(11.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
+        this.fontOverline = new PriUIFont(9.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.ALL_CAPS, 1.4);
     }
 
     private function updateColor(key:String, value:PriUIColorSwatch):PriUIColorSwatch {

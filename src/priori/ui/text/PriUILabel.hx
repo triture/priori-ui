@@ -37,10 +37,11 @@ class PriUILabel extends PriUIContainer {
         var style:PriUIStyle = this.style;
 
         var font:PriUIFont = this.styleIntent.getFont(style, this.styleSize);
-        var color:PriColor = this.styleContainerType.getForegroundSwatch(this.style).baseColor;
+        var color:PriColor = this.styleContainerType.getForegroundSwatch(style).baseColor;
         
         this.label.startBatchUpdate();
         this.label.fontSize = font.size;
+        this.label.letterSpace = font.spacing;
         this.label.fontStyle = font.getFontStyle(style.fontFamily, color);
         this.label.endBatchUpdate();
 
@@ -57,7 +58,7 @@ class PriUILabel extends PriUIContainer {
             this.label.text = value;
             this.label.visible = true;
         }
-        
+
         this.updateDisplay();
         return value;
     }

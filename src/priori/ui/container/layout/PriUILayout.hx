@@ -8,7 +8,7 @@ class PriUILayout extends PriUIContainer {
     @:isVar public var heightAutoSize(default, set):PriUIAutoSizeType = PriUIAutoSizeType.FIXED;
     
     public var gap(get, set):Float;
-
+    
     public var paddingTop(get, set):Float;
     public var paddingBottom(get, set):Float;
     public var paddingLeft(get, set):Float;

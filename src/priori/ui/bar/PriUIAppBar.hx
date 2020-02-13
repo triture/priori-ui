@@ -42,7 +42,12 @@ class PriUIAppBar extends PriUIRow {
 
     override private function updateStyle():Void {
         super.updateStyle();
+        this.updateDisplay();
+    }
 
+    override private function paint():Void {
+        super.paint();
+        
         switch (this.styleDensity) {
             case PriUIDensity.DEFAULT : {
                 this.height = this.label.height + 20;

@@ -1,5 +1,7 @@
 package scenes;
 
+import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDensity;
 import priori.ui.style.PriUIIntent;
 import priori.ui.container.layout.PriUIAutoSizeType;
 import priori.ui.style.PriUIStyle;
@@ -30,10 +32,9 @@ class ColorScene extends PriUIScene {
 
     override private function setup():Void {
 
-        this.bar.styleIntent = PriUIIntent.OVERLINE;
-        this.bar.styleSize = "BIGGER";
-
         var style:PriUIStyle = new PriUIStyle();
+
+        this.bar.styleDensity = PriUIDensity.COMPACT;
 
         var swatches:Array<PriUIColorSwatch> = [
             style.primary,
@@ -68,6 +69,7 @@ class ColorScene extends PriUIScene {
         
         for (c in color.getScale()) {
             var f:PriUIFlex = new PriUIFlex();
+            f.styleContainerType = PriUIContainerType.NONE;
             f.height = 32;
             f.bgColor = c;
 

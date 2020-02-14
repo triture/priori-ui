@@ -26,6 +26,14 @@ class PriUIColorSwatch {
     private function get_darker():PriColor return this.getScale()[0];
     private function get_color():PriColor return this.getScale()[1];
     
+    public function getColor(shade:PriUIShade):PriColor {
+        return switch (shade) {
+            case BRIGHTER: this.brighter;
+            case DARKER: this.darker;
+            case DEFAULT: this.color;
+        }
+    }
+
     private function set_colorRotation(value:Float):Float {
         this.colorRotation = value;
         

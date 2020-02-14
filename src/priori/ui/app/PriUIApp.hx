@@ -3,6 +3,7 @@ package priori.ui.app;
 import priori.ui.style.PriUISize;
 import priori.ui.style.PriUIIntent;
 import priori.ui.style.PriUIDensity;
+import priori.ui.style.PriUIShade;
 import priori.scene.PriSceneManager;
 import priori.scene.view.PriPreloaderView;
 import priori.ui.event.PriUIEvent;
@@ -24,6 +25,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     public var styleDensity(get, set):PriUIDensity;
     public var styleIntent(get, set):PriUIIntent;
     public var styleSize(get, set):PriUISize;
+    public var styleShade(get, set):PriUIShade;
 
     public var customPreloader:Class<PriPreloaderView>;
 
@@ -74,12 +76,11 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     private function get_styleSize():PriUISize return this.controllerStyle.getSize();
     private function set_styleSize(value:PriUISize):PriUISize return this.controllerStyle.setSize(value);
 
-    private function updateStyle():Void {
-        if (this.styleContainerType != PriUIContainerType.NONE) {
-            this.bgColor = this.styleContainerType.getBackgroundSwatch(this.style).baseColor;
-        }
-    }
+    private function get_styleShade():PriUIShade return this.controllerStyle.getShade();
+    private function set_styleShade(value:PriUIShade):PriUIShade return this.controllerStyle.setShade(value);
 
+    private function updateStyle():Void this.controllerStyle.updateBackground();
+    
     @:noCompletion private function __priBuilderSetup():Void {}
     @:noCompletion private function __priBuilderPaint():Void {}
     @:noCompletion private function __priAppInclude():Void {}

@@ -3,6 +3,7 @@ package priori.ui.container;
 import priori.ui.style.PriUISize;
 import priori.ui.style.PriUIIntent;
 import priori.ui.style.PriUIDensity;
+import priori.ui.style.PriUIShade;
 import priori.event.PriEvent;
 import priori.ui.style.PriUIStyle;
 import priori.style.shadow.PriShadowStyle;
@@ -21,6 +22,7 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
     public var styleContainerType(get, set):PriUIContainerType;
     public var styleIntent(get, set):PriUIIntent;
     public var styleSize(get, set):PriUISize;
+    public var styleShade(get, set):PriUIShade;
 
     @:noCompletion private var _z:Float = 0;
 
@@ -72,11 +74,10 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
     private function onChangeStyleData(e:PriUIEvent) this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();
 
-    private function updateStyle():Void {
-        if (this.styleContainerType != PriUIContainerType.NONE) {
-            this.bgColor = this.styleContainerType.getBackgroundSwatch(this.style).baseColor;
-        }
-    }
+    private function get_styleShade():PriUIShade return this.controllerStyle.getShade();
+    private function set_styleShade(value:PriUIShade):PriUIShade return this.controllerStyle.setShade(value);
+
+    private function updateStyle():Void this.controllerStyle.updateBackground();
 
     @:noCompletion
     override private function ___onAdded(e:PriEvent):Void {

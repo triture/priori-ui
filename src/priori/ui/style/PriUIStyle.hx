@@ -1,5 +1,6 @@
 package priori.ui.style;
 
+import priori.app.PriApp;
 import priori.style.font.PriFontStyleVariant;
 import priori.style.font.PriFontStyleWeight;
 import haxe.ds.StringMap;
@@ -7,6 +8,9 @@ import priori.event.PriEventDispatcher;
 import priori.ui.event.PriUIEvent;
 
 class PriUIStyle extends PriEventDispatcher {
+
+    static public var DENSITY_COMPACT_WEIGHT(default, set):Float = 0.55;
+    static public var DENSITY_DEFAULT_WEIGHT(default, set):Float = 0.27;
 
     private var colorMap:StringMap<PriUIColorSwatch> = new StringMap<PriUIColorSwatch>();
     private var fontStyleMap:StringMap<PriUIFont> = new StringMap<PriUIFont>();
@@ -101,6 +105,20 @@ class PriUIStyle extends PriEventDispatcher {
         this.fontButton = new PriUIFont(13, PriFontStyleWeight.THICK600, PriFontStyleVariant.SMALL_CAPS);
         this.fontCaption = new PriUIFont(11.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
         this.fontOverline = new PriUIFont(9.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.ALL_CAPS, 1.4);
+    }
+
+    static private function set_DENSITY_COMPACT_WEIGHT(value:Float):Float {
+        if (value == null || value < 0) return value;
+        DENSITY_COMPACT_WEIGHT = value;
+        PriApp.g().dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true));
+        return value;
+    }
+
+    static private function set_DENSITY_DEFAULT_WEIGHT(value:Float):Float {
+        if (value == null || value < 0) return value;
+        DENSITY_DEFAULT_WEIGHT = value;
+        PriApp.g().dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true));
+        return value;
     }
 
     private function updateColor(key:String, value:PriUIColorSwatch):PriUIColorSwatch {

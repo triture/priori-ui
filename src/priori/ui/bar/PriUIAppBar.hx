@@ -1,5 +1,6 @@
 package priori.ui.bar;
 
+import priori.ui.style.PriUIStyle;
 import priori.ui.style.PriUIContainerType;
 import priori.ui.container.layout.PriUIRow;
 import priori.ui.style.PriUIDensity;
@@ -48,14 +49,12 @@ class PriUIAppBar extends PriUIRow {
     override private function paint():Void {
         super.paint();
         
-        switch (this.styleDensity) {
-            case PriUIDensity.DEFAULT : {
-                this.height = this.label.height + 20;
-            }
-            case PriUIDensity.COMPACT : {
-                this.height = this.label.height + 14;
-            }
+        var space:Float = switch (this.styleDensity) {
+            case PriUIDensity.DEFAULT : Math.floor(this.label.height * PriUIStyle.DENSITY_DEFAULT_WEIGHT);
+            case PriUIDensity.COMPACT : Math.floor(this.label.height * PriUIStyle.DENSITY_COMPACT_WEIGHT);
         }
+        
+        this.height = this.label.height + space * 2;
 
     }
 }

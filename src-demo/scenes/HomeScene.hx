@@ -26,8 +26,6 @@ class HomeScene extends PriUIScene {
         this.addChild(s);
 
         var bar:PriUIAppBar = new PriUIAppBar();
-        bar.styleIntent = PriUIIntent.BODY;
-        bar.styleSize = "SMALLER";
         this.addChild(bar);
         
         haxe.Timer.delay(

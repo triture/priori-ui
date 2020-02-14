@@ -5,6 +5,7 @@ import priori.ui.style.PriUISize;
 import priori.ui.style.PriUIDensity;
 import priori.ui.event.PriUIEvent;
 import priori.ui.style.PriUIStyle;
+import priori.ui.style.PriUIShade;
 import priori.ui.style.ControllerStyle;
 import priori.ui.style.PriUIContainerType;
 import priori.ui.interfaces.IPriUIStyle;
@@ -18,6 +19,7 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
     public var styleDensity(get, set):PriUIDensity;
     public var styleIntent(get, set):PriUIIntent;
     public var styleSize(get, set):PriUISize;
+    public var styleShade(get, set):PriUIShade;
     
     public function new(data:Dynamic) {
         this.controllerStyle = new ControllerStyle(this);
@@ -44,9 +46,8 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
     private function get_styleSize():PriUISize return this.controllerStyle.getSize();
     private function set_styleSize(value:PriUISize):PriUISize return this.controllerStyle.setSize(value);
 
-    private function updateStyle():Void {
-        if (this.styleContainerType != PriUIContainerType.NONE) {
-            this.bgColor = this.styleContainerType.getBackgroundSwatch(this.style).baseColor;
-        }
-    }
+    private function get_styleShade():PriUIShade return this.controllerStyle.getShade();
+    private function set_styleShade(value:PriUIShade):PriUIShade return this.controllerStyle.setShade(value);
+
+    private function updateStyle():Void this.controllerStyle.updateBackground();
 }

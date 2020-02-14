@@ -1,5 +1,6 @@
 package priori.ui.interfaces;
 
+import priori.ui.style.PriUIShade;
 import priori.ui.style.PriUIDensity;
 import priori.ui.style.PriUIContainerType;
 import priori.ui.style.PriUIStyle;
@@ -13,5 +14,6 @@ interface IPriUIStyle {
     public var styleDensity(get, set):PriUIDensity;
     public var styleIntent(get, set):PriUIIntent;
     public var styleSize(get, set):PriUISize;
+    public var styleShade(get, set):PriUIShade;
     
 }

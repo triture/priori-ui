@@ -6,6 +6,8 @@ import priori.ui.style.PriUIColorSwatch;
 abstract PriUIContainerType(String) {
 
     var NONE = 'NONE';
+    var INHERIT = 'INHERIT';
+
     var PRIMARY = 'PRIMARY';
     var PRIMARY_ALTERNATIVE = 'PRIMARY_ALT';
     var SECONDARY = 'SECONDARY';
@@ -32,6 +34,7 @@ abstract PriUIContainerType(String) {
         if (s == null) return null;
         else if ([
             'NONE',
+            'INHERIT',
             'PRIMARY',
             'PRIMARY_ALTERNATIVE',
             'SECONDARY',
@@ -56,7 +59,8 @@ abstract PriUIContainerType(String) {
         var v:PriUIContainerType = cast this;
 
         return switch (v) {
-            case PriUIContainerType.NONE : null;
+            case PriUIContainerType.NONE | PriUIContainerType.INHERIT : null;
+            
             case PriUIContainerType.PRIMARY : style.primary;
             case PriUIContainerType.PRIMARY_ALTERNATIVE : style.primaryAlt;
             case PriUIContainerType.SECONDARY : style.secondary;
@@ -83,7 +87,8 @@ abstract PriUIContainerType(String) {
         var v:PriUIContainerType = cast this;
 
         return switch (v) {
-            case PriUIContainerType.NONE : new PriUIColorSwatch(0x000000);
+            case PriUIContainerType.NONE | PriUIContainerType.INHERIT : new PriUIColorSwatch(0x000000);
+
             case PriUIContainerType.PRIMARY | PriUIContainerType.PRIMARY_ALTERNATIVE : style.onPrimary;
             case PriUIContainerType.SECONDARY | PriUIContainerType.SECONDARY_ALTERNATIVE : style.onSecondary;
             

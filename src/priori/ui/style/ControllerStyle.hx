@@ -12,12 +12,14 @@ class ControllerStyle {
     private var density:PriUIDensity;
     private var intent:PriUIIntent;
     private var size:PriUISize;
+    private var shade:PriUIShade;
 
     private var _styleCache:PriUIStyle;
 
     private var o:PriDisplay;
 
     public function new(reference:PriDisplay) {
+        this.type = PriUIContainerType.INHERIT;
         this.o = reference;
     }
 
@@ -69,8 +71,10 @@ class ControllerStyle {
         return value;
     }
 
+    // parent type must be ignored when value is NONE
+    // getType() never result INHERIT value event when is explicity declared
     public function getType():PriUIContainerType {
-        if (this.type == null) {
+        if (this.type == null || this.type == PriUIContainerType.INHERIT) {
             if (this.o.parent == null) return PriUIContainerType.NONE;
             else if (Std.is(this.o.parent, IPriUIStyle)) {
                 var c:IPriUIStyle = cast this.o.parent;
@@ -80,10 +84,13 @@ class ControllerStyle {
     }
 
     public function setType(value:PriUIContainerType):PriUIContainerType {
-        // parent type must be ignored when value is NONE
-        //this.type = value == PriUIContainerType.NONE ? null : value;
-        this.type = value;
-        this.onChangeStyleData(null);
+        var v = value == null ? PriUIContainerType.INHERIT : value;
+        
+        if (v != this.type) {
+            this.type = v;
+            this.onChangeStyleData(null);
+        }
+        
         return value;
     }
 
@@ -131,6 +138,22 @@ class ControllerStyle {
         return value;
     }
 
+    public function getShade():PriUIShade {
+        if (this.shade == null) {
+            if (this.o.parent == null) return PriUIShade.DEFAULT;
+            else if (Std.is(this.o.parent, IPriUIStyle)) {
+                var c:IPriUIStyle = cast this.o.parent;
+                return c.styleShade;
+            } else return PriUIShade.DEFAULT;
+        } else return this.shade;
+    }
+
+    public function setShade(value:PriUIShade):PriUIShade {
+        this.shade = value;
+        this.onChangeStyleData(null);
+        return value;
+    }
+
     private function onChangeStyleData(e:PriUIEvent) {
         this.clearCache();
         if (this.o != null) this.o.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT, true, false));
@@ -145,6 +168,12 @@ class ControllerStyle {
         if (this.style != null) this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
         this.clearCache();
         this.o = null;
+    }
+
+    public function updateBackground():Void {
+        if (this.getType() != PriUIContainerType.NONE) {
+            this.o.bgColor = this.getType().getBackgroundSwatch(this.getStyle()).getColor(this.getShade());
+        }
     }
 
 }

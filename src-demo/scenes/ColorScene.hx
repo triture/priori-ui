@@ -33,9 +33,7 @@ class ColorScene extends PriUIScene {
     override private function setup():Void {
 
         var style:PriUIStyle = new PriUIStyle();
-
-        this.bar.styleDensity = PriUIDensity.COMPACT;
-
+        
         var swatches:Array<PriUIColorSwatch> = [
             style.primary,
             style.primaryAlt,

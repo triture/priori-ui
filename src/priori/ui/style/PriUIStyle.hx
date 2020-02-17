@@ -9,26 +9,22 @@ import priori.ui.event.PriUIEvent;
 
 class PriUIStyle extends PriEventDispatcher {
 
-    static public var DENSITY_COMPACT_WEIGHT(default, set):Float = 0.55;
-    static public var DENSITY_DEFAULT_WEIGHT(default, set):Float = 0.27;
-
+    static public var DENSITY_DEFAULT_WEIGHT(default, set):Float = 0.55;
+    static public var DENSITY_COMPACT_WEIGHT(default, set):Float = 0.27;
+    
     private var colorMap:StringMap<PriUIColorSwatch> = new StringMap<PriUIColorSwatch>();
     private var fontStyleMap:StringMap<PriUIFont> = new StringMap<PriUIFont>();
     
     public var primary(get, set):PriUIColorSwatch;
     public var primaryAlt(get, set):PriUIColorSwatch;
-
     public var secondary(get, set):PriUIColorSwatch;
     public var secondaryAlt(get, set):PriUIColorSwatch;
-    
     public var subtle(get, set):PriUIColorSwatch;
     public var highlight(get, set):PriUIColorSwatch;
-    
     public var container(get, set):PriUIColorSwatch;
     public var board(get, set):PriUIColorSwatch;
     public var overlay(get, set):PriUIColorSwatch;
     public var element(get, set):PriUIColorSwatch;
-    
     public var danger(get, set):PriUIColorSwatch;
     public var caution(get, set):PriUIColorSwatch;
     public var success(get, set):PriUIColorSwatch;
@@ -102,7 +98,7 @@ class PriUIStyle extends PriEventDispatcher {
         this.fontSubtitleSmaller = new PriUIFont(14, PriFontStyleWeight.THICK600, PriFontStyleVariant.NORMAL);
         this.fontBodyBigger = new PriUIFont(14.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
         this.fontBodySmaller = new PriUIFont(12.5, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
-        this.fontButton = new PriUIFont(13, PriFontStyleWeight.THICK600, PriFontStyleVariant.SMALL_CAPS);
+        this.fontButton = new PriUIFont(12, PriFontStyleWeight.THICK600, PriFontStyleVariant.ALL_CAPS);
         this.fontCaption = new PriUIFont(11.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.NORMAL);
         this.fontOverline = new PriUIFont(9.0, PriFontStyleWeight.NORMAL, PriFontStyleVariant.ALL_CAPS, 1.4);
     }
@@ -181,6 +177,38 @@ class PriUIStyle extends PriEventDispatcher {
         result.fontOverline = this.fontOverline.clone();
 
         return result;
+    }
+
+    public function swatchInversion():Void {
+        var c = this.clone();
+
+        this.onPrimary = c.primary.clone();
+        this.onSecondary = c.secondary.clone();
+        this.onContainer = c.container.clone();
+        this.onBoard = c.board.clone();
+        this.onOverlay = c.overlay.clone();
+        this.onElement = c.element.clone();
+        this.onSubtle = c.subtle.clone();
+        this.onHighlight = c.highlight.clone();
+        this.onDanger = c.danger.clone();
+        this.onCaution = c.caution.clone();
+        this.onSuccess = c.success.clone();
+        this.onInformation = c.information.clone();
+
+        this.primary = c.onPrimary.clone();
+        this.primaryAlt = c.onPrimary.clone();
+        this.secondary = c.onSecondary.clone();
+        this.secondaryAlt = c.onSecondary.clone();
+        this.subtle = c.onSubtle.clone();
+        this.highlight = c.onHighlight.clone();
+        this.container = c.onContainer.clone();
+        this.board = c.onBoard.clone();
+        this.overlay = c.onOverlay.clone();
+        this.element = c.onElement.clone();
+        this.danger = c.onDanger.clone();
+        this.caution = c.onCaution.clone();
+        this.success = c.onSuccess.clone();
+        this.information = c.onInformation.clone();
     }
 
     private function set_fontFamily(value:String):String {

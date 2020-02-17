@@ -14,7 +14,7 @@ import priori.ui.text.PriUILabel;
         <p:paddingLeft          value="12" />
         <p:paddingRight         value="12" />
         <p:horizontalAlign      value="LEFT" />
-        <p:z                    value="3" />
+        <p:z                    value="4" />
         
         <p:styleIntent          value="HEADER" />
         <p:styleSize            value="SMALLER" />
@@ -55,6 +55,6 @@ class PriUIAppBar extends PriUIRow {
         }
         
         this.height = this.label.height + space * 2;
-
+        
     }
 }

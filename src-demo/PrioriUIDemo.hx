@@ -10,6 +10,7 @@ import priori.ui.app.PriUIApp;
     <routes>
         <route scene="scenes.HomeScene" route="home" />
         <route scene="scenes.ColorScene" route="color" />
+        <route scene="scenes.ButtonScene" route="button" />
     </routes>
 </priori>
 ')

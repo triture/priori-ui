@@ -13,6 +13,7 @@ class ControllerStyle {
     private var intent:PriUIIntent;
     private var size:PriUISize;
     private var shade:PriUIShade;
+    private var emphasis:PriUIEmphasis;
 
     private var _styleCache:PriUIStyle;
 
@@ -67,6 +68,22 @@ class ControllerStyle {
 
     public function setDesity(value:PriUIDensity):PriUIDensity {
         this.density = value;
+        this.onChangeStyleData(null);
+        return value;
+    }
+
+    public function getEmphasis():PriUIEmphasis {
+        if (this.emphasis == null) {
+            if (this.o.parent == null) return PriUIEmphasis.HIGH;
+            else if (Std.is(this.o.parent, IPriUIStyle)) {
+                var c:IPriUIStyle = cast this.o.parent;
+                return c.styleEmphasis;
+            } else return PriUIEmphasis.HIGH;
+        } else return this.emphasis;
+    }
+
+    public function setEmphasis(value:PriUIEmphasis):PriUIEmphasis {
+        this.emphasis = value;
         this.onChangeStyleData(null);
         return value;
     }

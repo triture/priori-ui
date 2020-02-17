@@ -37,7 +37,7 @@ class PriUILabel extends PriUIContainer {
         var style:PriUIStyle = this.style;
 
         var font:PriUIFont = this.styleIntent.getFont(style, this.styleSize);
-        var color:PriColor = this.styleContainerType.getForegroundSwatch(style).baseColor;
+        var color:PriColor = this.styleDisplayType.getForegroundSwatch(style).baseColor;
         
         this.label.startBatchUpdate();
         this.label.fontSize = font.size;

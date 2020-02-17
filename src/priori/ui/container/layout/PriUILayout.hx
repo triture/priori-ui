@@ -1,6 +1,6 @@
 package priori.ui.container.layout;
 
-class PriUILayout extends PriUIContainer {
+class PriUILayout extends PriUISpace {
     
     @:isVar public var verticalAlign(default, set):PriUIVerticalAlignmentType = PriUIVerticalAlignmentType.CENTER;
     @:isVar public var horizontalAlign(default, set):PriUIHorizontalAlignmentType = PriUIHorizontalAlignmentType.CENTER;

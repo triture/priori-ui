@@ -8,7 +8,7 @@ import priori.ui.event.PriUIEvent;
 import priori.ui.style.PriUIStyle;
 import priori.ui.style.PriUIShade;
 import priori.ui.style.ControllerStyle;
-import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDisplayType;
 import priori.ui.interfaces.IPriUIStyle;
 import priori.scene.view.PriSceneView;
 
@@ -16,7 +16,7 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
     
     @:noCompletion private var controllerStyle:ControllerStyle;
     public var style(get, set):PriUIStyle;
-    public var styleContainerType(get, set):PriUIContainerType;
+    public var styleDisplayType(get, set):PriUIDisplayType;
     public var styleDensity(get, set):PriUIDensity;
     public var styleIntent(get, set):PriUIIntent;
     public var styleSize(get, set):PriUISize;
@@ -36,8 +36,8 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
     private function get_style():PriUIStyle return this.controllerStyle.getStyle();
     private function set_style(value:PriUIStyle):PriUIStyle return this.controllerStyle.setStyle(value);
 
-    private function get_styleContainerType():PriUIContainerType return this.controllerStyle.getType();
-    private function set_styleContainerType(value:PriUIContainerType):PriUIContainerType return this.controllerStyle.setType(value);
+    private function get_styleDisplayType():PriUIDisplayType return this.controllerStyle.getType();
+    private function set_styleDisplayType(value:PriUIDisplayType):PriUIDisplayType return this.controllerStyle.setType(value);
 
     private function get_styleDensity():PriUIDensity return this.controllerStyle.getDensity();
     private function set_styleDensity(value:PriUIDensity):PriUIDensity return this.controllerStyle.setDesity(value);

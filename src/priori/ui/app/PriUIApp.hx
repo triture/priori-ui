@@ -10,7 +10,7 @@ import priori.scene.view.PriPreloaderView;
 import priori.ui.event.PriUIEvent;
 import priori.ui.interfaces.IPriUIStyle;
 import priori.ui.style.PriUIStyle;
-import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDisplayType;
 import priori.app.PriApp;
 import priori.ui.style.ControllerStyle;
 
@@ -22,7 +22,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
 
     @:noCompletion private var controllerStyle:ControllerStyle;
     public var style(get, set):PriUIStyle;
-    public var styleContainerType(get, set):PriUIContainerType;
+    public var styleDisplayType(get, set):PriUIDisplayType;
     public var styleDensity(get, set):PriUIDensity;
     public var styleIntent(get, set):PriUIIntent;
     public var styleSize(get, set):PriUISize;
@@ -39,7 +39,7 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         this.style = new PriUIStyle();
         
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
-        this.styleContainerType = PriUIContainerType.CONTAINER;
+        this.styleDisplayType = PriUIDisplayType.CONTAINER;
 
         this.__priAppInclude();
 
@@ -66,8 +66,8 @@ class PriUIApp extends PriApp implements IPriUIStyle {
     private function get_style():PriUIStyle return this.controllerStyle.getStyle();
     private function set_style(value:PriUIStyle):PriUIStyle return this.controllerStyle.setStyle(value);
 
-    private function get_styleContainerType():PriUIContainerType return this.controllerStyle.getType();
-    private function set_styleContainerType(value:PriUIContainerType):PriUIContainerType return this.controllerStyle.setType(value);
+    private function get_styleDisplayType():PriUIDisplayType return this.controllerStyle.getType();
+    private function set_styleDisplayType(value:PriUIDisplayType):PriUIDisplayType return this.controllerStyle.setType(value);
 
     private function get_styleDensity():PriUIDensity return this.controllerStyle.getDensity();
     private function set_styleDensity(value:PriUIDensity):PriUIDensity return this.controllerStyle.setDesity(value);

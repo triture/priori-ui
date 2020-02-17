@@ -1,7 +1,8 @@
 package priori.ui.bar;
 
+import priori.ui.container.PriUIContainer;
 import priori.ui.style.PriUIStyle;
-import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDisplayType;
 import priori.ui.container.layout.PriUIRow;
 import priori.ui.style.PriUIDensity;
 import priori.ui.text.PriUILabel;
@@ -11,9 +12,6 @@ import priori.ui.text.PriUILabel;
     <view>
         <p:left                 value="0" />
         <p:right                value="0" />
-        <p:paddingLeft          value="12" />
-        <p:paddingRight         value="12" />
-        <p:horizontalAlign      value="LEFT" />
         <p:z                    value="4" />
         
         <p:styleIntent          value="HEADER" />
@@ -21,18 +19,29 @@ import priori.ui.text.PriUILabel;
 
         <p:text                 value="Title Bar" />
 
-        <private:PriUILabel id="label" />
+        <private:PriUIRow 
+            id="container" 
+            left="0"
+            right="0"
+            top="0"
+            bottom="0"
+            paddingLeft="12"
+            paddingRight="12"
+            horizontalAlign="LEFT"
+            >
+            <private:PriUILabel id="label" />
+        </private:PriUIRow>
     </view>
 </priori>
 ')
-class PriUIAppBar extends PriUIRow {
+class PriUIAppBar extends PriUIContainer {
 
     public var text(get, set):String;
     
     public function new() {
         super();
         
-        this.styleContainerType = PriUIContainerType.PRIMARY;
+        this.styleDisplayType = PriUIDisplayType.PRIMARY;
     }
 
     private function get_text():String return this.label.text;

@@ -13,10 +13,11 @@ import priori.style.border.PriBorderStyle;
 import priori.ui.style.PriUIShade;
 import priori.ui.style.PriUIColorSwatch;
 import priori.ui.style.PriUIStyle;
-import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDisplayType;
 import priori.ui.style.PriUIEmphasis;
 import priori.ui.style.PriUIIntent;
 import priori.ui.container.PriUIContainer;
+import priori.ui.container.PriUISquare;
 
 @priori('
 <priori>
@@ -29,6 +30,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
     private var __tc:TapController;
 
+    @:isVar public var icon(get, set):PriUISquare;
     @:isVar public var action(get, set):Void->Void;
     public var label(get, set):String;
     
@@ -39,9 +41,26 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
         this.styleIntent = PriUIIntent.BUTTON;
         this.styleEmphasis = PriUIEmphasis.HIGH;
-        this.styleContainerType = PriUIContainerType.PRIMARY;
 
         this.allowTransition(PriTransitionType.BACKGROUND_COLOR, 0.2);
+        
+    }
+
+    private function get_icon():PriUISquare return this.icon;
+    private function set_icon(value:PriUISquare):PriUISquare {
+        var old:PriUISquare = this.icon;
+        this.icon = value;
+
+        if (value == null && old != null) {
+            this.removeChild(old);
+        } else if (value != old) {
+            if (old != null) this.removeChild(old);
+            this.addChild(value);
+        }
+
+        this.updateDisplay();
+
+        return value;
     }
 
     public function executeAction():Void if (this.action != null) this.action();
@@ -74,19 +93,28 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
         var space:Float = 18;
 
         this.corners = [4];
-
-        this.width = this.displayLabel.width + space*2;
+        
         this.height = this.displayLabel.height + this.displayLabel.height*densityValue*2;
 
-        this.displayLabel.centerX = this.width/2;
-        this.displayLabel.centerY = this.height/2 + 1;
+        if (this.icon == null) {
+            this.displayLabel.x = space;
+        } else {
+            this.icon.size = this.displayLabel.height * 1.1;
+            this.icon.x = space;
+            this.icon.centerY = this.height/2;
+            
+            this.displayLabel.x = this.icon.maxX + space;
+        }
 
+        this.displayLabel.centerY = this.height/2 + 1;
+        this.width = this.displayLabel.maxX + space;
     }
 
     override private function updateStyle():Void {
-        var type:PriUIContainerType = this.styleContainerType;
         
-        if (type != PriUIContainerType.NONE) {
+        var type:PriUIDisplayType = this.styleDisplayType;
+        
+        if (type != PriUIDisplayType.NONE) {
 
             var style:PriUIStyle = this.style;
             var shade:PriUIShade = this.styleShade;
@@ -99,17 +127,19 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
                     this.z = 0;
                     
                     var bgColor:PriColor = type.getBackgroundSwatch(style).getColor(shade);
-                    var fgColor:PriColor = type.getForegroundSwatch(style).getColor(shade);
+                    var fgColor:PriColor = 0xFFFFFF;
                     var overColor:PriColor = fgColor.mix(bgColor, this.__tc.isFocused ? 0.3 : 0.1);
 
                     this.bgColor = this.__tc.isOver || this.__tc.isFocused
                         ? overColor
-                        : fgColor
+                        : null
                     ;
 
                     var textStyle:PriUIStyle = style.clone();
                     textStyle.swatchInversion();
                     this.displayLabel.style = textStyle;
+
+                    if (this.icon != null) this.icon.style = textStyle;
 
                     this.border = null;
                 }
@@ -118,17 +148,19 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
                     this.z = 0;
                     
                     var bgColor:PriColor = type.getBackgroundSwatch(style).getColor(shade);
-                    var fgColor:PriColor = type.getForegroundSwatch(style).getColor(shade);
+                    var fgColor:PriColor = 0xFFFFFF;
                     var overColor:PriColor = fgColor.mix(bgColor, this.__tc.isFocused ? 0.3 : 0.1);
 
                     this.bgColor = this.__tc.isOver || this.__tc.isFocused
                         ? overColor
-                        : fgColor
+                        : null
                     ;
                     
                     var textStyle:PriUIStyle = style.clone();
                     textStyle.swatchInversion();
                     this.displayLabel.style = textStyle;
+
+                    if (this.icon != null) this.icon.style = textStyle;
 
                     this.border = new PriBorderStyle().setWidth(1).setColor(bgColor);
                 }
@@ -146,6 +178,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
                     ;
 
                     this.displayLabel.style = style;
+                    if (this.icon != null) this.icon.style = style;
 
                     this.border = null;
                 }

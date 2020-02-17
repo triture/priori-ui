@@ -1,13 +1,13 @@
 package priori.ui.style;
 
-import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDisplayType;
 import priori.view.PriDisplay;
 import priori.ui.event.PriUIEvent;
 import priori.ui.interfaces.IPriUIStyle;
 
 class ControllerStyle {
 
-    private var type:PriUIContainerType;
+    private var type:PriUIDisplayType;
     private var style:PriUIStyle;
     private var density:PriUIDensity;
     private var intent:PriUIIntent;
@@ -20,7 +20,7 @@ class ControllerStyle {
     private var o:PriDisplay;
 
     public function new(reference:PriDisplay) {
-        this.type = PriUIContainerType.INHERIT;
+        this.type = PriUIDisplayType.INHERIT;
         this.o = reference;
     }
 
@@ -36,7 +36,7 @@ class ControllerStyle {
 
     public function setSize(value:PriUISize):PriUISize {
         this.size = value;
-        this.onChangeStyleData(null);
+        this.broadcastChanges();
         return value;
     }
 
@@ -52,7 +52,7 @@ class ControllerStyle {
 
     public function setIntent(value:PriUIIntent):PriUIIntent {
         this.intent = value;
-        this.onChangeStyleData(null);
+        this.broadcastChanges();
         return value;
     }
 
@@ -68,7 +68,7 @@ class ControllerStyle {
 
     public function setDesity(value:PriUIDensity):PriUIDensity {
         this.density = value;
-        this.onChangeStyleData(null);
+        this.broadcastChanges();
         return value;
     }
 
@@ -84,28 +84,28 @@ class ControllerStyle {
 
     public function setEmphasis(value:PriUIEmphasis):PriUIEmphasis {
         this.emphasis = value;
-        this.onChangeStyleData(null);
+        this.broadcastChanges();
         return value;
     }
 
     // parent type must be ignored when value is NONE
     // getType() never result INHERIT value event when is explicity declared
-    public function getType():PriUIContainerType {
-        if (this.type == null || this.type == PriUIContainerType.INHERIT) {
-            if (this.o.parent == null) return PriUIContainerType.NONE;
+    public function getType():PriUIDisplayType {
+        if (this.type == null || this.type == PriUIDisplayType.INHERIT) {
+            if (this.o.parent == null) return PriUIDisplayType.NONE;
             else if (Std.is(this.o.parent, IPriUIStyle)) {
                 var c:IPriUIStyle = cast this.o.parent;
-                return c.styleContainerType;
-            } else return PriUIContainerType.NONE;
+                return c.styleDisplayType;
+            } else return PriUIDisplayType.NONE;
         } else return this.type;
     }
 
-    public function setType(value:PriUIContainerType):PriUIContainerType {
-        var v = value == null ? PriUIContainerType.INHERIT : value;
+    public function setType(value:PriUIDisplayType):PriUIDisplayType {
+        var v = value == null ? PriUIDisplayType.INHERIT : value;
         
         if (v != this.type) {
             this.type = v;
-            this.onChangeStyleData(null);
+            this.broadcastChanges();
         }
         
         return value;
@@ -150,7 +150,7 @@ class ControllerStyle {
             
             if (value != null) this.style.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
 
-            this.onChangeStyleData(null);
+            this.broadcastChanges();
         }
         return value;
     }
@@ -167,9 +167,11 @@ class ControllerStyle {
 
     public function setShade(value:PriUIShade):PriUIShade {
         this.shade = value;
-        this.onChangeStyleData(null);
+        this.broadcastChanges();
         return value;
     }
+
+    public function broadcastChanges():Void this.onChangeStyleData(null);
 
     private function onChangeStyleData(e:PriUIEvent) {
         this.clearCache();
@@ -188,7 +190,7 @@ class ControllerStyle {
     }
 
     public function updateBackground():Void {
-        if (this.getType() != PriUIContainerType.NONE) {
+        if (this.getType() != PriUIDisplayType.NONE) {
             this.o.bgColor = this.getType().getBackgroundSwatch(this.getStyle()).getColor(this.getShade());
         }
     }

@@ -78,7 +78,7 @@ class PriUIStyle extends PriEventDispatcher {
         this.information = new PriUIColorSwatch(0x354fb7, 5);
         
         this.onPrimary = new PriUIColorSwatch(0xFFFFFF);
-        this.onSecondary = new PriUIColorSwatch(0xFFFFFF);
+        this.onSecondary = new PriUIColorSwatch(0x2D384D);
         this.onContainer = new PriUIColorSwatch(0x000000);
         this.onBoard = new PriUIColorSwatch(0x000000);
         this.onOverlay = new PriUIColorSwatch(0x000000);

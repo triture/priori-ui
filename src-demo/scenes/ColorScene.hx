@@ -1,6 +1,6 @@
 package scenes;
 
-import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDisplayType;
 import priori.ui.style.PriUIDensity;
 import priori.ui.style.PriUIIntent;
 import priori.ui.container.layout.PriUIAutoSizeType;
@@ -67,7 +67,7 @@ class ColorScene extends PriUIScene {
         
         for (c in color.getScale()) {
             var f:PriUIFlex = new PriUIFlex();
-            f.styleContainerType = PriUIContainerType.NONE;
+            f.styleDisplayType = PriUIDisplayType.NONE;
             f.height = 32;
             f.bgColor = c;
 

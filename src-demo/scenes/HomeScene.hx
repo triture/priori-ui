@@ -3,7 +3,7 @@ package scenes;
 import priori.ui.style.PriUIIntent;
 import priori.ui.style.PriUIStyle;
 import priori.ui.app.PriUIScene;
-import priori.ui.style.PriUIContainerType;
+import priori.ui.style.PriUIDisplayType;
 import priori.ui.container.PriUIBoard;
 import priori.ui.text.PriUILabel;
 import priori.ui.bar.PriUIAppBar;
@@ -35,7 +35,7 @@ class HomeScene extends PriUIScene {
                 haxe.Timer.delay(
                     function ():Void {
                         trace('default caution orange');
-                        s.styleContainerType = PriUIContainerType.CAUTION;
+                        s.styleDisplayType = PriUIDisplayType.CAUTION;
 
 
                         haxe.Timer.delay(

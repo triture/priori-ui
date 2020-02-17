@@ -1,8 +1,9 @@
 package priori.ui.container;
 
+import priori.ui.style.PriUIDisplayType;
 import priori.ui.event.PriUIEvent;
 
-class PriUIFlex extends PriUIContainer {
+class PriUIFlex extends PriUISpace {
     
     @:isVar public var weight(default, set):Float = 1;
 
@@ -12,4 +13,5 @@ class PriUIFlex extends PriUIContainer {
         if (this.parent != null) this.parent.dispatchEvent(new PriUIEvent(PriUIEvent.UPDATE_DISPLAY));
         return value;
     }
+    
 }

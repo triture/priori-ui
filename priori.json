@@ -68,7 +68,7 @@
   ],
 
   "dependencies" : [
-    
+    "priori-fontawesome"
   ],
 
   "main": "PrioriUIDemo",

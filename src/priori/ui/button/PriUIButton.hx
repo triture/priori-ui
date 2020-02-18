@@ -32,6 +32,8 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
     @:isVar public var icon(get, set):PriUISquare;
     @:isVar public var action(get, set):Void->Void;
+    @:isVar public var floatOnHigherEmphasis(get, set):Bool = true;
+
     public var label(get, set):String;
     
     public function new() {
@@ -44,6 +46,14 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
         this.allowTransition(PriTransitionType.BACKGROUND_COLOR, 0.2);
         
+    }
+
+    private function get_floatOnHigherEmphasis():Bool return this.floatOnHigherEmphasis;
+    private function set_floatOnHigherEmphasis(value:Bool):Bool {
+        if (value == null) return value;
+        this.floatOnHigherEmphasis = value;
+        this.updateStyle();
+        return value;
     }
 
     private function get_icon():PriUISquare return this.icon;
@@ -92,22 +102,53 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
         var space:Float = 18;
 
-        this.corners = [4];
-        
-        this.height = this.displayLabel.height + this.displayLabel.height*densityValue*2;
-
         if (this.icon == null) {
+            
+            this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
+
+            this.corners = [4];
+
+            this.displayLabel.startBatchUpdate();
+            this.displayLabel.visible = true;
+            
             this.displayLabel.x = space;
-        } else {
+            this.displayLabel.centerY = this.height/2 + 1;
+            this.displayLabel.endBatchUpdate();
+
+            this.width = this.displayLabel.maxX + space;
+            
+        } else if (this.icon != null && this.label.length > 0) {
+            
+            this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
+
+            this.corners = [4];
+
+            this.displayLabel.startBatchUpdate();
+            this.displayLabel.visible = true;
+
             this.icon.size = this.displayLabel.height * 1.1;
             this.icon.x = space;
             this.icon.centerY = this.height/2;
             
             this.displayLabel.x = this.icon.maxX + space;
-        }
+            this.displayLabel.centerY = this.height/2 + 1;
+            this.displayLabel.endBatchUpdate();
 
-        this.displayLabel.centerY = this.height/2 + 1;
-        this.width = this.displayLabel.maxX + space;
+            this.width = this.displayLabel.maxX + space;
+
+        } else if (this.icon != null && this.label.length == 0) {
+            this.displayLabel.visible = false;
+            this.icon.size = this.displayLabel.height * 1.2;
+            this.height = this.icon.size + this.icon.size * densityValue * 2;
+            this.width = this.height;
+
+            this.corners = [400];
+            
+            this.icon.centerX = this.width/2;
+            this.icon.centerY = this.height/2;
+            
+        }
+        
     }
 
     override private function updateStyle():Void {
@@ -166,7 +207,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
                 }
 
                 case PriUIEmphasis.HIGH : {
-                    this.z = 2.5;
+                    this.z = this.floatOnHigherEmphasis ? 2.5 : 0;
 
                     var bgColor:PriColor = type.getBackgroundSwatch(style).getColor(shade);
                     var fgColor:PriColor = type.getForegroundSwatch(style).getColor(shade);

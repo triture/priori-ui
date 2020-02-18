@@ -26,11 +26,22 @@ import priori.fontawesome.FontAwesomeIconType;
                             <Button styleEmphasis="MEDIUM" label="Medium Emphasis" />
                             <Button styleEmphasis="LOW" label="Low Emphasis" />
 
-                            <Space height="20" />
+                            <Space height="2" />
 
                             <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleEmphasis="HIGH" label="High Emphasis" />
                             <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleEmphasis="MEDIUM" label="Medium Emphasis" />
                             <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleEmphasis="LOW" label="Low Emphasis" />
+
+                            <Space height="2" />
+
+                            <Button styleDensity="COMPACT" label="Compact Density" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleDensity="COMPACT" label="Compact Density" />
+                            
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleDensity="COMPACT" label="" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" label="" styleEmphasis="HIGH" floatOnHigherEmphasis="${false}"/>
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" label="" styleEmphasis="MEDIUM" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" label="" styleEmphasis="LOW" />
+
                         </Col>
                     </Flex>
                     <Flex top="0" bottom="0" styleDisplayType="SECONDARY">
@@ -39,11 +50,23 @@ import priori.fontawesome.FontAwesomeIconType;
                             <Button styleEmphasis="MEDIUM" label="Medium Emphasis" />
                             <Button styleEmphasis="LOW" label="Low Emphasis" />
                             
-                            <Space height="20" />
+                            <Space height="2" />
                             
-                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleEmphasis="HIGH" label="High Emphasis" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleEmphasis="HIGH" label="High Emphasis"/>
                             <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleEmphasis="MEDIUM" label="Medium Emphasis" />
                             <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleEmphasis="LOW" label="Low Emphasis" />
+                            
+                            <Space height="2" />
+
+                            <Button styleDensity="COMPACT" label="Compact Density" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleDensity="COMPACT" label="Compact Density" />
+
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" styleDensity="COMPACT" label="" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" label="" styleEmphasis="HIGH" floatOnHigherEmphasis="${false}" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" label="" styleEmphasis="MEDIUM" />
+                            <ButtonIcon iconType="${FontAwesomeIconType.STAR}" label="" styleEmphasis="LOW" />
+                            
+                            
                         </Col>
                     </Flex>
                 </Row>

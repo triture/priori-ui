@@ -1,0 +1,16 @@
+{
+    "name": "priori-ui",
+    "classPath" : "src/",
+    "url": "https://github.com/triture/priori-ui",
+    "license": "MIT",
+    "tags": [ "html5", "web", "js", "javascript", "priori", "user interface", "ui", "spa", "cross", "webapp"],
+    "description": "Priori UI",
+    "version": "0.0.1",
+    "releasenote": "Priori UI Developement",
+    "contributors": [ "triture" ],
+    "dependencies": {
+      "priori" : "",
+      "priori-fontawesome" : ""
+    }
+  }
+  

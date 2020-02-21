@@ -74,7 +74,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     }
 
     public function executeAction():Void if (this.action != null) this.action();
-    private function __onTapButton(e:PriTapEvent):Void this.executeAction;
+    private function __onTapButton(e:PriTapEvent):Void this.executeAction();
 
     private function get_label():String return this.displayLabel.text;
     private function set_label(value:String):String return this.displayLabel.text = value;

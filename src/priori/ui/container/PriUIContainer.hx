@@ -91,12 +91,14 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
     }
 
     override private function updateDepth():Void {
-        this.dh.depth = this.dh.parent.dh.depth - 1;
+        if (this.parent != null) {
+            this.dh.depth = this.dh.parent.dh.depth - 1;
 
-        this.dh.styles.set("z-index", Std.string(this.dh.depth + Math.floor(this._z)));
-        if (this.dh.elementBorder != null) this.dh.elementBorder.style.zIndex = Std.string(this.dh.depth + Math.floor(this._z));
-        
-        this.__updateStyle();
+            this.dh.styles.set("z-index", Std.string(this.dh.depth + Math.floor(this._z)));
+            if (this.dh.elementBorder != null) this.dh.elementBorder.style.zIndex = Std.string(this.dh.depth + Math.floor(this._z));
+
+            this.__updateStyle();
+        }
     }
 
     private function get_z():Float return this._z;

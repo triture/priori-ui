@@ -37,6 +37,8 @@ class PriUILabel extends PriUIContainer {
         this.label.clipping = false;
     }
 
+    override public function hasFocus():Bool return this.label.hasFocus();
+
     override private function updateStyle():Void {
         this.updateFont();
     }

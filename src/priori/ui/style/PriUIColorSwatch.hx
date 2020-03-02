@@ -10,8 +10,7 @@ class PriUIColorSwatch {
     public var color(get, null):PriColor;
     public var brighter(get, null):PriColor;
     public var darker(get, null):PriColor;
-    
-    private var tc:TinyColor;
+
     private var scale:Array<PriColor>;
     private var grayScale:Array<PriColor>;
 
@@ -85,6 +84,9 @@ class PriUIColorSwatch {
 
         return result;
     }
+
+    public function isLight():Bool return new TinyColor(this.baseColor.toString()).isLight();
+    public function isDark():Bool return new TinyColor(this.baseColor.toString()).isDark();
 
 }
 

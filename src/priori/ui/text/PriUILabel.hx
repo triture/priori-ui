@@ -26,6 +26,7 @@ class PriUILabel extends PriUIContainer {
     public var text(get, set):String;
     public var editable(get, set):Bool;
     public var autoSize(get, set):Bool;
+    public var multiLine(get, set):Bool;
     
     public function new() {
         super();
@@ -110,8 +111,19 @@ class PriUILabel extends PriUIContainer {
         return value;
     }
 
-    private function set_autoSize(value:Bool):Bool return this.label.autoSize = value;
+    private function set_autoSize(value:Bool):Bool {
+        this.label.autoSize = value;
+        this.updateDisplay();
+        return value;
+    }
     private function get_autoSize():Bool return this.label.autoSize;
+
+    private function set_multiLine(value:Bool):Bool {
+        this.label.multiLine = value;
+        this.updateDisplay();
+        return value;
+    }
+    private function get_multiLine():Bool return this.label.multiLine;
 
     override private function paint():Void {
         

@@ -151,7 +151,6 @@ class PriUIOverlayManager {
     }
 
     private function onTapBackground(e:PriTapEvent):Void {
-        trace(1);
         var currentIndex:Int = -1;
         for (i in 0 ... this.overlays.length) if (this.overlays[i].background == e.currentTarget) currentIndex = i;
         if (currentIndex > -1) this.remove(this.overlays[currentIndex].overlay);

@@ -33,6 +33,9 @@ class PriUIColorSwatch {
         }
     }
 
+    public function darken(amount:Float):PriColor return new TinyColor(this.baseColor.toString()).darken(amount*100).toHexString();
+    public function brighten(amount:Float):PriColor return new TinyColor(this.baseColor.toString()).brighten(amount*100).toHexString();
+
     private function set_colorRotation(value:Float):Float {
         this.colorRotation = value;
         
@@ -124,8 +127,8 @@ private extern class TinyColor
     public function getLuminance():Float;
 
     public function lighten(?amount:Float):TinyColor;   // 0 to 100
-    public function brighten(?amount:Int):TinyColor;    // 0 to 100
-    public function darken(?amount:Int):TinyColor;      // 0 to 100
+    public function brighten(?amount:Float):TinyColor;    // 0 to 100
+    public function darken(?amount:Float):TinyColor;      // 0 to 100
     public function desaturate(?amount:Int):TinyColor;  // 0 to 100
     public function saturate(?amount:Int):TinyColor;    // 0 to 100
     public function greyscale():TinyColor;

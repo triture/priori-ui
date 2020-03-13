@@ -33,6 +33,10 @@ class PriUIOverlayManager {
         this.overlayContainer.bottom = 0;
     }
 
+    public function getContainer():PriUISpace {
+        return this.overlayContainer;
+    }
+
     public function closeTopMostOverlay():Void {
         if (this.overlays.length > 0) {
             this.remove(this.overlays[this.overlays.length - 1].overlay);
@@ -133,7 +137,6 @@ class PriUIOverlayManager {
     private function updateContainer():Void {
         if (this.overlayContainer.numChildren == 0) this.overlayContainer.visible = false;
         else {
-            PriApp.g().addChild(this.overlayContainer);
 
             PriApp.g().removeEventListener(PriKeyboardEvent.KEY_UP, this.onKeyUp);
             PriApp.g().addEventListener(PriKeyboardEvent.KEY_UP, this.onKeyUp);

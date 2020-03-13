@@ -1,5 +1,7 @@
 package priori.ui.app;
 
+import priori.ui.overlay.PriUIOverlayManager;
+import priori.ui.container.PriUISpace;
 import priori.ui.style.PriUIEmphasis;
 import priori.ui.style.PriUISize;
 import priori.ui.style.PriUIIntent;
@@ -31,6 +33,9 @@ class PriUIApp extends PriApp implements IPriUIStyle {
 
     public var customPreloader:Class<PriPreloaderView>;
 
+    private var sceneContainer:PriUISpace;
+    private var overlayContainer:PriUISpace;
+
     public function new() {
         this.controllerStyle = new ControllerStyle(this);
 
@@ -40,6 +45,23 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
         this.styleDisplayType = PriUIDisplayType.CONTAINER;
+
+        this.sceneContainer = new PriUISpace();
+        this.sceneContainer.left = 0;
+        this.sceneContainer.top = 0;
+        this.sceneContainer.right = 0;
+        this.sceneContainer.bottom = 0;
+        PriSceneManager.use().holder = this.sceneContainer;
+
+        this.overlayContainer = PriUIOverlayManager.use().getContainer();
+        this.overlayContainer.visible = false;
+
+        this.addChildList(
+            [
+                this.sceneContainer,
+                this.overlayContainer
+            ]
+        );
 
         this.__priAppInclude();
 

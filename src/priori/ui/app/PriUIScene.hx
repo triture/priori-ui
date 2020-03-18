@@ -1,5 +1,6 @@
 package priori.ui.app;
 
+import priori.ui.overlay.PriUIOverlayManager;
 import priori.ui.style.PriUIEmphasis;
 import priori.ui.style.PriUIIntent;
 import priori.ui.style.PriUISize;
@@ -25,7 +26,7 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
 
     public function new(data:Dynamic) {
         this.controllerStyle = new ControllerStyle(this);
-        
+        PriUIOverlayManager.use().closeAllOverlays();
         super(data);
 
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);

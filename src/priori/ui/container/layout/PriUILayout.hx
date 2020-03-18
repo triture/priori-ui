@@ -23,6 +23,11 @@ class PriUILayout extends PriUISpace {
     private var __paddingLeft:Float = 0;
     private var __paddingRight:Float = 0;
 
+    public function new() {
+        super();
+        this.clipping = false;
+    }
+
     private function get_padding():Float return Math.min(this.paddingVertical, this.paddingHorizontal);
     private function set_padding(value:Float):Float {
         if (value == null) return value;

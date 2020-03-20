@@ -28,4 +28,14 @@ class PriUIFont {
             .setWeight(this.weight)
             .setVariant(this.variant);
     }
+
+    public function isEqual(value:PriUIFont):Bool {
+        if (value == null) return false;
+        return (
+            value.size == this.size &&
+            value.weight == this.weight &&
+            value.variant == this.variant &&
+            value.spacing == this.spacing
+        );
+    }
 }

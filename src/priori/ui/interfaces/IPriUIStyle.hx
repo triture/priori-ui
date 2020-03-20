@@ -17,5 +17,7 @@ interface IPriUIStyle {
     public var styleSize(get, set):PriUISize;
     public var styleShade(get, set):PriUIShade;
     public var styleEmphasis(get, set):PriUIEmphasis;
+
+    public function getParentStyle():PriUIStyle;
     
 }

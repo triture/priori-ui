@@ -19,7 +19,15 @@ class PriUIColorSwatch {
         this.colorRotation = colorRotation;
     }
 
-    public function clone():PriUIColorSwatch return new PriUIColorSwatch(this.baseColor);
+    public function isEqual(value:PriUIColorSwatch):Bool {
+        if (value == null) return false;
+        return (
+            value.baseColor == this.baseColor &&
+            value.colorRotation == this.colorRotation
+        );
+    }
+
+    public function clone():PriUIColorSwatch return new PriUIColorSwatch(this.baseColor, this.colorRotation);
 
     private function get_brighter():PriColor return this.getScale()[2];
     private function get_darker():PriColor return this.getScale()[0];

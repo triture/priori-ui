@@ -40,6 +40,15 @@ class PriUIContainer extends PriBuilder implements IPriUIStyle {
         this.updateStyle();
     }
 
+    public function getParentStyle():PriUIStyle {
+        if (this.parent == null || !Std.is(this.parent, IPriUIStyle)) {
+            return new PriUIStyle();
+        } else {
+            var ps:IPriUIStyle = cast this.parent;
+            return ps.style;
+        }
+    }
+
     @:noCompletion
     override private function ___onResize(e:PriEvent):Void {
         super.___onResize(e);

@@ -1,5 +1,6 @@
 package priori.ui.app;
 
+import priori.event.PriEvent;
 import priori.ui.overlay.PriUIOverlayManager;
 import priori.ui.style.PriUIEmphasis;
 import priori.ui.style.PriUIIntent;
@@ -30,6 +31,21 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
         super(data);
 
         this.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyle);
+    }
+
+    public function getParentStyle():PriUIStyle {
+        if (this.parent == null || !Std.is(this.parent, IPriUIStyle)) {
+            return new PriUIStyle();
+        } else {
+            var ps:IPriUIStyle = cast this.parent;
+            return ps.style;
+        }
+    }
+
+    @:noCompletion
+    override private function ___onAdded(e:PriEvent):Void {
+        this.controllerStyle.broadcastChanges();
+        super.___onAdded(e);
     }
 
     private function onChangeStyle(e:PriUIEvent):Void this.updateStyle();

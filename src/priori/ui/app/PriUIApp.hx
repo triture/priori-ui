@@ -72,6 +72,8 @@ class PriUIApp extends PriApp implements IPriUIStyle {
         );
     }
 
+    public function getParentStyle():PriUIStyle return this.style;
+
     public function onLoad():Void {}
     public function onError():Void {}
 

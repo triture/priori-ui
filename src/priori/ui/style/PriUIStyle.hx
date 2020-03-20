@@ -54,7 +54,53 @@ class PriUIStyle extends PriEventDispatcher {
     public var fontButton(get, set):PriUIFont;
     public var fontCaption(get, set):PriUIFont;
     public var fontOverline(get, set):PriUIFont;
-    
+
+    public function isEqual(value:PriUIStyle):Bool {
+        if (value == null) return false;
+        else if (value == this) return true;
+        else return (
+            this.primary.isEqual(value.primary) &&
+            this.primaryAlt.isEqual(value.primaryAlt) &&
+            this.secondary.isEqual(value.secondary) &&
+            this.secondaryAlt.isEqual(value.secondaryAlt) &&
+            this.subtle.isEqual(value.subtle) &&
+            this.highlight.isEqual(value.highlight) &&
+            this.container.isEqual(value.container) &&
+            this.board.isEqual(value.board) &&
+            this.overlay.isEqual(value.overlay) &&
+            this.element.isEqual(value.element) &&
+            this.danger.isEqual(value.danger) &&
+            this.caution.isEqual(value.caution) &&
+            this.success.isEqual(value.success) &&
+            this.information.isEqual(value.information) &&
+
+            this.onPrimary.isEqual(value.onPrimary) &&
+            this.onSecondary.isEqual(value.onSecondary) &&
+            this.onContainer.isEqual(value.onContainer) &&
+            this.onBoard.isEqual(value.onBoard) &&
+            this.onOverlay.isEqual(value.onOverlay) &&
+            this.onElement.isEqual(value.onElement) &&
+            this.onSubtle.isEqual(value.onSubtle) &&
+            this.onHighlight.isEqual(value.onHighlight) &&
+            this.onDanger.isEqual(value.onDanger) &&
+            this.onCaution.isEqual(value.onCaution) &&
+            this.onSuccess.isEqual(value.onSuccess) &&
+            this.onInformation.isEqual(value.onInformation) &&
+
+            this.fontHeaderBigger.isEqual(value.fontHeaderBigger) &&
+            this.fontHeaderSmaller.isEqual(value.fontHeaderSmaller) &&
+            this.fontSubtitleBigger.isEqual(value.fontSubtitleBigger) &&
+            this.fontSubtitleSmaller.isEqual(value.fontSubtitleSmaller) &&
+            this.fontBodyBigger.isEqual(value.fontBodyBigger) &&
+            this.fontBodySmaller.isEqual(value.fontBodySmaller) &&
+            this.fontButton.isEqual(value.fontButton) &&
+            this.fontCaption.isEqual(value.fontCaption) &&
+            this.fontOverline.isEqual(value.fontOverline) &&
+
+            this.fontFamily == value.fontFamily
+        );
+    }
+
     public function new() {
         super();
 
@@ -119,15 +165,21 @@ class PriUIStyle extends PriEventDispatcher {
 
     private function updateColor(key:String, value:PriUIColorSwatch):PriUIColorSwatch {
         if (value == null) return value;
+
+        var old = this.colorMap.get(key);
         this.colorMap.set(key, value);
-        this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT));
+        if (!value.isEqual(old)) this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT));
+
         return value;
     }
 
     private function setFont(key:String, value:PriUIFont):PriUIFont {
         if (value == null) return value;
+
+        var old = this.fontStyleMap.get(key);
         this.fontStyleMap.set(key, value);
-        this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT));
+        if (!value.isEqual(old)) this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT));
+
         return value;
     }
 
@@ -214,8 +266,11 @@ class PriUIStyle extends PriEventDispatcher {
     private function set_fontFamily(value:String):String {
         if (value == null) return value;
         else {
+            var old = this.fontFamily;
+
             this.fontFamily = value;
-            this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT));
+
+            if (old != this.fontFamily) this.dispatchEvent(new PriUIEvent(PriUIEvent.CHANGE_STYLE_EVENT));
         }
 
         return value;

@@ -35,8 +35,12 @@ class ControllerStyle {
     }
 
     public function setSize(value:PriUISize):PriUISize {
+        var old = this.size;
+
         this.size = value;
-        this.broadcastChanges();
+
+        if (old != value) this.broadcastChanges();
+
         return value;
     }
 
@@ -51,8 +55,12 @@ class ControllerStyle {
     }
 
     public function setIntent(value:PriUIIntent):PriUIIntent {
+        var old = this.intent;
+
         this.intent = value;
-        this.broadcastChanges();
+
+        if (old != value) this.broadcastChanges();
+
         return value;
     }
 
@@ -67,8 +75,12 @@ class ControllerStyle {
     }
 
     public function setDesity(value:PriUIDensity):PriUIDensity {
+        var old = this.density;
+
         this.density = value;
-        this.broadcastChanges();
+
+        if (old != value) this.broadcastChanges();
+
         return value;
     }
 
@@ -83,8 +95,12 @@ class ControllerStyle {
     }
 
     public function setEmphasis(value:PriUIEmphasis):PriUIEmphasis {
+        var old = this.emphasis;
+
         this.emphasis = value;
-        this.broadcastChanges();
+
+        if (old != emphasis) this.broadcastChanges();
+
         return value;
     }
 
@@ -141,6 +157,8 @@ class ControllerStyle {
     }
 
     public function setStyle(value:PriUIStyle):PriUIStyle {
+        var old = this.style;
+
         if (this.style != value) {
             if (this.style != null) this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
             
@@ -150,8 +168,9 @@ class ControllerStyle {
             
             if (value != null) this.style.addEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
 
-            this.broadcastChanges();
+            if (value == null || !value.isEqual(old)) this.broadcastChanges();
         }
+
         return value;
     }
 
@@ -166,8 +185,12 @@ class ControllerStyle {
     }
 
     public function setShade(value:PriUIShade):PriUIShade {
+        var old = this.shade;
+
         this.shade = value;
-        this.broadcastChanges();
+
+        if (old != value) this.broadcastChanges();
+
         return value;
     }
 

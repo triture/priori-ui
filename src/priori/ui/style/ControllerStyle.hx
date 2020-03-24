@@ -209,7 +209,6 @@ class ControllerStyle {
     public function kill():Void {
         if (this.style != null) this.style.removeEventListener(PriUIEvent.CHANGE_STYLE_EVENT, this.onChangeStyleData);
         this.clearCache();
-        this.o = null;
     }
 
     public function updateBackground():Void {

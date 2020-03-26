@@ -67,7 +67,7 @@ class PriUIInputSelect<T> extends PriUISpace {
             var hasFocus:Bool = this.hasFocus();
             var hasValue:Bool = (this.value != null);
 
-            if (hasValue || hasFocus) {
+            if (hasValue) {
                 this.labelPlaceholder.fontSize = 11;
             } else {
                 this.labelPlaceholder.fontSize = 18;

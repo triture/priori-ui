@@ -1,5 +1,6 @@
 package priori.ui.overlay;
 
+import priori.scene.PriSceneManager;
 import priori.types.PriTransitionType;
 import priori.system.PriKey;
 import priori.event.PriKeyboardEvent;
@@ -85,9 +86,17 @@ class PriUIOverlayManager {
         item.background.top = 0;
         item.background.bottom = 0;
         item.background.allowTransition(PriTransitionType.ALPHA, 0.2);
+        item.background.z = 8;
 
         item.overlay.alpha = 0;
         item.overlay.allowTransition(PriTransitionType.ALPHA, 0.3);
+
+        for (o in this.overlays) {
+            if (o.overlay == item.overlay) item.overlay.disabled = false;
+            else o.overlay.disabled = true;
+        }
+
+        PriSceneManager.use().holder.disabled = true;
 
         haxe.Timer.delay(function():Void {
             item.background.alpha = 0.3;
@@ -126,6 +135,9 @@ class PriUIOverlayManager {
             );
 
             this.overlays.remove(item);
+
+            if (this.overlays.length == 0) PriSceneManager.use().holder.disabled = false;
+            else this.overlays[this.overlays.length-1].overlay.disabled = false;
 
             item.overlay.onCloseOverlay();
             item.background.kill();

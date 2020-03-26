@@ -93,8 +93,8 @@ class PriUIInputText extends PriUISpace {
                 this.input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
                 this.input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
                 this.input.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
-//                this.input.fontSize = 14;
-//                this.input.fontStyle = this.inputMultiline.fontStyle;
+                this.input.fontSize = 14;
+                this.input.fontStyle = this.inputMultiline.fontStyle;
                 this.input.value = this.inputMultiline.value;
 
                 this.removeChild(this.inputMultiline);
@@ -120,8 +120,8 @@ class PriUIInputText extends PriUISpace {
                 this.inputMultiline.addEventListener(PriEvent.CHANGE, this.onFieldChange);
                 this.inputMultiline.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
                 this.inputMultiline.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
-//                this.inputMultiline.fontSize = 14;
-//                this.inputMultiline.fontStyle = this.input.fontStyle;
+                this.inputMultiline.fontSize = 14;
+                this.inputMultiline.fontStyle = this.input.fontStyle;
                 this.inputMultiline.value = this.input.value;
 
                 this.removeChild(this.input);

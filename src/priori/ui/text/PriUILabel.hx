@@ -130,11 +130,11 @@ class PriUILabel extends PriUIContainer {
     override private function paint():Void {
         
         if (this.autoSize) {
-            this.width = this.label.width;
+            this.width = Math.round(this.label.width);
         } else {
-            this.label.width = this.width;
+            this.label.width = Math.round(this.width);
         }
 
-        this.height = this.label.height;
+        this.height = Math.round(this.label.height);
     }
 }

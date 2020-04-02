@@ -33,6 +33,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     @:isVar public var icon(get, set):PriUISquare;
     @:isVar public var action(get, set):Void->Void;
     @:isVar public var floatOnHigherEmphasis(get, set):Bool = true;
+    @:isVar public var autoSize(default, set):Bool = true;
 
     public var label(get, set):String;
     
@@ -46,6 +47,12 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
         this.allowTransition(PriTransitionType.BACKGROUND_COLOR, 0.2);
         
+    }
+
+    private function set_autoSize(value:Bool):Bool {
+        this.autoSize = value;
+        this.updateDisplay();
+        return value;
     }
 
     private function get_floatOnHigherEmphasis():Bool return this.floatOnHigherEmphasis;
@@ -115,7 +122,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
             this.displayLabel.centerY = this.height/2 + 1;
             this.displayLabel.endBatchUpdate();
 
-            this.width = this.displayLabel.maxX + space;
+            if (this.autoSize) this.width = this.displayLabel.maxX + space;
             
         } else if (this.icon != null && this.label.length > 0) {
             
@@ -134,7 +141,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
             this.displayLabel.centerY = this.height/2 + 1;
             this.displayLabel.endBatchUpdate();
 
-            this.width = this.displayLabel.maxX + space;
+            if (this.autoSize) this.width = this.displayLabel.maxX + space;
 
         } else if (this.icon != null && this.label.length == 0) {
             this.displayLabel.visible = false;

@@ -159,7 +159,11 @@ class PriUIOverlayManager {
 
     private function onKeyUp(e:PriKeyboardEvent):Void {
         if (e.keycode == PriKey.ESC) {
-            if (this.overlays.length > 0 && this.overlays[this.overlays.length - 1].overlay.allowCloseOverlayWithEsc) {
+            if (
+                this.overlays.length > 0 &&
+                this.overlays[this.overlays.length - 1].overlay.allowCloseOverlay &&
+                this.overlays[this.overlays.length - 1].overlay.allowCloseOverlayWithEsc
+            ) {
                 this.remove(this.overlays[this.overlays.length - 1].overlay);
             } 
         }
@@ -167,7 +171,12 @@ class PriUIOverlayManager {
 
     private function onTapBackground(e:PriTapEvent):Void {
         var currentIndex:Int = -1;
-        for (i in 0 ... this.overlays.length) if (this.overlays[i].background == e.currentTarget) currentIndex = i;
+        for (i in 0 ... this.overlays.length) {
+            if (
+                this.overlays[i].background == e.currentTarget &&
+                this.overlays[i].overlay.allowCloseOverlay
+            ) currentIndex = i;
+        }
         if (currentIndex > -1) this.remove(this.overlays[currentIndex].overlay);
     }
 

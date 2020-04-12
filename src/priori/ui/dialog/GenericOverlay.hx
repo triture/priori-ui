@@ -118,15 +118,16 @@ class GenericOverlay extends PriUIOverlay {
         this.row.y = this.content == null ? this.message.maxY + space : this.content.maxY + space;
         this.row.width = this.width - space * 2;
 
-        this.height = this.buttons.length > 0
-            ? this.row.maxY + space
-            : this.content == null
-                ? this.message.maxY + space
-                : this.content.maxY + space;
+        if (this.top == null && this.bottom == null)
+            this.height = this.buttons.length > 0
+                ? this.row.maxY + space
+                : this.content == null
+                    ? this.message.maxY + space
+                    : this.content.maxY + space;
 
         if (this.parent != null) {
-            this.centerX = this.parent.width/2;
-            this.centerY = this.parent.height/2;
+            if (this.left == null && this.right == null) this.centerX = this.parent.width/2;
+            if (this.top == null && this.bottom == null) this.centerY = this.parent.height/2;
         }
 
     }

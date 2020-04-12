@@ -290,7 +290,7 @@ class PriUIInputText extends PriUISpace {
         if (this.inputMultiline != null) {
             this.inputMultiline.x = 13;
             this.inputMultiline.width = this.width - 13*2;
-            this.inputMultiline.y = hasPlaceholder ? 30 : 0;
+            this.inputMultiline.y = hasPlaceholder ? 30 : 15;
             this.inputMultiline.height = this.height - this.inputMultiline.y;
         }
 

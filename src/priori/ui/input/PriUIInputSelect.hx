@@ -150,6 +150,8 @@ class PriUIInputSelect<T> extends PriUISpace {
 
     override private function setup():Void {
 
+        this.corners = [4, 4, 0, 0];
+
         this.input = new PriFormSelect();
         this.input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
         this.input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
@@ -172,6 +174,7 @@ class PriUIInputSelect<T> extends PriUISpace {
         this.line.lineWidth = 2;
 
         this.box = new PriDisplay();
+        this.box.corners = [100];
         this.box.mouseEnabled = false;
 
         this.addChildList(

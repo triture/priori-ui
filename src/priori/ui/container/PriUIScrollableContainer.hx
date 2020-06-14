@@ -1,5 +1,6 @@
 package priori.ui.container;
 
+import priori.event.PriTapEvent;
 import priori.system.PriDeviceSystem;
 import priori.system.PriDeviceBrowser;
 import js.html.TouchEvent;
@@ -20,34 +21,42 @@ class PriUIScrollableContainer extends PriUISpace implements IPriUIStyle {
     public var maxScrollY(get, null):Float;
     public var maxScrollX(get, null):Float;
 
-    private var __mouseIsOver:Bool = false;
+    private var __touched:Bool;
+    private var __mouseIsOver:Bool;
+
     private var __lastXScroll:Int = 0;
     private var __lastYScroll:Int = 0;
 
     public function new() {
         super();
 
-        if (PriDevice.isMobileDevice()) {
-            this.__mouseIsOver = true;
-            this.scrollerY = true;
-        } else {
-            this.__mouseIsOver = false;
-            this.scrollerY = true;
+        this.__touched = false;
+        this.__mouseIsOver = false;
+        this.scrollerY = true;
 
-            this.addEventListener(PriMouseEvent.MOUSE_OVER, onOver);
-            this.addEventListener(PriMouseEvent.MOUSE_OUT, onOut);
-        }
+        this.addEventListener(PriMouseEvent.MOUSE_OVER, onOver);
+        this.addEventListener(PriMouseEvent.MOUSE_OUT, onOut);
 
         this.addEventListener(PriEvent.ADDED_TO_APP, this.__onAddedToApp);
 
         if (this.dh.jselement.addEventListener != null) {
-            this.dh.jselement.addEventListener("scroll", this.__onScrollUpdater, true);
-        } else {
-            this.dh.jselement.onscroll = this.__onScrollUpdater;
-        }
 
-//        this.dh.jselement.ontouchstart = this.__onTouchStart;
-//        this.dh.jselement.ontouchend = this.__onTouchEnd;
+            this.dh.jselement.addEventListener('touchstart', this.__onTouchStart, true);
+            this.dh.jselement.addEventListener('touchend', this.__onTouchEnd, true);
+            this.dh.jselement.addEventListener('scroll', this.__onScrollUpdater, true);
+
+
+        } else this.dh.jselement.onscroll = this.__onScrollUpdater;
+
+    }
+
+    private function __onTouchStart(e:TouchEvent):Void {
+        this.__touched = true;
+        this.updateScrollerByTouch();
+    }
+
+    private function __onTouchEnd(e:TouchEvent):Void {
+
     }
 
     private function __onScrollUpdater():Void {
@@ -60,20 +69,47 @@ class PriUIScrollableContainer extends PriUISpace implements IPriUIStyle {
         this.dh.jselement.scrollTop = this.__lastYScroll;
     }
 
-    private function __onTouchStart(e:TouchEvent):Void this.onOver(null);
-    private function __onTouchEnd(e:TouchEvent):Void this.onOut(null);
-
     private function onOver(e:PriMouseEvent):Void {
         this.__mouseIsOver = true;
+        this.__touched = false;
         this.updateScrollerView();
     }
 
     private function onOut(e:PriMouseEvent):Void {
         this.__mouseIsOver = false;
+        this.__touched = false;
         this.updateScrollerView();
     }
 
+    private function updateScrollerByTouch():Void {
+
+        if (this.__touched) {
+            if (this.scrollerX && this.scrollerY) {
+                this.dh.styles.set("overflow-x", "scroll");
+                this.dh.styles.set("overflow-y", "scroll");
+                this.dh.styles.set("-webkit-overflow-scrolling", "touch");
+
+            } else if (this.scrollerX) {
+                this.dh.styles.set("overflow-x", "scroll");
+                this.dh.styles.remove("overflow-y");
+                this.dh.styles.set("-webkit-overflow-scrolling", "touch");
+
+            } else if (this.scrollerY) {
+                this.dh.styles.remove("overflow-x");
+                this.dh.styles.set("overflow-y", "scroll");
+                this.dh.styles.set("-webkit-overflow-scrolling", "touch");
+            } else {
+                this.dh.styles.set("overflow-x", "hidden");
+                this.dh.styles.set("overflow-y", "hidden");
+                this.dh.styles.remove("-webkit-overflow-scrolling");
+            }
+        }
+
+        this.__updateStyle();
+    }
+
     private function updateScrollerView():Void {
+        if (this.__touched) return;
 
         var canUpdate:Bool = true;
 
@@ -88,46 +124,18 @@ class PriUIScrollableContainer extends PriUISpace implements IPriUIStyle {
 
         if (canUpdate) {
             if (this.__mouseIsOver) {
-                if (PriDevice.deviceSystem() == PriDeviceSystem.IOS) {
-                    if (this.scrollerX && this.scrollerY) {
-                        this.dh.styles.set("overflow-x", "scroll");
-                        this.dh.styles.set("overflow-y", "scroll");
-                        this.dh.styles.set("-webkit-overflow-scrolling", "touch");
-
-                    } else if (this.scrollerX) {
-                        this.dh.styles.set("overflow-x", "scroll");
-                        this.dh.styles.remove("overflow-y");
-                        this.dh.styles.set("-webkit-overflow-scrolling", "touch");
-
-                    } else if (this.scrollerY) {
-                        this.dh.styles.remove("overflow-x");
-                        this.dh.styles.set("overflow-y", "scroll");
-                        this.dh.styles.set("-webkit-overflow-scrolling", "touch");
-
-                    } else {
-                        this.dh.styles.set("overflow-x", "hidden");
-                        this.dh.styles.set("overflow-y", "hidden");
-                        this.dh.styles.remove("-webkit-overflow-scrolling");
-
-                    }
+                if (this.scrollerX && this.scrollerY) {
+                    this.dh.styles.set("overflow-x", "auto");
+                    this.dh.styles.set("overflow-y", "auto");
+                } else if (this.scrollerX) {
+                    this.dh.styles.set("overflow-x", "auto");
+                    this.dh.styles.remove("overflow-y");
+                } else if (this.scrollerY) {
+                    this.dh.styles.remove("overflow-x");
+                    this.dh.styles.set("overflow-y", "auto");
                 } else {
-                    if (this.scrollerX && this.scrollerY) {
-
-                        this.dh.styles.set("overflow-x", "auto");
-                        this.dh.styles.set("overflow-y", "auto");
-
-                    } else if (this.scrollerX) {
-                        this.dh.styles.set("overflow-x", "auto");
-                        this.dh.styles.remove("overflow-y");
-
-                    } else if (this.scrollerY) {
-                        this.dh.styles.remove("overflow-x");
-                        this.dh.styles.set("overflow-y", "auto");
-
-                    } else {
-                        this.dh.styles.set("overflow-x", "hidden");
-                        this.dh.styles.set("overflow-y", "hidden");
-                    }
+                    this.dh.styles.set("overflow-x", "hidden");
+                    this.dh.styles.set("overflow-y", "hidden");
                 }
             } else {
                 this.dh.styles.set("overflow-x", "hidden");
@@ -146,12 +154,16 @@ class PriUIScrollableContainer extends PriUISpace implements IPriUIStyle {
     private function set_scrollerX(value:Bool) {
         this.scrollerX = value;
         if (this.__mouseIsOver) this.updateScrollerView();
+        if (this.__touched) this.updateScrollerByTouch();
+
         return value;
     }
 
     private function set_scrollerY(value:Bool) {
         this.scrollerY = value;
         if (this.__mouseIsOver) this.updateScrollerView();
+        if (this.__touched) this.updateScrollerByTouch();
+
         return value;
     }
 

@@ -1,5 +1,6 @@
 package priori.ui.button;
 
+import priori.geom.PriGeomPoint;
 import priori.ui.style.PriUISize;
 import priori.ui.style.PriUIDensity;
 import priori.fontawesome.FontAwesomeIconType;
@@ -21,6 +22,11 @@ class PriUIButtonMenu extends PriUIOverlay{
 
     public function new() {
         super();
+    }
+
+    override public function onCloseOverlay():Void {
+        this.reference = null;
+        super.onCloseOverlay();
     }
 
     override private function setup():Void {
@@ -46,8 +52,11 @@ class PriUIButtonMenu extends PriUIOverlay{
         this.height = this.col.height;
 
         if (this.reference != null) {
-            this.maxX = this.reference.maxX;
-            this.y = this.reference.y;
+
+            var global:PriGeomPoint = this.reference.localToGlobal(new PriGeomPoint(this.reference.maxX, this.reference.y));
+
+            this.maxX = global.x;
+            this.y = global.y;
         }
 
     }

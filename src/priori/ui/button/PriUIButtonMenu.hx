@@ -1,5 +1,9 @@
 package priori.ui.button;
 
+import priori.ui.container.layout.PriUIVerticalAlignmentType;
+import priori.ui.style.PriUIIntent;
+import priori.ui.text.PriUILabel;
+import priori.ui.container.PriUIContainer;
 import priori.geom.PriGeomPoint;
 import priori.ui.style.PriUISize;
 import priori.ui.style.PriUIDensity;
@@ -15,7 +19,8 @@ import priori.ui.overlay.PriUIOverlay;
 class PriUIButtonMenu extends PriUIOverlay{
 
     public var reference:PriDisplay;
-    private var buttons:Array<PriUIButtonFontAwesome>;
+
+    private var buttons:Array<PriUIContainer>;
 
     private var col:PriUIColumn;
 
@@ -61,6 +66,53 @@ class PriUIButtonMenu extends PriUIOverlay{
 
     }
 
+    public function addSeparator(separatorHeight:Float = 8):PriUIButtonMenu {
+        var col:PriUIColumn = new PriUIColumn();
+        col.left = 0;
+        col.right = 0;
+        col.height = separatorHeight;
+
+        var line:PriUIContainer = new PriUIContainer();
+        line.styleDisplayType = PriUIDisplayType.PRIMARY;
+        line.height = 1.5;
+        line.left = 10;
+        line.right = 10;
+
+        col.addChild(line);
+
+        this.buttons.push(col);
+        this.col.addChild(col);
+        this.updateDisplay();
+
+        return this;
+    }
+
+    public function addSection(title:String):PriUIButtonMenu {
+
+        var col:PriUIColumn = new PriUIColumn();
+        col.verticalAlign = PriUIVerticalAlignmentType.BOTTOM;
+        col.paddingTop = 10;
+        col.paddingBottom = 0;
+        col.left = 0;
+        col.right = 0;
+        col.heightAutoSize = PriUIAutoSizeType.FIT;
+
+        var label:PriUILabel = new PriUILabel();
+        label.styleIntent = PriUIIntent.SUBTITLE;
+        label.text = title;
+        label.left = 10;
+        label.right = 10;
+        label.autoSize = false;
+        label.multiLine = true;
+
+        col.addChild(label);
+
+        this.buttons.push(col);
+        this.col.addChild(col);
+        this.updateDisplay();
+
+        return this;
+    }
 
     public function addButton(label:String, icon:FontAwesomeIconType, onClick:Void->Void):PriUIButtonMenu {
 

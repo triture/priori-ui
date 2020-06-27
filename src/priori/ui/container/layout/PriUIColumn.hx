@@ -17,7 +17,7 @@ class PriUIColumn extends PriUILayout {
 
         switch (this.verticalAlign) {
             case PriUIVerticalAlignmentType.BOTTOM : s.lastPos = this.height - s.usedSpace - this.__paddingBottom;
-            case PriUIVerticalAlignmentType.CENTER : s.lastPos = (this.height - s.usedSpace) / 2;
+            case PriUIVerticalAlignmentType.CENTER : s.lastPos = this.__paddingTop + (this.height - s.usedSpace - this.__paddingTop - this.__paddingBottom) / 2;
             case PriUIVerticalAlignmentType.SPACE_BETWEEN : {
                 s.spaceBetween = (this.height - s.usedSpace - this.__paddingTop - this.__paddingBottom) / (n - 1);
                 s.lastPos = this.__paddingTop;
@@ -32,7 +32,7 @@ class PriUIColumn extends PriUILayout {
             }
             case _ : s.lastPos = this.__paddingTop;
         }
-        
+
         for (i in 0 ... n) {
 
             var child:PriDisplay = this.getChild(i);

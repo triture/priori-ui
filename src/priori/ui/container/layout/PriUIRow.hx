@@ -17,7 +17,7 @@ class PriUIRow extends PriUILayout {
 
         switch (this.horizontalAlign) {
             case PriUIHorizontalAlignmentType.RIGHT : s.lastPos = this.width - s.usedSpace - this.__paddingRight;
-            case PriUIHorizontalAlignmentType.CENTER : s.lastPos = (this.width - s.usedSpace) / 2;
+            case PriUIHorizontalAlignmentType.CENTER : s.lastPos = this.paddingLeft + (this.width - s.usedSpace - this.__paddingLeft - this.__paddingRight) / 2;
             case PriUIHorizontalAlignmentType.SPACE_BETWEEN : {
                 s.spaceBetween = (this.width - s.usedSpace - this.__paddingLeft - this.__paddingRight) / (n - 1);
                 s.lastPos = this.__paddingLeft;

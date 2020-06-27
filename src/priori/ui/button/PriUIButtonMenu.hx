@@ -114,7 +114,7 @@ class PriUIButtonMenu extends PriUIOverlay{
         return this;
     }
 
-    public function addButton(label:String, icon:FontAwesomeIconType, onClick:Void->Void):PriUIButtonMenu {
+    public function addButton(label:String, icon:FontAwesomeIconType, onClick:Void->Void, disabled:Bool = false):PriUIButtonMenu {
 
         var button:PriUIButtonFontAwesome = new PriUIButtonFontAwesome();
         button.iconType = icon;
@@ -126,6 +126,12 @@ class PriUIButtonMenu extends PriUIOverlay{
             this.close();
             onClick();
         };
+
+        if (disabled) {
+            button.pointer = false;
+            button.disabled = true;
+            button.alpha = 0.6;
+        }
 
         button.styleEmphasis = PriUIEmphasis.LOW;
         button.styleDisplayType = PriUIDisplayType.PRIMARY;

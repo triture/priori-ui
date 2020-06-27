@@ -28,5 +28,6 @@ class PriUIOverlay extends PriUIContainer {
     private function set_allowCloseOverlayWithEsc(value:Bool):Bool return this.allowCloseOverlayWithEsc = value;
     
     public function onCloseOverlay():Void {}
+    public function onOpenOverlay():Void {}
 
 }

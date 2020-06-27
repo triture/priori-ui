@@ -112,6 +112,8 @@ class PriUIOverlayManager {
 
 
         this.updateContainer();
+
+        item.overlay.onOpenOverlay();
     }
 
     public function remove(overlay:PriUIOverlay):Void {

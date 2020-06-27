@@ -27,6 +27,7 @@ class PriUILabel extends PriUIContainer {
     public var editable(get, set):Bool;
     public var autoSize(get, set):Bool;
     public var multiLine(get, set):Bool;
+    public var selectable(get, set):Bool;
     
     public function new() {
         super();
@@ -126,6 +127,12 @@ class PriUILabel extends PriUIContainer {
         return value;
     }
     private function get_multiLine():Bool return this.label.multiLine;
+
+    private function set_selectable(value:Bool):Bool {
+        this.label.selectable = value;
+        return value;
+    }
+    private function get_selectable():Bool return this.label.selectable;
 
     override private function paint():Void {
         

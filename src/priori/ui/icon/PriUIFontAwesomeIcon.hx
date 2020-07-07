@@ -8,6 +8,8 @@ import priori.ui.container.PriUISquare;
 class PriUIFontAwesomeIcon extends PriUISquare {
     
     public var iconType(get, set):FontAwesomeIconType;
+    public var iconSize(get, set):Float;
+    @:isVar public var margin(default, set):Float = 0;
 
     private var icon:FontAwesomeIcon;
 
@@ -17,8 +19,29 @@ class PriUIFontAwesomeIcon extends PriUISquare {
         this.iconType = FontAwesomeIconType.QUESTION;
     }
 
+    override private function paint():Void {
+        if (this.icon != null) {
+            this.startBatchUpdate();
+            this.icon.centerX = this.width / 2;
+            this.icon.centerY = this.height / 2;
+            this.endBatchUpdate();
+        }
+    }
+
+    private function set_margin(value:Float):Float {
+        this.margin = value;
+        this.size = this.iconSize + (value*2);
+        return value;
+    }
+
+    private function get_iconSize():Float return this.icon.size;
+    private function set_iconSize(value:Float):Float {
+        this.size = value + (this.margin*2);
+        return value;
+    }
+
     override private function set_size(value:Float):Float {
-        this.icon.size = value;
+        this.icon.size = value - (this.margin * 2);
         return super.set_size(value);
     }
 
@@ -29,11 +52,10 @@ class PriUIFontAwesomeIcon extends PriUISquare {
         if (this.icon == null) {
             this.icon = new FontAwesomeIcon(value);
             this.addChild(this.icon);
+            this.updateDisplay();
         }
 
-        if (this.icon.icon != value) {
-            this.icon.icon = value;
-        }
+        if (this.icon.icon != value) this.icon.icon = value;
 
         return value;
     }

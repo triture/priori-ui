@@ -1,5 +1,7 @@
 package priori.ui.button;
 
+import priori.app.PriApp;
+import priori.ui.container.PriUIScrollableContainer;
 import priori.ui.container.layout.PriUIVerticalAlignmentType;
 import priori.ui.style.PriUIIntent;
 import priori.ui.text.PriUILabel;
@@ -22,8 +24,8 @@ class PriUIButtonMenu extends PriUIOverlay{
 
     private var buttons:Array<PriUIContainer>;
 
+    private var scroller:PriUIScrollableContainer;
     private var col:PriUIColumn;
-
 
     public function new() {
         super();
@@ -44,17 +46,22 @@ class PriUIButtonMenu extends PriUIOverlay{
         this.col.heightAutoSize = PriUIAutoSizeType.FIT;
         this.col.gap = 5;
 
+        this.scroller = new PriUIScrollableContainer();
+        this.scroller.left = 0;
+        this.scroller.right = 0;
+        this.scroller.top = 0;
+        this.scroller.bottom = 0;
+        this.scroller.addChild(this.col);
+
         this.addChildList(
             [
-                this.col
+                this.scroller
             ]
         );
 
     }
 
     override private function paint():Void {
-
-        this.height = this.col.height;
 
         if (this.reference != null) {
 
@@ -64,6 +71,12 @@ class PriUIButtonMenu extends PriUIOverlay{
             this.y = global.y;
         }
 
+        var idealHeight:Float = this.col.height;
+        var maxHeight:Float = PriApp.g().height - this.y - 20;
+
+        if (idealHeight > maxHeight) idealHeight = maxHeight;
+
+        this.height = idealHeight;
     }
 
     public function addSeparator(separatorHeight:Float = 8):PriUIButtonMenu {

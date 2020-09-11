@@ -1,5 +1,6 @@
 package priori.ui.text;
 
+import priori.ui.style.PriUIDisplayType;
 import priori.event.PriEvent;
 import priori.event.PriFocusEvent;
 import priori.event.PriKeyboardEvent;
@@ -79,14 +80,15 @@ class PriUILabel extends PriUIContainer {
 
     private function updateFont():Void {
         var style:PriUIStyle = this.style;
+        var display:PriUIDisplayType = this.styleDisplayType;
 
         var font:PriUIFont = this.styleIntent.getFont(style, this.styleSize);
-        var color:PriColor = this.styleDisplayType.getForegroundSwatch(style).baseColor;
-        
+        var fontColor:PriColor = this.styleDisplayType.getForegroundSwatch(style).baseColor;
+
         this.label.startBatchUpdate();
         this.label.fontSize = font.size;
         this.label.letterSpace = font.spacing;
-        this.label.fontStyle = font.getFontStyle(style.fontFamily, color);
+        this.label.fontStyle = font.getFontStyle(style.fontFamily, fontColor);
         this.label.endBatchUpdate();
 
         this.updateDisplay();
@@ -116,6 +118,7 @@ class PriUILabel extends PriUIContainer {
 
     private function set_autoSize(value:Bool):Bool {
         this.label.autoSize = value;
+        this.label.clipping = !value;
         this.updateDisplay();
         return value;
     }

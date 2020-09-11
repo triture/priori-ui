@@ -137,7 +137,7 @@ class PriUILayout extends PriUISpace {
             lastPos: 0,
             maxCrossSize: 0,
             usedSpace: 0,
-            gapSum: this.__gap * (this.numChildren-1),
+            gapSum: Math.max(0, this.__gap * (this.numChildren-1)),
             spaceBetween: 0,
             flexTotalWeight: 0,
             flexRef: []

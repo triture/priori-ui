@@ -10,9 +10,10 @@ class PriUIButtonFontAwesome extends PriUIButton {
     private var __butonIcon:PriUIFontAwesomeIcon;
 
     public function new() {
+        this.__butonIcon = new PriUIFontAwesomeIcon();
+
         super();
 
-        this.__butonIcon = new PriUIFontAwesomeIcon();
         this.icon = this.__butonIcon;
     }
 

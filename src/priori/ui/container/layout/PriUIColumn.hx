@@ -9,7 +9,6 @@ class PriUIColumn extends PriUILayout {
         super.paint();
 
         var n:Int = this.numChildren;
-        if (n == 0) return;
 
         var s = this.getInitialValues(false);
         this.updateFlexs(s, false);

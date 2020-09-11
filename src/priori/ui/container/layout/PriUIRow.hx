@@ -9,7 +9,6 @@ class PriUIRow extends PriUILayout {
         super.paint();
         
         var n:Int = this.numChildren;
-        if (n == 0) return;
 
         var s = this.getInitialValues(true);
         this.updateFlexs(s, true);

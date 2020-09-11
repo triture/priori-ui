@@ -31,6 +31,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     private var __tc:TapController;
 
     @:isVar public var icon(get, set):PriUISquare;
+    @:isVar public var iconAlign(get, set):PriUIButtonIconAlignment = PriUIButtonIconAlignment.LEFT;
     @:isVar public var action(get, set):Void->Void;
     @:isVar public var floatOnHigherEmphasis(get, set):Bool = true;
     @:isVar public var autoSize(default, set):Bool = true;
@@ -51,6 +52,15 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
     private function set_autoSize(value:Bool):Bool {
         this.autoSize = value;
+        this.displayLabel.autoSize = value;
+        this.updateDisplay();
+        return value;
+    }
+
+    private function get_iconAlign():PriUIButtonIconAlignment return this.iconAlign;
+    private function set_iconAlign(value:PriUIButtonIconAlignment):PriUIButtonIconAlignment {
+        if (value == null) return value;
+        this.iconAlign = value;
         this.updateDisplay();
         return value;
     }
@@ -100,6 +110,34 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     
     override private function setup():Void {}
 
+    private function paintWithoutIcon(space:Int, densityValue:Float):Void {
+        this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
+
+        this.corners = [4];
+
+        this.displayLabel.startBatchUpdate();
+        this.displayLabel.visible = true;
+
+        this.displayLabel.x = space;
+        this.displayLabel.centerY = this.height/2 + 1;
+        this.displayLabel.endBatchUpdate();
+
+        if (this.autoSize) this.width = this.displayLabel.maxX + space;
+    }
+
+    private function paintWithoutLabel(space:Int, densityValue:Float):Void {
+        this.displayLabel.visible = false;
+
+        this.icon.size = this.displayLabel.height * 1.2;
+        this.height = this.icon.size + this.icon.size * densityValue * 2;
+        this.width = this.height;
+
+        this.corners = [400];
+
+        this.icon.centerX = this.width/2;
+        this.icon.centerY = this.height/2;
+    }
+
     override private function paint():Void {
         
         var densityValue:Float = switch (this.styleDensity) {
@@ -107,53 +145,50 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
             case COMPACT: PriUIStyle.DENSITY_COMPACT_WEIGHT;
         }
 
-        var space:Float = 18;
+        var space:Int = 18;
 
         if (this.icon == null) {
-            
-            this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
+            this.paintWithoutIcon(space, densityValue);
 
-            this.corners = [4];
-
-            this.displayLabel.startBatchUpdate();
-            this.displayLabel.visible = true;
-            
-            this.displayLabel.x = space;
-            this.displayLabel.centerY = this.height/2 + 1;
-            this.displayLabel.endBatchUpdate();
-
-            if (this.autoSize) this.width = this.displayLabel.maxX + space;
-            
         } else if (this.icon != null && this.label.length > 0) {
             
             this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
-
             this.corners = [4];
 
             this.displayLabel.startBatchUpdate();
             this.displayLabel.visible = true;
 
             this.icon.size = this.displayLabel.height * 1.1;
-            this.icon.x = space;
             this.icon.centerY = this.height/2;
-            
-            this.displayLabel.x = this.icon.maxX + space;
+
+            var idealWidth:Float = this.width;
+            if (this.autoSize) {
+                idealWidth = this.displayLabel.width + this.icon.size + space * 3;
+
+                this.preventRepaint = true;
+                this.width = idealWidth;
+                this.preventRepaint = false;
+
+            } else {
+                this.displayLabel.width = this.width - space*3 - this.icon.size;
+            }
+
+            switch (this.iconAlign) {
+                case PriUIButtonIconAlignment.LEFT : {
+                    this.icon.x = space;
+                    this.displayLabel.x = this.icon.maxX + space;
+                }
+                case PriUIButtonIconAlignment.RIGHT : {
+                    this.icon.maxX = idealWidth - space;
+                    this.displayLabel.x = space;
+                }
+            }
+
             this.displayLabel.centerY = this.height/2 + 1;
             this.displayLabel.endBatchUpdate();
 
-            if (this.autoSize) this.width = this.displayLabel.maxX + space;
-
         } else if (this.icon != null && this.label.length == 0) {
-            this.displayLabel.visible = false;
-            this.icon.size = this.displayLabel.height * 1.2;
-            this.height = this.icon.size + this.icon.size * densityValue * 2;
-            this.width = this.height;
-
-            this.corners = [400];
-            
-            this.icon.centerX = this.width/2;
-            this.icon.centerY = this.height/2;
-            
+            this.paintWithoutLabel(space, densityValue);
         }
         
     }
@@ -185,6 +220,10 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
                     var textStyle:PriUIStyle = style.clone();
                     textStyle.swatchInversion();
+
+                    if (textStyle.onPrimary.isLight()) textStyle.onPrimary = new PriUIColorSwatch(textStyle.onPrimary.darken(0.3));
+                    if (textStyle.onSecondary.isLight()) textStyle.onSecondary = new PriUIColorSwatch(textStyle.onSecondary.darken(0.3));
+
                     this.displayLabel.style = textStyle;
 
                     if (this.icon != null) this.icon.style = textStyle;
@@ -318,13 +357,14 @@ private class TapController {
     private function onUp(e:PriEvent):Void {
         if (this.isDown) {
             this.isDown = false;
-            this.isFocused = false;
-            this.isOver = false;
+
+            PriApp.g().setFocus();
 
             haxe.Timer.delay(
                 function():Void {
+                    if (this.o.disabled || !this.o.hasApp()) this.isOver = false;
                     if (this.doUpdate != null) this.doUpdate();
-                }, 
+                },
                 100
             );
         }

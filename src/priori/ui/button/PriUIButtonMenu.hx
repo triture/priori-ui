@@ -94,8 +94,6 @@ class PriUIButtonMenu extends PriUIOverlay{
         col.addChild(line);
 
         this.buttons.push(col);
-        this.col.addChild(col);
-        this.updateDisplay();
 
         return this;
     }
@@ -121,8 +119,6 @@ class PriUIButtonMenu extends PriUIOverlay{
         col.addChild(label);
 
         this.buttons.push(col);
-        this.col.addChild(col);
-        this.updateDisplay();
 
         return this;
     }
@@ -151,10 +147,13 @@ class PriUIButtonMenu extends PriUIOverlay{
 
         this.buttons.push(button);
 
-        this.col.addChild(button);
-        this.updateDisplay();
-
         return this;
+    }
+
+    override public function open():Void {
+        this.col.addChildList(cast this.buttons);
+        this.updateDisplay();
+        super.open();
     }
 
 

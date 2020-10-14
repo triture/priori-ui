@@ -1,5 +1,7 @@
 package priori.ui.dialog;
 
+import priori.ui.container.PriUISpace;
+import priori.view.PriLineHorizontal;
 import priori.event.PriEvent;
 import priori.ui.style.PriUIDisplayType;
 import priori.ui.style.PriUIEmphasis;
@@ -20,9 +22,14 @@ class GenericOverlay extends PriUIOverlay {
     private var message:PriUILabel;
     private var buttons:Array<PriUIButton>;
 
+    private var line:PriLineHorizontal;
     private var row:PriUIRow;
 
-    @:isVar public var content(default, set):PriUIColumn;
+    public var idealWidth:Float = 850;
+    public var idealHeight:Float = 680;
+    public var autoHeight:Bool = true;
+
+    @:isVar public var content(default, set):PriUISpace;
 
     public function new() {
         super();
@@ -39,7 +46,7 @@ class GenericOverlay extends PriUIOverlay {
         return value;
     }
 
-    private function set_content(value:PriUIColumn):PriUIColumn {
+    private function set_content(value:PriUISpace):PriUISpace {
         if (this.content == value) return value;
         else {
             if (this.content != null) {
@@ -90,45 +97,70 @@ class GenericOverlay extends PriUIOverlay {
         this.row.horizontalAlign = PriUIHorizontalAlignmentType.RIGHT;
         this.row.heightAutoSize = PriUIAutoSizeType.FIT;
 
+        this.line = new PriLineHorizontal();
+        this.line.lineColor = 0xf3f3f3;
+
         this.addChildList(
             [
                 this.message,
-                this.row
+                this.row,
+                this.line
             ]
         );
     }
 
     override private function paint():Void {
-
-        var containerHeight:Float = 0;
-
         var space:Int = 20;
 
-        this.message.x = space;
-        this.message.y = space;
-        this.message.width = this.width - this.message.x - space;
-
-        if (this.content != null) {
-            this.content.y = this.message.maxY + space;
-            this.content.x = space;
-            this.content.width = this.width - this.content.x - space;
-        }
-
-        this.row.x = space;
-        this.row.y = this.content == null ? this.message.maxY + space : this.content.maxY + space;
-        this.row.width = this.width - space * 2;
-
-        if (this.top == null && this.bottom == null)
-            this.height = this.buttons.length > 0
-                ? this.row.maxY + space
-                : this.content == null
-                    ? this.message.maxY + space
-                    : this.content.maxY + space;
+        this.preventRepaint = true;
 
         if (this.parent != null) {
-            if (this.left == null && this.right == null) this.centerX = this.parent.width/2;
-            if (this.top == null && this.bottom == null) this.centerY = this.parent.height/2;
+            if (this.left == null && this.right == null) {
+                var pw:Float = this.parent.width;
+
+                this.width = Math.min((pw - space * 2), this.idealWidth);
+                this.centerX = pw/2;
+            }
+
+            this.message.x = space;
+            this.message.y = space;
+            this.message.width = this.width - this.message.x - space;
+
+            this.row.x = space;
+            this.row.maxY = this.height - space;
+            this.row.width = this.width - space * 2;
+
+            var topSpace:Float = this.text.length == 0 ? 0 : this.message.maxY + space;
+            var bottomSpace:Float = this.buttons.length == 0 ? 0 : this.row.height + space * 2;
+
+            if (this.content != null) {
+                this.content.x = 0;
+                this.content.y = topSpace;
+                this.content.width = this.width - this.content.x;
+            }
+
+            if (this.top == null && this.bottom == null) {
+                var ph:Float = this.parent.height;
+
+                if (this.autoHeight) {
+                    this.height = (this.content != null ? this.content.height : 0) + topSpace + bottomSpace;
+                } else {
+                    this.height = Math.min((ph - space * 2), this.idealHeight);
+
+                    var ch:Float = this.height - topSpace - bottomSpace;
+                    trace(ch);
+                    if (this.content != null) this.content.height = ch;
+                }
+
+                this.centerY = ph/2;
+            };
+
+            this.line.visible = (bottomSpace > 0);
+            this.line.width = this.width;
+            this.line.y = this.height - bottomSpace;
         }
+
+        this.preventRepaint = false;
 
     }
 

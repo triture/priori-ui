@@ -1,5 +1,9 @@
 package priori.ui.input;
 
+import priori.ui.style.PriUIIntent;
+import priori.fontawesome.FontAwesomeIconType;
+import priori.ui.icon.PriUIFontAwesomeIcon;
+import priori.ui.text.PriUILabel;
 import priori.ui.style.PriUIShade;
 import priori.ui.style.PriUIDisplayType;
 import priori.ui.container.PriUISpace;
@@ -34,13 +38,83 @@ class PriUIInputText extends PriUISpace {
 
     private var timerChange:Timer;
 
+    private var validators:Array<(value:String)->Void>;
+
+    private var errorMessage:PriUILabel;
+    private var errorIcon:PriUIFontAwesomeIcon;
+
     public function new() {
+        this.validators = [];
+
         super();
 
         this.styleDisplayType = PriUIDisplayType.PRIMARY;
 
         this.clipping = false;
         this.height = 50;
+    }
+
+    public function addValidation(validator:(value:String)->Void):Void this.validators.push(validator);
+
+    public function validate():Bool {
+        var v:String = this.value;
+        var error:String = null;
+
+        for (validator in this.validators) {
+            try {
+                validator(v);
+            } catch (e:Dynamic) {
+                error = Std.string(e);
+            }
+
+            if (error != null) break;
+        }
+
+        if (error != null) {
+            error = StringTools.trim(error);
+            if (error.length == 0) error = "Error";
+            this.showError(error);
+            return false;
+
+        } else this.hideError();
+
+        return true;
+    }
+
+    private function showError(messsage:String):Void {
+        if (this.errorIcon == null) {
+            this.errorIcon = new PriUIFontAwesomeIcon();
+            this.errorIcon.invertSwatch = true;
+            this.errorIcon.margin = 0;
+            this.errorIcon.size = 22;
+            this.errorIcon.styleDisplayType = PriUIDisplayType.CAUTION;
+            this.errorIcon.iconType = FontAwesomeIconType.EXCLAMATION_CIRCLE;
+
+            this.errorMessage = new PriUILabel();
+            this.errorMessage.invertSwatch = true;
+            this.errorMessage.styleIntent = PriUIIntent.OVERLINE;
+            this.errorMessage.styleDisplayType = PriUIDisplayType.DANGER;
+
+            this.addChildList(
+                [
+                    this.errorIcon,
+                    this.errorMessage
+                ]
+            );
+        }
+
+        this.errorMessage.text = messsage;
+        this.errorMessage.visible = true;
+        this.errorIcon.visible = true;
+        this.updateDisplay();
+    }
+
+    private function hideError():Void {
+        if (this.errorIcon != null) {
+            this.errorMessage.visible = false;
+            this.errorIcon.visible = false;
+            this.updateDisplay();
+        }
     }
 
     override private function updateStyle():Void {
@@ -217,6 +291,7 @@ class PriUIInputText extends PriUISpace {
 
     private function runDelayedChange():Void {
         this.killTimer();
+        this.validate();
         if (this.onDelayedChange != null) this.onDelayedChange();
     }
 
@@ -266,20 +341,21 @@ class PriUIInputText extends PriUISpace {
     }
 
     override private function paint():Void {
+        var space:Int = 13;
         var hasPlaceholder:Bool = this.placeholder != null && StringTools.trim(this.placeholder).length > 0;
+        var fieldWidth:Float = this.width - space * 2;
 
-        if (this.labelPlaceholder.fontSize < 14) {
-            this.labelPlaceholder.y = 7;
-        } else {
-            this.labelPlaceholder.y = 17;
+        if (this.errorIcon != null && this.errorIcon.visible) {
+            fieldWidth -= this.errorIcon.width;
         }
 
-        this.labelPlaceholder.x = 13;
-        this.labelPlaceholder.width = this.width - 30;
+        this.labelPlaceholder.x = space;
+        this.labelPlaceholder.y = (this.labelPlaceholder.fontSize < 14) ? 7 : 17;
+        this.labelPlaceholder.width = fieldWidth;
 
         if (this.input != null) {
-            this.input.x = 13;
-            this.input.width = this.width - 13*2;
+            this.input.x = space;
+            this.input.width = fieldWidth;
 
             if (hasPlaceholder) this.input.y = 20;
             else this.input.centerY = this.height/2;
@@ -289,7 +365,7 @@ class PriUIInputText extends PriUISpace {
 
         if (this.inputMultiline != null) {
             this.inputMultiline.x = 13;
-            this.inputMultiline.width = this.width - 13*2;
+            this.inputMultiline.width = fieldWidth;
             this.inputMultiline.y = hasPlaceholder ? 30 : 15;
             this.inputMultiline.height = this.height - this.inputMultiline.y;
         }
@@ -297,6 +373,15 @@ class PriUIInputText extends PriUISpace {
         this.line.width = this.width;
         this.line.y = this.height - 1;
 
+        if (this.errorIcon != null) {
+            this.errorIcon.maxX = this.width - space;
+            this.errorIcon.centerY = this.input == null
+                ? this.inputMultiline.centerY
+                : this.input.centerY - 3;
+
+            this.errorMessage.x = space / 2;
+            this.errorMessage.y = this.height + 2;
+        }
     }
 
     override public function kill():Void {

@@ -41,8 +41,8 @@ class PriUIColorSwatch {
         }
     }
 
-    public function darken(amount:Float):PriColor return new TinyColor(this.baseColor.toString()).darken(amount*100).toHexString();
-    public function brighten(amount:Float):PriColor return new TinyColor(this.baseColor.toString()).brighten(amount*100).toHexString();
+    public function darken(amount:Float):PriColor return this.baseColor == null ? 0x000000 : new TinyColor(this.baseColor.toString()).darken(amount*100).toHexString();
+    public function brighten(amount:Float):PriColor return this.baseColor == null ? 0x000000 : new TinyColor(this.baseColor.toString()).brighten(amount*100).toHexString();
 
     private function set_colorRotation(value:Float):Float {
         this.colorRotation = value;
@@ -55,6 +55,7 @@ class PriUIColorSwatch {
 
     public function getScale():Array<PriColor> {
         if (this.scale != null) return this.scale.copy();
+        if (this.baseColor == null) return [null, null, null];
 
         var result:Array<PriColor> = [];
         this.scale = result;
@@ -89,15 +90,15 @@ class PriUIColorSwatch {
         var result:Array<PriColor> = [];
 
         for (item in color) 
-            result.push(PriColor.fromString(new TinyColor(item.toString()).greyscale().toHexString()));
+            result.push(item == null ? null : PriColor.fromString(new TinyColor(item.toString()).greyscale().toHexString()));
 
         this.grayScale = result.copy();
 
         return result;
     }
 
-    public function isLight():Bool return new TinyColor(this.baseColor.toString()).isLight();
-    public function isDark():Bool return new TinyColor(this.baseColor.toString()).isDark();
+    public function isLight():Bool return this.baseColor == null ? false : new TinyColor(this.baseColor.toString()).isLight();
+    public function isDark():Bool return this.baseColor == null ? false : new TinyColor(this.baseColor.toString()).isDark();
 
 }
 

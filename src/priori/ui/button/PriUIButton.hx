@@ -284,8 +284,8 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     }
 
     override public function kill():Void {
+        this.action = null;
         this.__tc.kill();
-
         super.kill();
     }
 }

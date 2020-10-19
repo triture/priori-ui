@@ -1,5 +1,7 @@
 package priori.ui.overlay;
 
+import priori.ui.event.PriUIEvent;
+import priori.view.PriDisplay;
 import priori.ui.style.PriUIDisplayType;
 import priori.ui.container.PriUIContainer;
 
@@ -30,4 +32,7 @@ class PriUIOverlay extends PriUIContainer {
     public function onCloseOverlay():Void {}
     public function onOpenOverlay():Void {}
 
+    static public function dispatchCloseOverlayHelper(dispatcher:PriDisplay):Void {
+        dispatcher.dispatchEvent(new PriUIEvent(PriUIEvent.CLOSE_OVERLAY, false, true));
+    }
 }

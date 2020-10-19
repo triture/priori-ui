@@ -54,12 +54,12 @@ abstract PriUIDisplayType(String) {
     }
     
     public function getBackgroundSwatch(style:PriUIStyle):PriUIColorSwatch {
-        if (style == null) return null;
+        if (style == null) return new PriUIColorSwatch(null);
         
         var v:PriUIDisplayType = cast this;
 
         return switch (v) {
-            case PriUIDisplayType.NONE | PriUIDisplayType.INHERIT : null;
+            case PriUIDisplayType.NONE | PriUIDisplayType.INHERIT : new PriUIColorSwatch(null);
             
             case PriUIDisplayType.PRIMARY : style.primary;
             case PriUIDisplayType.PRIMARY_ALTERNATIVE : style.primaryAlt;

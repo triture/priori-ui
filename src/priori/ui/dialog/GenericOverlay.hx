@@ -17,7 +17,7 @@ import priori.ui.overlay.PriUIOverlay;
 
 class GenericOverlay extends PriUIOverlay {
 
-    @:isVar public var text(default, set):String;
+    @:isVar public var text(default, set):String = '';
 
     private var message:PriUILabel;
     private var buttons:Array<PriUIButton>;
@@ -25,14 +25,32 @@ class GenericOverlay extends PriUIOverlay {
     private var line:PriLineHorizontal;
     private var row:PriUIRow;
 
-    public var idealWidth:Float = 850;
-    public var idealHeight:Float = 680;
-    public var autoHeight:Bool = true;
+    @:isVar public var idealWidth(default, set):Float = 850;
+    @:isVar public var idealHeight(default, set):Float = 680;
+    @:isVar public var autoHeight(default, set):Bool = true;
 
     @:isVar public var content(default, set):PriUISpace;
 
     public function new() {
         super();
+    }
+
+    private function set_idealWidth(value:Float):Float {
+        this.idealWidth = value;
+        this.updateDisplay();
+        return value;
+    }
+
+    private function set_idealHeight(value:Float):Float {
+        this.idealHeight = value;
+        this.updateDisplay();
+        return value;
+    }
+
+    private function set_autoHeight(value:Bool):Bool {
+        this.autoHeight = value;
+        this.updateDisplay();
+        return value;
     }
 
     private function set_text(value:String):String {
@@ -146,10 +164,7 @@ class GenericOverlay extends PriUIOverlay {
                     this.height = (this.content != null ? this.content.height : 0) + topSpace + bottomSpace;
                 } else {
                     this.height = Math.min((ph - space * 2), this.idealHeight);
-
-                    var ch:Float = this.height - topSpace - bottomSpace;
-                    trace(ch);
-                    if (this.content != null) this.content.height = ch;
+                    if (this.content != null) this.content.height = this.height - topSpace - bottomSpace;
                 }
 
                 this.centerY = ph/2;

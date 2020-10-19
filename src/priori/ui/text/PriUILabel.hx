@@ -1,5 +1,7 @@
 package priori.ui.text;
 
+import priori.style.font.PriFontStyleAlign;
+import priori.ui.container.layout.PriUIVerticalAlignmentType;
 import priori.ui.style.PriUIDisplayType;
 import priori.event.PriEvent;
 import priori.event.PriFocusEvent;
@@ -29,6 +31,9 @@ class PriUILabel extends PriUIContainer {
     public var autoSize(get, set):Bool;
     public var multiLine(get, set):Bool;
     public var selectable(get, set):Bool;
+    public var align(get, set):PriFontStyleAlign;
+
+    @:isVar public var invertSwatch(default, set):Bool = false;
     
     public function new() {
         super();
@@ -37,6 +42,15 @@ class PriUILabel extends PriUIContainer {
         
         this.label.allowTransition(PriTransitionType.TEXT_COLOR, 0.4);
         this.label.clipping = false;
+    }
+
+    private function get_align():PriFontStyleAlign return this.label.align;
+    private function set_align(value:PriFontStyleAlign):PriFontStyleAlign return this.label.align = value;
+
+    private function set_invertSwatch(value:Bool):Bool {
+        this.invertSwatch = value;
+        this.updateFont();
+        return value;
     }
 
     override public function hasFocus():Bool return this.label.hasFocus();
@@ -68,6 +82,11 @@ class PriUILabel extends PriUIContainer {
         var ev:PriFocusEvent = cast e.clone();
         ev.currentTarget = this;
         ev.target = this;
+
+        this.label.ellipsis = (this.editable && e.type == PriFocusEvent.FOCUS_IN)
+            ? false
+            : true;
+
         this.dispatchEvent(ev);
     }
 
@@ -83,22 +102,25 @@ class PriUILabel extends PriUIContainer {
         var display:PriUIDisplayType = this.styleDisplayType;
 
         var font:PriUIFont = this.styleIntent.getFont(style, this.styleSize);
-        var fontColor:PriColor = this.styleDisplayType.getForegroundSwatch(style).baseColor;
+        var fontColor:PriColor = this.invertSwatch
+            ? this.styleDisplayType.getBackgroundSwatch(style).baseColor
+            : this.styleDisplayType.getForegroundSwatch(style).baseColor
+        ;
+
+        var st = font.getFontStyle(style.fontFamily, fontColor);
+        st.align = this.align;
 
         this.label.startBatchUpdate();
         this.label.fontSize = font.size;
         this.label.letterSpace = font.spacing;
-        this.label.fontStyle = font.getFontStyle(style.fontFamily, fontColor);
+        this.label.fontStyle = st;
         this.label.endBatchUpdate();
 
         this.updateDisplay();
     }
 
     private function get_editable():Bool return this.label.editable;
-    private function set_editable(value:Bool):Bool {
-        this.label.editable = value;
-        return value;
-    }
+    private function set_editable(value:Bool):Bool return this.label.editable = value;
 
     private function get_text():String return this.__textValue;
     private function set_text(value:String):String {
@@ -116,35 +138,44 @@ class PriUILabel extends PriUIContainer {
         return value;
     }
 
+    private function get_autoSize():Bool return this.label.autoSize;
     private function set_autoSize(value:Bool):Bool {
         this.label.autoSize = value;
         this.label.clipping = !value;
         this.updateDisplay();
         return value;
     }
-    private function get_autoSize():Bool return this.label.autoSize;
 
+    private function get_multiLine():Bool return this.label.multiLine;
     private function set_multiLine(value:Bool):Bool {
         this.label.multiLine = value;
         this.updateDisplay();
         return value;
     }
-    private function get_multiLine():Bool return this.label.multiLine;
 
-    private function set_selectable(value:Bool):Bool {
-        this.label.selectable = value;
-        return value;
-    }
     private function get_selectable():Bool return this.label.selectable;
+    private function set_selectable(value:Bool):Bool return this.label.selectable = value;
 
     override private function paint():Void {
-        
-        if (this.autoSize) {
-            this.width = Math.round(this.label.width);
-        } else {
+
+        if (this.autoSize == false) {
             this.label.width = Math.round(this.width);
+        } else {
+            super.set_width(Math.round(this.label.width));
         }
 
-        this.height = Math.round(this.label.height);
+        super.set_height(Math.round(this.label.height));
+    }
+
+    override private function set_width(value:Float):Float {
+        if (this.autoSize == false) {
+            super.set_width(value);
+        }
+
+        return value;
+    }
+
+    override private function set_height(value:Float):Float {
+        return value;
     }
 }

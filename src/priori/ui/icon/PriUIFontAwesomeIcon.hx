@@ -13,18 +13,38 @@ class PriUIFontAwesomeIcon extends PriUISquare {
 
     private var icon:FontAwesomeIcon;
 
+    @:isVar public var invertSwatch(default, set):Bool = false;
+
     public function new() {
         super();
         this.clipping = false;
         this.iconType = FontAwesomeIconType.QUESTION;
     }
 
+    private function set_invertSwatch(value:Bool):Bool {
+        this.invertSwatch = value;
+        this.updateDisplay();
+        return value;
+    }
+
     override private function paint():Void {
         if (this.icon != null) {
-            this.startBatchUpdate();
+            this.icon.startBatchUpdate();
             this.icon.centerX = this.width / 2;
             this.icon.centerY = this.height / 2;
-            this.endBatchUpdate();
+
+            var s = this.style;
+
+            this.icon.color = this.invertSwatch
+                ? this.styleDisplayType.getBackgroundSwatch(s).baseColor
+                : this.styleDisplayType.getForegroundSwatch(s).baseColor
+            ;
+            this.icon.endBatchUpdate();
+
+//            this.bgColor = this.invertSwatch
+//                ? this.styleDisplayType.getForegroundSwatch(s).baseColor
+//                : this.styleDisplayType.getBackgroundSwatch(s).baseColor
+//            ;
         }
     }
 
@@ -61,9 +81,7 @@ class PriUIFontAwesomeIcon extends PriUISquare {
     }
 
     override private function updateStyle():Void {
-        if (this.icon != null) {
-            var style:PriUIStyle = this.style;
-            this.icon.color = this.styleDisplayType.getForegroundSwatch(style).baseColor;
-        }
-    };
+        this.updateDisplay();
+    }
+
 }

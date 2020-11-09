@@ -1,5 +1,7 @@
 package priori.ui.input;
 
+import priori.system.PriKey;
+import priori.event.PriKeyboardEvent;
 import priori.ui.style.PriUIIntent;
 import priori.fontawesome.FontAwesomeIconType;
 import priori.ui.icon.PriUIFontAwesomeIcon;
@@ -42,6 +44,8 @@ class PriUIInputText extends PriUISpace {
 
     private var errorMessage:PriUILabel;
     private var errorIcon:PriUIFontAwesomeIcon;
+
+    public var action:()->Void;
 
     public function new() {
         this.validators = [];
@@ -164,6 +168,7 @@ class PriUIInputText extends PriUISpace {
                 // create singleline
 
                 this.input = new PriFormInputText();
+                this.input.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
                 this.input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
                 this.input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
                 this.input.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
@@ -191,6 +196,7 @@ class PriUIInputText extends PriUISpace {
             } else if (value == true && this.inputMultiline == null) {
 
                 this.inputMultiline = new PriFormTextArea();
+                this.inputMultiline.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
                 this.inputMultiline.addEventListener(PriEvent.CHANGE, this.onFieldChange);
                 this.inputMultiline.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
                 this.inputMultiline.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
@@ -303,6 +309,10 @@ class PriUIInputText extends PriUISpace {
         }
     }
 
+    private function onKeyDown(e:PriKeyboardEvent):Void {
+        if (this.action != null && e.keycode == PriKey.ENTER) this.action();
+    }
+
     private function onFieldChange(e:PriEvent):Void {
         this.killTimer();
         if (this.onFastChange != null) this.onFastChange();
@@ -315,6 +325,7 @@ class PriUIInputText extends PriUISpace {
         this.corners = [4, 4, 0, 0];
 
         this.input = new PriFormInputText();
+        this.input.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
         this.input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
         this.input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
         this.input.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
@@ -385,6 +396,7 @@ class PriUIInputText extends PriUISpace {
     }
 
     override public function kill():Void {
+        this.action = null;
         if (this.timerChange != null) this.runDelayedChange();
         super.kill();
     }

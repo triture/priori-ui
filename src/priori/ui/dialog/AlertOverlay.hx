@@ -13,12 +13,18 @@ import priori.ui.overlay.PriUIOverlay;
 
 class AlertOverlay extends AskOverlay {
 
-    public function new(message:String, buttonLabel:String = "OK") {
+    public function new(message:String, buttonLabel:String = "OK", onClose:()->Void = null) {
         super();
 
         this.width = 320;
         this.text = message;
-        this.addButton(buttonLabel, this.close);
+        this.addButton(
+            buttonLabel,
+            function():Void {
+                this.close();
+                if (onClose != null) onClose();
+            }
+        );
 
         this.open();
     }

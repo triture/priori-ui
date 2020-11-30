@@ -118,7 +118,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     override private function setup():Void {}
 
     private function paintWithoutIcon(space:Int, densityValue:Float):Void {
-        this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
+        if (this.autoSize) this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
 
         this.corners = [4];
 
@@ -136,7 +136,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
         this.displayLabel.visible = false;
 
         this.icon.size = this.displayLabel.height * 1.2;
-        this.height = this.icon.size + this.icon.size * densityValue * 2;
+        if (this.autoSize) this.height = this.icon.size + this.icon.size * densityValue * 2;
         this.width = this.height;
 
         this.corners = [400];
@@ -158,8 +158,8 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
             this.paintWithoutIcon(space, densityValue);
 
         } else if (this.icon != null && this.label.length > 0) {
-            
-            this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
+
+            if (this.autoSize) this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
             this.corners = [4];
 
             this.displayLabel.startBatchUpdate();

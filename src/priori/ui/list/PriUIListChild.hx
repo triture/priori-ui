@@ -15,8 +15,11 @@ class PriUIListChild<T> extends PriUISpace {
     }
 
     private function set_data(value:T):T {
+        if (value == this.data) return value;
+
         this.data = value;
         this.updateData();
+        this.updateDisplay();
         return value;
     }
 }

@@ -19,6 +19,8 @@ class PriUIFontAwesomeIcon extends PriUISquare {
         super();
         this.clipping = false;
         this.iconType = FontAwesomeIconType.QUESTION;
+
+        this.size = 26;
     }
 
     private function set_invertSwatch(value:Bool):Bool {

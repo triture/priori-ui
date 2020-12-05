@@ -317,6 +317,7 @@ private class TapController {
         
         this.o.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocusIn);
         this.o.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocusOut);
+        this.o.addEventListener(PriTapEvent.TOUCH_MOVE, this.onFocusOut);
     }
 
     private function onOverIn(e:PriEvent):Void {

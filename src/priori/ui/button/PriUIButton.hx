@@ -368,6 +368,9 @@ private class TapController {
 
             PriApp.g().setFocus();
 
+            this.isOver = false;
+            this.isFocused = false;
+
             haxe.Timer.delay(
                 function():Void {
                     if (this.o.disabled || !this.o.hasApp()) this.isOver = false;

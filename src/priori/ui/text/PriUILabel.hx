@@ -65,8 +65,6 @@ class PriUILabel extends PriUIContainer {
     }
 
     override private function setup():Void {
-        this.label.focusable = true;
-
         this.label.addEventListener(PriEvent.CHANGE, this.onChange);
         this.label.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKey);
         this.label.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
@@ -120,7 +118,10 @@ class PriUILabel extends PriUIContainer {
     }
 
     private function get_editable():Bool return this.label.editable;
-    private function set_editable(value:Bool):Bool return this.label.editable = value;
+    private function set_editable(value:Bool):Bool {
+        this.label.focusable = value;
+        return this.label.editable = value;
+    }
 
     private function get_text():String return this.__textValue;
     private function set_text(value:String):String {

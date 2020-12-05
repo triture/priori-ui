@@ -96,6 +96,7 @@ class PriUIOverlayManager {
             else o.overlay.disabled = true;
         }
 
+        PriApp.g().setFocus();
         PriSceneManager.use().holder.disabled = true;
 
         haxe.Timer.delay(function():Void {

@@ -1,5 +1,7 @@
 package priori.ui.button;
 
+import priori.ui.style.PriUIDensity;
+import priori.ui.style.PriUISize;
 import priori.ui.interfaces.IPriUiButton;
 import priori.view.PriDisplay;
 import priori.app.PriApp;
@@ -132,10 +134,10 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
         if (this.autoSize) this.width = this.displayLabel.maxX + space;
     }
 
-    private function paintWithoutLabel(space:Int, densityValue:Float):Void {
+    private function paintWithoutLabel(space:Int, densityValue:Float, sizeValue:Float):Void {
         this.displayLabel.visible = false;
 
-        this.icon.size = this.displayLabel.height * 1.2;
+        this.icon.size = this.displayLabel.height * sizeValue;
         if (this.autoSize) this.height = this.icon.size + this.icon.size * densityValue * 2;
         this.width = this.height;
 
@@ -148,8 +150,13 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     override private function paint():Void {
         
         var densityValue:Float = switch (this.styleDensity) {
-            case DEFAULT: PriUIStyle.DENSITY_DEFAULT_WEIGHT;
-            case COMPACT: PriUIStyle.DENSITY_COMPACT_WEIGHT;
+            case PriUIDensity.DEFAULT: PriUIStyle.DENSITY_DEFAULT_WEIGHT;
+            case PriUIDensity.COMPACT: PriUIStyle.DENSITY_COMPACT_WEIGHT;
+        }
+
+        var sizeValue:Float = switch(this.styleSize) {
+            case PriUISize.SMALLER : 1.1;
+            case PriUISize.BIGGER : 1.1;
         }
 
         var space:Int = 18;
@@ -165,7 +172,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
             this.displayLabel.startBatchUpdate();
             this.displayLabel.visible = true;
 
-            this.icon.size = this.displayLabel.height * 1.1;
+            this.icon.size = this.displayLabel.height * sizeValue;
             this.icon.centerY = this.height/2;
 
             var idealWidth:Float = this.width;
@@ -195,7 +202,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
             this.displayLabel.endBatchUpdate();
 
         } else if (this.icon != null && this.label.length == 0) {
-            this.paintWithoutLabel(space, densityValue);
+            this.paintWithoutLabel(space, densityValue, sizeValue);
         }
         
     }

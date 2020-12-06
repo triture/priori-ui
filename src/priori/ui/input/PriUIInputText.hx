@@ -47,6 +47,9 @@ class PriUIInputText extends PriUISpace {
 
     public var action:()->Void;
 
+    @:isVar public var inputMarginLeft(default, set):Float = 0;
+    @:isVar public var inputMarginRight(default, set):Float = 0;
+
     public function new() {
         this.validators = [];
 
@@ -56,6 +59,21 @@ class PriUIInputText extends PriUISpace {
 
         this.clipping = false;
         this.height = 50;
+    }
+
+
+    private function set_inputMarginLeft(value:Float):Float {
+        if (value == null || value < 0) this.inputMarginLeft = 0;
+        else this.inputMarginLeft = value;
+        this.updateDisplay();
+        return value;
+    }
+
+    private function set_inputMarginRight(value:Float):Float {
+        if (value == null || value < 0) this.inputMarginRight = 0;
+        else this.inputMarginRight = value;
+        this.updateDisplay();
+        return value;
     }
 
     public function addValidation(validator:(value:String)->Void):Void this.validators.push(validator);
@@ -354,18 +372,18 @@ class PriUIInputText extends PriUISpace {
     override private function paint():Void {
         var space:Int = 13;
         var hasPlaceholder:Bool = this.placeholder != null && StringTools.trim(this.placeholder).length > 0;
-        var fieldWidth:Float = this.width - space * 2;
+        var fieldWidth:Float = this.width - space * 2 - this.inputMarginLeft - this.inputMarginRight;
 
         if (this.errorIcon != null && this.errorIcon.visible) {
             fieldWidth -= this.errorIcon.width;
         }
 
-        this.labelPlaceholder.x = space;
+        this.labelPlaceholder.x = space + this.inputMarginLeft;
         this.labelPlaceholder.y = (this.labelPlaceholder.fontSize < 14) ? 7 : 17;
         this.labelPlaceholder.width = fieldWidth;
 
         if (this.input != null) {
-            this.input.x = space;
+            this.input.x = space + this.inputMarginLeft;
             this.input.width = fieldWidth;
 
             if (hasPlaceholder) this.input.y = 20;
@@ -375,7 +393,7 @@ class PriUIInputText extends PriUISpace {
         }
 
         if (this.inputMultiline != null) {
-            this.inputMultiline.x = 13;
+            this.inputMultiline.x = space + this.inputMarginLeft;
             this.inputMultiline.width = fieldWidth;
             this.inputMultiline.y = hasPlaceholder ? 30 : 15;
             this.inputMultiline.height = this.height - this.inputMultiline.y;
@@ -385,7 +403,7 @@ class PriUIInputText extends PriUISpace {
         this.line.y = this.height - 1;
 
         if (this.errorIcon != null) {
-            this.errorIcon.maxX = this.width - space;
+            this.errorIcon.maxX = this.width - space - this.inputMarginRight;
             this.errorIcon.centerY = this.input == null
                 ? this.inputMultiline.centerY
                 : this.input.centerY - 3;

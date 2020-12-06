@@ -63,15 +63,17 @@ class PriUIInputText extends PriUISpace {
 
 
     private function set_inputMarginLeft(value:Float):Float {
-        if (value == null || value < 0) this.inputMarginLeft = 0;
-        else this.inputMarginLeft = value;
+        var v:Float = (value == null || value < 0) ? 0 : value;
+        if (this.inputMarginLeft == v) return value;
+        this.inputMarginLeft = v;
         this.updateDisplay();
         return value;
     }
 
     private function set_inputMarginRight(value:Float):Float {
-        if (value == null || value < 0) this.inputMarginRight = 0;
-        else this.inputMarginRight = value;
+        var v:Float = (value == null || value < 0) ? 0 : value;
+        if (this.inputMarginRight == v) return value;
+        this.inputMarginRight = v;
         this.updateDisplay();
         return value;
     }

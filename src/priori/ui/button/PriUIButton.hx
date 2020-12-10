@@ -380,6 +380,7 @@ private class TapController {
 
             haxe.Timer.delay(
                 function():Void {
+                    if (this.o == null) return;
                     if (this.o.disabled || !this.o.hasApp()) this.isOver = false;
                     if (this.doUpdate != null) this.doUpdate();
                 },

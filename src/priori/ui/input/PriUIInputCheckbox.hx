@@ -55,7 +55,7 @@ class PriUIInputCheckbox extends PriUISpace {
         this.label = new PriUILabel();
         this.label.autoSize = false;
         this.label.multiLine = true;
-        this.label.styleIntent = PriUIIntent.BUTTON;
+        this.label.styleIntent = PriUIIntent.SUBTITLE;
         this.label.addEventListener(PriTapEvent.TAP, this.onTap);
 
         this.addChildList(
@@ -77,7 +77,7 @@ class PriUIInputCheckbox extends PriUISpace {
         var space:Int = 20;
 
         this.label.x = this.button.maxX;
-        this.label.y = (this.button.height - this.style.fontButton.size)/2 - 2;
+        this.label.y = (this.button.height - this.style.fontSubtitleSmaller.size)/2 - 2;
         this.label.width = this.width - this.label.x;
 
         this.height = Math.round(Math.max(this.button.maxY, this.label.maxY));

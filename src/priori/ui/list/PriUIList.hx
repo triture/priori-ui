@@ -102,7 +102,7 @@ class PriUIList<T> extends PriUISpace {
         var currentHeight:Float = this.height;
         var itemHeight:Float = Math.fround(this.rowHeight);
 
-        return Math.floor(currentHeight/itemHeight) + 2;
+        return Math.floor(Math.min(this.data.length, currentHeight/itemHeight + 2));
     }
 
     inline private function removeExceedPoolItems(itemsNeeded:Int):Void {

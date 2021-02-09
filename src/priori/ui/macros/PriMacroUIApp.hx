@@ -45,10 +45,10 @@ class PriMacroUIApp {
                                 var route:String = item.get('route');
                                 var scope:String = item.get('scope');
 
-                                var code:String = 'priori.scene.PriSceneManager.use().addRoute("${route}", ${scene}, ${scope == null ? 'null' : scope})';
+                                var code:String = 'priori.scene.PriSceneManager.use().addRoute("${route}", ${scene}, ${scope == null ? 'null' : '"${scope}"'})';
                                 
                                 if (starRoute == null) {
-                                    starRoute = 'priori.scene.PriSceneManager.use().addRoute("**", ${scene}, ${scope == null ? 'null' : scope})';
+                                    starRoute = 'priori.scene.PriSceneManager.use().addRoute("**", ${scene}, ${scope == null ? 'null' : '"${scope}"'})';
                                 }
 
                                 if (route == "**") starRoute = '';

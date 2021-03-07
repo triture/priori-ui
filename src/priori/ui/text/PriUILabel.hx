@@ -44,6 +44,9 @@ class PriUILabel extends PriUIContainer {
         this.label.clipping = false;
     }
 
+    override private function set_testIdentifier(value:String):String return this.label.testIdentifier=value;
+    override private function get_testIdentifier():String return this.label.testIdentifier;
+
     private function get_align():PriFontStyleAlign return this.label.align;
     private function set_align(value:PriFontStyleAlign):PriFontStyleAlign return this.label.align = value;
 

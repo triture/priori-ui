@@ -21,16 +21,14 @@ import priori.view.form.PriFormInputText;
 import priori.view.PriLineHorizontal;
 import priori.view.text.PriText;
 
-class PriUIInputText extends PriUISpace {
+class PriUIInputText extends PriUIInput<String> {
 
-    public var value(get, set):String;
     public var password(get, set):Bool;
     public var inputType(get, set):PriFormInputTextFieldType;
 
     @:isVar public var placeholder(default, set):String;
     @:isVar public var multiline(default, set):Bool = false;
 
-    public var onFastChange:Void->Void;
     public var onDelayedChange:Void->Void;
 
     private var labelPlaceholder:PriText;
@@ -40,24 +38,17 @@ class PriUIInputText extends PriUISpace {
 
     private var timerChange:Timer;
 
-    private var validators:Array<(value:String)->Void>;
-
-    private var errorMessage:PriUILabel;
-    private var errorIcon:PriUIFontAwesomeIcon;
-
     public var action:()->Void;
 
     @:isVar public var inputMarginLeft(default, set):Float = 0;
     @:isVar public var inputMarginRight(default, set):Float = 0;
 
     public function new() {
-        this.validators = [];
-
         super();
 
         this.styleDisplayType = PriUIDisplayType.PRIMARY;
 
-        this.clipping = false;
+        //this.clipping = false;
         this.height = 50;
     }
 
@@ -76,69 +67,6 @@ class PriUIInputText extends PriUISpace {
         this.inputMarginRight = v;
         this.updateDisplay();
         return value;
-    }
-
-    public function addValidation(validator:(value:String)->Void):Void this.validators.push(validator);
-
-    public function validate():Bool {
-        var v:String = this.value;
-        var error:String = null;
-
-        for (validator in this.validators) {
-            try {
-                validator(v);
-            } catch (e:Dynamic) {
-                error = Std.string(e);
-            }
-
-            if (error != null) break;
-        }
-
-        if (error != null) {
-            error = StringTools.trim(error);
-            if (error.length == 0) error = "Error";
-            this.showError(error);
-            return false;
-
-        } else this.hideError();
-
-        return true;
-    }
-
-    private function showError(messsage:String):Void {
-        if (this.errorIcon == null) {
-            this.errorIcon = new PriUIFontAwesomeIcon();
-            this.errorIcon.invertSwatch = true;
-            this.errorIcon.margin = 0;
-            this.errorIcon.size = 22;
-            this.errorIcon.styleDisplayType = PriUIDisplayType.CAUTION;
-            this.errorIcon.iconType = FontAwesomeIconType.EXCLAMATION_CIRCLE;
-
-            this.errorMessage = new PriUILabel();
-            this.errorMessage.invertSwatch = true;
-            this.errorMessage.styleIntent = PriUIIntent.OVERLINE;
-            this.errorMessage.styleDisplayType = PriUIDisplayType.DANGER;
-
-            this.addChildList(
-                [
-                    this.errorIcon,
-                    this.errorMessage
-                ]
-            );
-        }
-
-        this.errorMessage.text = messsage;
-        this.errorMessage.visible = true;
-        this.errorIcon.visible = true;
-        this.updateDisplay();
-    }
-
-    private function hideError():Void {
-        if (this.errorIcon != null) {
-            this.errorMessage.visible = false;
-            this.errorIcon.visible = false;
-            this.updateDisplay();
-        }
     }
 
     override private function updateStyle():Void {
@@ -281,8 +209,8 @@ class PriUIInputText extends PriUISpace {
         return value;
     }
 
-    private function get_value():String return this.input == null ? this.inputMultiline.value : this.input.value;
-    private function set_value(value:String):String {
+    override private function get_value():String return this.input == null ? this.inputMultiline.value : this.input.value;
+    override private function set_value(value:String):String {
         if (value != null) {
 
             if (this.input == null) this.inputMultiline.value = value;
@@ -335,7 +263,7 @@ class PriUIInputText extends PriUISpace {
 
     private function onFieldChange(e:PriEvent):Void {
         this.killTimer();
-        if (this.onFastChange != null) this.onFastChange();
+        if (this.onChange != null) this.onChange();
         this.timerChange = Timer.delay(this.runDelayedChange, 600);
         this.dispatchEvent(new PriEvent(PriEvent.CHANGE));
     }
@@ -405,13 +333,13 @@ class PriUIInputText extends PriUISpace {
         this.line.y = this.height - 1;
 
         if (this.errorIcon != null) {
-            this.errorIcon.maxX = this.width - space - this.inputMarginRight;
-            this.errorIcon.centerY = this.input == null
-                ? this.inputMultiline.centerY
-                : this.input.centerY - 3;
+//            this.errorIcon.maxX = this.width - space - this.inputMarginRight;
+//            this.errorIcon.centerY = this.input == null
+//                ? this.inputMultiline.centerY
+//                : this.input.centerY - 3;
 
-            this.errorMessage.x = space / 2;
-            this.errorMessage.y = this.height + 2;
+//            this.errorMessage.x = space / 2;
+//            this.errorMessage.y = this.height + 2;
         }
     }
 

@@ -24,10 +24,12 @@ import priori.view.form.PriFormInputText;
 import priori.view.PriLineHorizontal;
 import priori.view.text.PriText;
 
-class PriUIInputCheckbox extends PriUISpace {
+class PriUIInputCheckbox extends PriUIInput<Bool> {
 
-    @:isVar public var value(default, set):Bool;
     @:isVar public var text(default, set):String;
+    private var checkValue:Bool;
+
+    public var isHTML(get, set):Bool;
 
     private var button:PriUIButtonFontAwesome;
     private var label:PriUILabel;
@@ -35,14 +37,15 @@ class PriUIInputCheckbox extends PriUISpace {
     private var iconActive:FontAwesomeIconType = FontAwesomeIconType.CHECK_SQUARE_REGULAR;
     private var iconInactive:FontAwesomeIconType = FontAwesomeIconType.SQUARE_REGULAR;
 
-    public var onChange:Void->Void;
-
     public function new() {
         super();
 
         this.value = false;
         this.text = 'Checkbox';
     }
+
+    private function get_isHTML():Bool return this.label.isHTML;
+    private function set_isHTML(value:Bool):Bool return this.label.isHTML = value;
 
     override private function setup():Void {
 
@@ -69,8 +72,10 @@ class PriUIInputCheckbox extends PriUISpace {
     private function onTap(e:PriTapEvent):Void this.changeState();
 
     private function changeState():Void {
-        this.value = !this.value;
+        this.value = !this.checkValue;
         if (this.onChange != null) this.onChange();
+
+        this.validate();
     }
 
     override private function paint():Void {
@@ -78,22 +83,24 @@ class PriUIInputCheckbox extends PriUISpace {
 
         this.label.x = this.button.maxX;
         this.label.y = (this.button.height - this.style.fontSubtitleSmaller.size)/2 - 2;
-        this.label.width = this.width - this.label.x;
+        this.label.width = this.width - this.label.x - (this.errorIcon == null ? 0 : this.errorIcon.width);
 
         this.height = Math.round(Math.max(this.button.maxY, this.label.maxY));
     }
 
     private function updateData():Void {
         this.label.text = this.text;
-        this.button.iconType = this.value ? this.iconActive : this.iconInactive;
+        this.button.iconType = this.checkValue ? this.iconActive : this.iconInactive;
         this.updateDisplay();
     }
 
-    private function set_value(value:Bool):Bool {
-        this.value = value;
+    override private function get_value():Bool return this.checkValue;
+    override private function set_value(value:Bool):Bool {
+        this.checkValue = value;
         this.updateData();
         return value;
     }
+
     private function set_text(value:String):String {
         this.text = value;
         this.updateData();

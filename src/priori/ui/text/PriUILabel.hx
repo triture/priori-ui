@@ -33,6 +33,8 @@ class PriUILabel extends PriUIContainer {
     public var selectable(get, set):Bool;
     public var align(get, set):PriFontStyleAlign;
 
+    @:isVar public var isHTML(default, set):Bool = false;
+
     @:isVar public var invertSwatch(default, set):Bool = false;
     
     public function new() {
@@ -42,6 +44,14 @@ class PriUILabel extends PriUIContainer {
         
         this.label.allowTransition(PriTransitionType.TEXT_COLOR, 0.4);
         this.label.clipping = false;
+    }
+
+    private function set_isHTML(value:Bool):Bool {
+        this.isHTML = value;
+        var text:String = this.__textValue;
+        this.__textValue = '';
+        this.set_text(text);
+        return value;
     }
 
     override private function set_testIdentifier(value:String):String return this.label.testIdentifier=value;
@@ -129,13 +139,23 @@ class PriUILabel extends PriUIContainer {
     private function get_text():String return this.__textValue;
     private function set_text(value:String):String {
         this.__textValue = value == null ? '' : value;
-        
-        if (value == null || value.length == 0) {
-            this.label.text = ".";
-            this.label.visible = false;
+
+        if (this.isHTML) {
+            if (value == null || value.length == 0) {
+                this.label.text = ".";
+                this.label.visible = false;
+            } else {
+                this.label.html = value;
+                this.label.visible = true;
+            }
         } else {
-            this.label.text = value;
-            this.label.visible = true;
+            if (value == null || value.length == 0) {
+                this.label.text = ".";
+                this.label.visible = false;
+            } else {
+                this.label.text = value;
+                this.label.visible = true;
+            }
         }
 
         this.updateDisplay();

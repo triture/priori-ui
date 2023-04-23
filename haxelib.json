@@ -1,6 +1,6 @@
 {
     "name": "priori-ui",
-    "classPath" : "src/",
+    "classPath" : "src-ui/",
     "url": "https://github.com/triture/priori-ui",
     "license": "MIT",
     "tags": [ "html5", "web", "js", "javascript", "priori", "user interface", "ui", "spa", "cross", "webapp"],

@@ -19,7 +19,7 @@ class PriUIFont {
         this.spacing = spacing;
     }
 
-    public function clone():PriUIFont return new PriUIFont(this.size, this.weight, this.variant, this.spacing);
+    public function clone():PriUIFont return new PriUIFont(this.size, this.weight, this.variant);
 
     public function getFontStyle(font:String, color:PriColor):PriFontStyle {
         return new PriFontStyle()

@@ -1,7 +1,7 @@
 package priori.ui.container;
 
-import priori.ui.style.PriUIDisplayType;
 import priori.types.PriTransitionType;
+import priori.ui.style.PriUIDisplayType;
 
 class PriUIBoard extends PriUIContainer {
     

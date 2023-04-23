@@ -1,6 +1,5 @@
 package priori.ui.icon;
 
-import priori.ui.style.PriUIStyle;
 import priori.fontawesome.FontAwesomeIcon;
 import priori.fontawesome.FontAwesomeIconType;
 import priori.ui.container.PriUISquare;
@@ -13,20 +12,12 @@ class PriUIFontAwesomeIcon extends PriUISquare {
 
     private var icon:FontAwesomeIcon;
 
-    @:isVar public var invertSwatch(default, set):Bool = false;
-
     public function new() {
         super();
         this.clipping = false;
         this.iconType = FontAwesomeIconType.QUESTION;
 
         this.size = 26;
-    }
-
-    private function set_invertSwatch(value:Bool):Bool {
-        this.invertSwatch = value;
-        this.updateDisplay();
-        return value;
     }
 
     override private function paint():Void {
@@ -37,16 +28,8 @@ class PriUIFontAwesomeIcon extends PriUISquare {
 
             var s = this.style;
 
-            this.icon.color = this.invertSwatch
-                ? this.styleDisplayType.getBackgroundSwatch(s).baseColor
-                : this.styleDisplayType.getForegroundSwatch(s).baseColor
-            ;
+            this.icon.color = this.styleDisplayType.getColorKit(s).overColor.baseColor;
             this.icon.endBatchUpdate();
-
-//            this.bgColor = this.invertSwatch
-//                ? this.styleDisplayType.getForegroundSwatch(s).baseColor
-//                : this.styleDisplayType.getBackgroundSwatch(s).baseColor
-//            ;
         }
     }
 

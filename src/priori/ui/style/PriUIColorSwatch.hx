@@ -35,9 +35,9 @@ class PriUIColorSwatch {
     
     public function getColor(shade:PriUIShade):PriColor {
         return switch (shade) {
-            case BRIGHTER: this.brighter;
-            case DARKER: this.darker;
-            case DEFAULT: this.color;
+            case PriUIShade.BRIGHTER : this.brighter;
+            case PriUIShade.DARKER : this.darker;
+            case PriUIShade.DEFAULT : this.color;
         }
     }
 

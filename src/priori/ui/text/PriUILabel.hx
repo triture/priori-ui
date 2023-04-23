@@ -1,5 +1,6 @@
 package priori.ui.text;
 
+import priori.style.font.PriFontStyle;
 import priori.style.font.PriFontStyleAlign;
 import priori.ui.container.layout.PriUIVerticalAlignmentType;
 import priori.ui.style.PriUIDisplayType;
@@ -35,8 +36,6 @@ class PriUILabel extends PriUIContainer {
 
     @:isVar public var isHTML(default, set):Bool = false;
 
-    @:isVar public var invertSwatch(default, set):Bool = false;
-    
     public function new() {
         super();
 
@@ -59,12 +58,6 @@ class PriUILabel extends PriUIContainer {
 
     private function get_align():PriFontStyleAlign return this.label.align;
     private function set_align(value:PriFontStyleAlign):PriFontStyleAlign return this.label.align = value;
-
-    private function set_invertSwatch(value:Bool):Bool {
-        this.invertSwatch = value;
-        this.updateFont();
-        return value;
-    }
 
     override public function hasFocus():Bool return this.label.hasFocus();
 
@@ -113,12 +106,9 @@ class PriUILabel extends PriUIContainer {
         var display:PriUIDisplayType = this.styleDisplayType;
 
         var font:PriUIFont = this.styleIntent.getFont(style, this.styleSize);
-        var fontColor:PriColor = this.invertSwatch
-            ? this.styleDisplayType.getBackgroundSwatch(style).baseColor
-            : this.styleDisplayType.getForegroundSwatch(style).baseColor
-        ;
+        var fontColor:PriColor = this.styleDisplayType.getColorKit(style).overColor.baseColor;
 
-        var st = font.getFontStyle(style.fontFamily, fontColor);
+        var st:PriFontStyle = font.getFontStyle(style.fontFamily, fontColor);
         st.align = this.align;
 
         this.label.startBatchUpdate();

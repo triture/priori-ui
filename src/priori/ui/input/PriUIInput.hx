@@ -58,20 +58,17 @@ class PriUIInput<T> extends PriUISpace {
     private function showError(messsage:String):Void {
         if (this.errorIcon == null) {
             this.errorIcon = new PriUIFontAwesomeIcon();
-            this.errorIcon.invertSwatch = true;
             this.errorIcon.margin = 0;
             this.errorIcon.size = 22;
-            this.errorIcon.styleDisplayType = PriUIDisplayType.CAUTION;
+            this.errorIcon.styleDisplayType = PriUIDisplayType.DANGER;
             this.errorIcon.iconType = FontAwesomeIconType.EXCLAMATION_CIRCLE;
             this.errorIcon.right = 13;
             this.errorIcon.top = 10;
 
             this.errorMessage = new PriUILabel();
-            this.errorMessage.invertSwatch = true;
             this.errorMessage.styleIntent = PriUIIntent.OVERLINE;
             this.errorMessage.styleDisplayType = PriUIDisplayType.DANGER;
             this.errorMessage.x = 7;
-            //this.errorMessage.right = 0;
 
             this.addChildList(
                 [

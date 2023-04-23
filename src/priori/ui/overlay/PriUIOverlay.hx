@@ -14,7 +14,7 @@ class PriUIOverlay extends PriUIContainer {
     public function new() {
         super();
 
-        this.styleDisplayType = PriUIDisplayType.OVERLAY;
+        this.styleDisplayType = PriUIDisplayType.PRIMARY;
         this.z = 8;
         this.corners = [5];
 

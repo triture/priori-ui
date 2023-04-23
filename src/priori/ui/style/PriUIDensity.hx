@@ -1,6 +1,6 @@
 package priori.ui.style;
 
-@:enum 
+@:enum
 abstract PriUIDensity(String) {
     var DEFAULT = "DEFAULT";
     var COMPACT = "COMPACT";

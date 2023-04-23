@@ -1,24 +1,22 @@
 package priori.ui.input;
 
+import priori.event.PriTapEvent;
+import priori.geom.PriColor;
+import priori.style.border.PriBorderStyle;
+import priori.style.font.PriFontStyleVariant;
+import priori.ui.style.PriUISize;
+import priori.ui.style.PriUIColorSwatch;
 import priori.system.PriKey;
 import priori.event.PriKeyboardEvent;
 import priori.ui.style.PriUIIntent;
-import priori.fontawesome.FontAwesomeIconType;
-import priori.ui.icon.PriUIFontAwesomeIcon;
-import priori.ui.text.PriUILabel;
-import priori.ui.style.PriUIShade;
 import priori.ui.style.PriUIDisplayType;
-import priori.ui.container.PriUISpace;
 import priori.types.PriFormInputTextFieldType;
 import haxe.Timer;
 import priori.event.PriEvent;
 import priori.event.PriFocusEvent;
-import priori.style.font.PriFontStyleWeight;
-import priori.style.font.PriFontStyleItalic;
 import priori.style.font.PriFontStyle;
 import priori.view.form.PriFormTextArea;
 import priori.view.form.PriFormInputText;
-import priori.view.PriLineHorizontal;
 import priori.view.text.PriText;
 
 class PriUIInputText extends PriUIInput<String> {
@@ -34,24 +32,30 @@ class PriUIInputText extends PriUIInput<String> {
     private var labelPlaceholder:PriText;
     private var input:PriFormInputText;
     private var inputMultiline:PriFormTextArea;
-    private var line:PriLineHorizontal;
 
     private var timerChange:Timer;
 
     public var action:()->Void;
 
-    @:isVar public var inputMarginLeft(default, set):Float = 0;
-    @:isVar public var inputMarginRight(default, set):Float = 0;
+    @:isVar public var inputMarginLeft(default, set):Float = 13;
+    @:isVar public var inputMarginRight(default, set):Float = 13;
+    @:isVar public var inputAditionalHeightByFontSize(default, set):Float = 2.3;
 
     public function new() {
         super();
 
-        this.styleDisplayType = PriUIDisplayType.PRIMARY;
-
-        //this.clipping = false;
-        this.height = 50;
+        this.styleIntent = PriUIIntent.BODY;
+        this.styleSize = PriUISize.SMALLER;
     }
 
+    private function set_inputAditionalHeightByFontSize(value:Float):Float {
+        var v:Float = (value == null || value < 0) ? 0 : value;
+        if (this.inputAditionalHeightByFontSize == v) return value;
+        this.inputAditionalHeightByFontSize = v;
+        this.updateStyle();
+        this.updateDisplay();
+        return value;
+    }
 
     private function set_inputMarginLeft(value:Float):Float {
         var v:Float = (value == null || value < 0) ? 0 : value;
@@ -69,42 +73,62 @@ class PriUIInputText extends PriUIInput<String> {
         return value;
     }
 
-    override private function updateStyle():Void {
+    inline private function hasPlaceholder():Bool {
+        return (this.placeholder != null && StringTools.trim(this.placeholder).length > 0);
+    }
 
+    inline private function hasContentOrSelection():Bool {
+        var curLen:Int = this.input == null ? this.inputMultiline.value.length : this.input.value.length;
+        var hasFocus:Bool = this.hasFocus();
+        return (curLen > 0 || hasFocus);
+    }
+
+    override private function updateStyle():Void {
         var type = this.styleDisplayType;
 
         if (type != PriUIDisplayType.NONE) {
-
             var style = this.style;
-            var shade = this.styleShade;
+            var size = this.styleSize;
+            var font = this.styleIntent.getFont(style, size);
 
-            this.bgColor = PriUIDisplayType.SUBTLE.getBackgroundSwatch(style).getColor(shade);
+            var fgColor:PriUIColorSwatch = type.getColorKit(style).overColor;
+            var bgColor:PriUIColorSwatch = type.getColorKit(style).backgroundColor;
 
-            var colorBasic = type.getBackgroundSwatch(style).getColor(shade);
-            var colorClear = type.getBackgroundSwatch(style).getColor(PriUIShade.BRIGHTER);
+            var invert:Bool = !bgColor.isLight();
 
-            this.labelPlaceholder.textColor = colorClear;
+            var realFGColor:PriColor = fgColor.baseColor;
+            var realBGColor:PriColor = bgColor.baseColor;
+            var borderColor:PriColor = bgColor.isLight() ? realFGColor : bgColor.baseColor.mix(0, 0.3);
 
-            var hasFocus:Bool = this.hasFocus();
-            var curLen:Int = this.input == null ? this.inputMultiline.value.length : this.input.value.length;
+            this.bgColor = realBGColor;
 
-            if (curLen > 0 || hasFocus) {
-                this.labelPlaceholder.fontSize = 11;
-            } else {
-                this.labelPlaceholder.fontSize = 18;
+            if (this.hasPlaceholder()) {
+                this.labelPlaceholder.fontStyle = this.labelPlaceholder.fontStyle
+                    .setColor(realFGColor)
+                    .setFamily(style.fontFamily)
+                    .setWeight(font.weight)
+                    .setVariant(PriFontStyleVariant.ALL_CAPS);
             }
 
-            if (hasFocus) {
-                this.line.lineColor = colorBasic;
+            this.border = new PriBorderStyle().setWidth(2).setColor(borderColor);
+
+            if (this.multiline) {
+                this.inputMultiline.fontSize = font.size;
+                this.inputMultiline.fontStyle = this.inputMultiline.fontStyle
+                    .setColor(realFGColor)
+                    .setFamily(style.fontFamily)
+                    .setWeight(font.weight)
+                    .setVariant(font.variant);
+
             } else {
-                this.line.lineColor = PriUIDisplayType.SUBTLE.getBackgroundSwatch(style).getColor(PriUIShade.DARKER);
+                this.input.fontSize = font.size;
+                this.input.fontStyle = this.input.fontStyle
+                    .setColor(realFGColor)
+                    .setFamily(style.fontFamily)
+                    .setWeight(font.weight)
+                    .setVariant(font.variant);
             }
-
-            if (this.input == null) this.inputMultiline.fontStyle = this.inputMultiline.fontStyle.setColor(colorBasic);
-            else this.input.fontStyle = this.input.fontStyle.setColor(colorBasic);
-
         }
-
     }
 
     private function set_multiline(value:Bool):Bool {
@@ -115,13 +139,7 @@ class PriUIInputText extends PriUIInput<String> {
             if (value == false && this.input == null) {
                 // create singleline
 
-                this.input = new PriFormInputText();
-                this.input.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
-                this.input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
-                this.input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
-                this.input.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
-                this.input.fontSize = 14;
-                this.input.fontStyle = this.inputMultiline.fontStyle;
+                this.input = this.createInputSingleLine();
                 this.input.value = this.inputMultiline.value;
 
                 this.removeChild(this.inputMultiline);
@@ -131,25 +149,16 @@ class PriUIInputText extends PriUIInput<String> {
                 this.addChildList(
                     [
                         this.input,
-                        this.labelPlaceholder,
-                        this.line
+                        this.labelPlaceholder
                     ]
                 );
-
-                this.height = 50;
 
                 this.updateStyle();
                 this.updateDisplay();
 
             } else if (value == true && this.inputMultiline == null) {
 
-                this.inputMultiline = new PriFormTextArea();
-                this.inputMultiline.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
-                this.inputMultiline.addEventListener(PriEvent.CHANGE, this.onFieldChange);
-                this.inputMultiline.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
-                this.inputMultiline.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
-                this.inputMultiline.fontSize = 14;
-                this.inputMultiline.fontStyle = this.input.fontStyle;
+                this.inputMultiline = this.createInputMultiline();
                 this.inputMultiline.value = this.input.value;
 
                 this.removeChild(this.input);
@@ -159,12 +168,9 @@ class PriUIInputText extends PriUIInput<String> {
                 this.addChildList(
                     [
                         this.inputMultiline,
-                        this.labelPlaceholder,
-                        this.line
+                        this.labelPlaceholder
                     ]
                 );
-
-                this.height = 140;
 
                 this.updateStyle();
                 this.updateDisplay();
@@ -175,6 +181,28 @@ class PriUIInputText extends PriUIInput<String> {
         }
 
         return value;
+    }
+
+    private function createInputSingleLine():PriFormInputText {
+        var input:PriFormInputText = new PriFormInputText();
+        input.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
+        input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
+        input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
+        input.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
+        input.fontStyle = new PriFontStyle();
+
+        return input;
+    }
+
+    private function createInputMultiline():PriFormTextArea {
+        var input:PriFormTextArea = new PriFormTextArea();
+        input.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
+        input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
+        input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
+        input.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
+        input.fontStyle = new PriFontStyle();
+
+        return input;
     }
 
     override public function hasFocus():Bool {
@@ -223,16 +251,6 @@ class PriUIInputText extends PriUIInput<String> {
     }
 
     private function updatePlaceholder():Void {
-
-//        var focus:Bool = this.input == null ? this.inputMultiline.hasFocus() : this.input.hasFocus();
-//        var curLen:Int = this.input == null ? this.inputMultiline.value.length : this.input.value.length;
-//
-//        if (curLen > 0 || this.hasFocus()) {
-//            this.labelPlaceholder.fontSize = 11;
-//        } else {
-//            this.labelPlaceholder.fontSize = 18;
-//        }
-
         this.updateStyle();
         this.updateDisplay();
     }
@@ -269,68 +287,100 @@ class PriUIInputText extends PriUIInput<String> {
     }
 
     override private function setup():Void {
+        this.addEventListener(PriTapEvent.TAP, this.onTap);
+        this.pointer = false;
 
-        this.corners = [4, 4, 0, 0];
-
-        this.input = new PriFormInputText();
-        this.input.addEventListener(PriKeyboardEvent.KEY_DOWN, this.onKeyDown);
-        this.input.addEventListener(PriEvent.CHANGE, this.onFieldChange);
-        this.input.addEventListener(PriFocusEvent.FOCUS_IN, this.onFocus);
-        this.input.addEventListener(PriFocusEvent.FOCUS_OUT, this.onFocus);
-        this.input.height = 40;
-        this.input.fontSize = 14;
-        this.input.fontStyle = new PriFontStyle().setWeight(PriFontStyleWeight.THICK300);
+        this.input = this.createInputSingleLine();
 
         this.labelPlaceholder = new PriText();
-        this.labelPlaceholder.fontSize = 18;
-        this.labelPlaceholder.fontStyle = new PriFontStyle().setItalic(PriFontStyleItalic.ITALIC).setWeight(PriFontStyleWeight.LIGHTER);
+        this.labelPlaceholder.fontStyle = new PriFontStyle();
         this.labelPlaceholder.autoSize = false;
         this.labelPlaceholder.mouseEnabled = false;
-
-        this.line = new PriLineHorizontal();
-        this.line.lineWidth = 2;
 
         this.addChildList(
             [
                 this.input,
-                this.labelPlaceholder,
-                this.line
+                this.labelPlaceholder
             ]
         );
+
+    }
+
+    private function onTap(e:PriTapEvent):Void this.setFocus();
+
+    private function getFieldFontSize():Float {
+        var type = this.styleDisplayType;
+        var style = this.style;
+        var size = this.styleSize;
+        var fontSize:Float = this.styleIntent.getFont(style, size).size;
+
+        return fontSize;
+    }
+
+    inline private function calculateNormalInputHeight(fontsize:Float):Float return Math.round(fontsize * this.inputAditionalHeightByFontSize);
+    private function calculateNormalFieldHeight():Float {
+        var type = this.styleDisplayType;
+        var style = this.style;
+        var size = this.styleSize;
+
+        var fontsize:Float = this.styleIntent.getFont(style, size).size;
+        var fontProportion:Float = style.fontBoundingBoxProportion;
+
+        var normalInputHeight:Float = this.calculateNormalInputHeight(fontsize);
+        var smallPlaceholderHeight:Float = (fontsize * 0.75 * fontProportion);
+        var marginForPlaceHolder:Float = smallPlaceholderHeight * 0.45;
+
+        return normalInputHeight + smallPlaceholderHeight + marginForPlaceHolder;
     }
 
     override private function paint():Void {
-        var space:Int = 13;
-        var hasPlaceholder:Bool = this.placeholder != null && StringTools.trim(this.placeholder).length > 0;
-        var fieldWidth:Float = this.width - space * 2 - this.inputMarginLeft - this.inputMarginRight;
+        var fontsize:Float = this.getFieldFontSize();
+
+        var hasPlaceholder:Bool = this.hasPlaceholder();
+        var hasContentSelection:Bool = this.hasContentOrSelection();
+        var fieldWidth:Float = this.width - this.inputMarginLeft - this.inputMarginRight;
+
+        var normalHeight:Float = Math.round(this.calculateNormalFieldHeight());
+        var normalFieldHeight:Float = this.calculateNormalInputHeight(fontsize);
+        var inputInitialY:Float = normalHeight - normalFieldHeight;
+        var extraInitialYForMultiline:Float = (normalFieldHeight - fontsize)/2;
+
+        this.corners = [4];
 
         if (this.errorIcon != null && this.errorIcon.visible) {
             fieldWidth -= this.errorIcon.width;
         }
 
-        this.labelPlaceholder.x = space + this.inputMarginLeft;
-        this.labelPlaceholder.y = (this.labelPlaceholder.fontSize < 14) ? 7 : 17;
-        this.labelPlaceholder.width = fieldWidth;
+        if (this.multiline) {
+            this.height = Math.floor(normalHeight * 2.5);
 
-        if (this.input != null) {
-            this.input.x = space + this.inputMarginLeft;
+            this.inputMultiline.y = inputInitialY + extraInitialYForMultiline;
+            this.inputMultiline.height = this.height - this.inputMultiline.y;
+            this.inputMultiline.x = this.inputMarginLeft;
+            this.inputMultiline.width = fieldWidth;
+
+        } else {
+            this.height = normalHeight;
+
+            this.input.height = normalFieldHeight;
+            this.input.x = this.inputMarginLeft;
             this.input.width = fieldWidth;
 
-            if (hasPlaceholder) this.input.y = 20;
+            if (hasPlaceholder) this.input.maxY = this.height;
             else this.input.centerY = this.height/2;
-
-            this.input.height = this.height - this.input.y;
         }
 
-        if (this.inputMultiline != null) {
-            this.inputMultiline.x = space + this.inputMarginLeft;
-            this.inputMultiline.width = fieldWidth;
-            this.inputMultiline.y = hasPlaceholder ? 30 : 15;
-            this.inputMultiline.height = this.height - this.inputMultiline.y;
-        }
+        if (this.hasPlaceholder()) {
+            this.labelPlaceholder.fontSize = hasContentSelection
+                ? fontsize * 0.75
+                : fontsize * 1.2;
 
-        this.line.width = this.width;
-        this.line.y = this.height - 1;
+            this.labelPlaceholder.x = this.inputMarginLeft;
+            this.labelPlaceholder.width = fieldWidth;
+            this.labelPlaceholder.centerY = hasContentSelection
+                ? inputInitialY/2 + inputInitialY * 0.1
+                : normalHeight/2;
+        }
 
         if (this.errorIcon != null) {
 //            this.errorIcon.maxX = this.width - space - this.inputMarginRight;

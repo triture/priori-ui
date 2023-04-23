@@ -13,7 +13,6 @@ class ControllerStyle {
     private var intent:PriUIIntent;
     private var size:PriUISize;
     private var shade:PriUIShade;
-    private var emphasis:PriUIEmphasis;
 
     private var _styleCache:PriUIStyle;
 
@@ -84,32 +83,12 @@ class ControllerStyle {
         return value;
     }
 
-    public function getEmphasis():PriUIEmphasis {
-        if (this.emphasis == null) {
-            if (this.o.parent == null) return PriUIEmphasis.HIGH;
-            else if (Std.is(this.o.parent, IPriUIStyle)) {
-                var c:IPriUIStyle = cast this.o.parent;
-                return c.styleEmphasis;
-            } else return PriUIEmphasis.HIGH;
-        } else return this.emphasis;
-    }
-
-    public function setEmphasis(value:PriUIEmphasis):PriUIEmphasis {
-        var old = this.emphasis;
-
-        this.emphasis = value;
-
-        if (old != emphasis) this.broadcastChanges();
-
-        return value;
-    }
-
     // parent type must be ignored when value is NONE
     // getType() never result INHERIT value event when is explicity declared
     public function getType():PriUIDisplayType {
         if (this.type == null || this.type == PriUIDisplayType.INHERIT) {
             if (this.o.parent == null) return PriUIDisplayType.NONE;
-            else if (Std.is(this.o.parent, IPriUIStyle)) {
+            else if (Std.isOfType(this.o.parent, IPriUIStyle)) {
                 var c:IPriUIStyle = cast this.o.parent;
                 return c.styleDisplayType;
             } else return PriUIDisplayType.NONE;
@@ -213,7 +192,7 @@ class ControllerStyle {
 
     public function updateBackground():Void {
         if (this.getType() != PriUIDisplayType.NONE) {
-            this.o.bgColor = this.getType().getBackgroundSwatch(this.getStyle()).getColor(this.getShade());
+            this.o.bgColor = this.getType().getColorKit(this.getStyle()).backgroundColor.getColor(this.getShade());
         }
     }
 

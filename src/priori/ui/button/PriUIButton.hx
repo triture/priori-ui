@@ -1,5 +1,6 @@
 package priori.ui.button;
 
+import priori.ui.style.PriUIColorSwatch;
 import priori.ui.style.PriUIDensity;
 import priori.ui.style.PriUISize;
 import priori.ui.interfaces.IPriUiButton;
@@ -13,10 +14,8 @@ import priori.types.PriTransitionType;
 import priori.event.PriMouseEvent;
 import priori.style.border.PriBorderStyle;
 import priori.ui.style.PriUIShade;
-import priori.ui.style.PriUIColorSwatch;
 import priori.ui.style.PriUIStyle;
 import priori.ui.style.PriUIDisplayType;
-import priori.ui.style.PriUIEmphasis;
 import priori.ui.style.PriUIIntent;
 import priori.ui.container.PriUIContainer;
 import priori.ui.container.PriUISquare;
@@ -35,7 +34,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     @:isVar public var icon(get, set):PriUISquare;
     @:isVar public var iconAlign(get, set):PriUIButtonIconAlignment = PriUIButtonIconAlignment.LEFT;
     @:isVar public var action(get, set):Void->Void;
-    @:isVar public var floatOnHigherEmphasis(get, set):Bool = true;
+    @:isVar public var levitate(get, set):Bool = false;
     @:isVar public var autoSize(default, set):Bool = true;
 
     public var label(get, set):String;
@@ -45,11 +44,10 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
         this.__tc = new TapController(this, this.updateStyle);
 
+        this.styleDisplayType = PriUIDisplayType.PRIMARY;
         this.styleIntent = PriUIIntent.BUTTON;
-        this.styleEmphasis = PriUIEmphasis.HIGH;
 
         this.allowTransition(PriTransitionType.BACKGROUND_COLOR, 0.2);
-        
     }
 
     private function set_autoSize(value:Bool):Bool {
@@ -67,10 +65,10 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
         return value;
     }
 
-    private function get_floatOnHigherEmphasis():Bool return this.floatOnHigherEmphasis;
-    private function set_floatOnHigherEmphasis(value:Bool):Bool {
+    private function get_levitate():Bool return this.levitate;
+    private function set_levitate(value:Bool):Bool {
         if (value == null) return value;
-        this.floatOnHigherEmphasis = value;
+        this.levitate = value;
         this.updateStyle();
         return value;
     }
@@ -122,7 +120,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
     private function paintWithoutIcon(space:Int, densityValue:Float):Void {
         if (this.autoSize) this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
 
-        this.corners = [4];
+        this.corners = [2];
 
         this.displayLabel.startBatchUpdate();
         this.displayLabel.visible = true;
@@ -167,7 +165,7 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
         } else if (this.icon != null && this.label.length > 0) {
 
             if (this.autoSize) this.height = this.displayLabel.height + this.displayLabel.height * densityValue * 2;
-            this.corners = [4];
+            this.corners = [2];
 
             this.displayLabel.startBatchUpdate();
             this.displayLabel.visible = true;
@@ -218,73 +216,24 @@ class PriUIButton extends PriUIContainer implements IPriUiButton {
 
             this.startBatchUpdate();
 
-            switch (this.styleEmphasis) {
+            this.z = this.levitate ? 4 : 0;
 
-                case PriUIEmphasis.LOW : {
-                    this.z = 0;
-                    
-                    var bgColor:PriColor = type.getBackgroundSwatch(style).getColor(shade);
-                    var fgColor:PriColor = 0xFFFFFF;
-                    var overColor:PriColor = fgColor.mix(bgColor, this.__tc.isFocused ? 0.3 : 0.1);
+            var fgColor:PriUIColorSwatch = type.getColorKit(style).overColor;
+            var bgColor:PriUIColorSwatch = type.getColorKit(style).backgroundColor;
 
-                    this.bgColor = this.__tc.isOver || this.__tc.isFocused
-                        ? overColor
-                        : null
-                    ;
+            var overColor:PriColor = this.__tc.isFocused
+                ? (bgColor.isLight() ? bgColor.darker.mix(0x000000, 0.2) : bgColor.brighter.mix(0xFFFFFF, 0.2))
+                : (bgColor.isLight() ? bgColor.darker : bgColor.brighter)
+            ;
 
-                    var textStyle:PriUIStyle = style.clone();
-                    textStyle.swatchInversion();
+            this.bgColor = (this.__tc.isOver || this.__tc.isFocused)
+                ? overColor
+                : bgColor.baseColor;
 
-                    if (textStyle.onPrimary.isLight()) textStyle.onPrimary = new PriUIColorSwatch(textStyle.onPrimary.darken(0.3));
-                    if (textStyle.onSecondary.isLight()) textStyle.onSecondary = new PriUIColorSwatch(textStyle.onSecondary.darken(0.3));
+            this.border = bgColor.isLight()
+                ? new PriBorderStyle().setWidth(2).setColor(fgColor.baseColor)
+                : null;
 
-                    this.displayLabel.style = textStyle;
-
-                    if (this.icon != null) this.icon.style = textStyle;
-
-                    this.border = null;
-                }
-                
-                case PriUIEmphasis.MEDIUM : {
-                    this.z = 0;
-                    
-                    var bgColor:PriColor = type.getBackgroundSwatch(style).getColor(shade);
-                    var fgColor:PriColor = 0xFFFFFF;
-                    var overColor:PriColor = fgColor.mix(bgColor, this.__tc.isFocused ? 0.3 : 0.1);
-
-                    this.bgColor = this.__tc.isOver || this.__tc.isFocused
-                        ? overColor
-                        : null
-                    ;
-                    
-                    var textStyle:PriUIStyle = style.clone();
-                    textStyle.swatchInversion();
-                    this.displayLabel.style = textStyle;
-
-                    if (this.icon != null) this.icon.style = textStyle;
-
-                    this.border = new PriBorderStyle().setWidth(1).setColor(bgColor);
-                }
-
-                case PriUIEmphasis.HIGH : {
-                    this.z = this.floatOnHigherEmphasis ? 2.5 : 0;
-
-                    var bgColor:PriColor = type.getBackgroundSwatch(style).getColor(shade);
-                    var fgColor:PriColor = type.getForegroundSwatch(style).getColor(shade);
-                    var overColor:PriColor = bgColor.mix(fgColor, this.__tc.isFocused ? 0.3 : 0.1);
-
-                    this.bgColor = this.__tc.isOver || this.__tc.isFocused
-                        ? overColor
-                        : bgColor
-                    ;
-
-                    this.displayLabel.style = style;
-                    if (this.icon != null) this.icon.style = style;
-
-                    this.border = null;
-                }
-
-            }
             this.endBatchUpdate();
 
         }

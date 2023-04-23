@@ -57,8 +57,8 @@ class PriUIInputSelect<T> extends PriUISpace {
             this.bgColor = PriUIDisplayType.SUBTLE.getBackgroundSwatch(style).getColor(shade);
             this.box.bgColor = this.bgColor;
 
-            var colorBasic = type.getBackgroundSwatch(style).getColor(shade);
-            var colorClear = type.getBackgroundSwatch(style).getColor(PriUIShade.BRIGHTER);
+            var colorBasic = type.getColorKit(style).getColor(shade);
+            var colorClear = type.getColorKit(style).getColor(PriUIShade.BRIGHTER);
 
             this.labelPlaceholder.textColor = colorClear;
 

@@ -2,7 +2,6 @@ package priori.ui.app;
 
 import priori.event.PriEvent;
 import priori.ui.overlay.PriUIOverlayManager;
-import priori.ui.style.PriUIEmphasis;
 import priori.ui.style.PriUIIntent;
 import priori.ui.style.PriUISize;
 import priori.ui.style.PriUIDensity;
@@ -23,7 +22,6 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
     public var styleIntent(get, set):PriUIIntent;
     public var styleSize(get, set):PriUISize;
     public var styleShade(get, set):PriUIShade;
-    public var styleEmphasis(get, set):PriUIEmphasis;
 
     public function new(data:Dynamic) {
         this.controllerStyle = new ControllerStyle(this);
@@ -67,9 +65,6 @@ class PriUIScene extends PriSceneView implements IPriUIStyle {
 
     private function get_styleShade():PriUIShade return this.controllerStyle.getShade();
     private function set_styleShade(value:PriUIShade):PriUIShade return this.controllerStyle.setShade(value);
-
-    private function get_styleEmphasis():PriUIEmphasis return this.controllerStyle.getEmphasis();
-    private function set_styleEmphasis(value:PriUIEmphasis):PriUIEmphasis return this.controllerStyle.setEmphasis(value);
 
     private function updateStyle():Void this.controllerStyle.updateBackground();
 }

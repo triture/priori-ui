@@ -1,7 +1,6 @@
 package priori.ui.container.layout;
 
-@:enum
-abstract PriUIAutoSizeType(String) {
+enum abstract PriUIAutoSizeType(String) {
     var FIT = 'FIT';
     var FIXED = 'FIXED';
 

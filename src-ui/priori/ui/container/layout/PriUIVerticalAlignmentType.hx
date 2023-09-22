@@ -1,7 +1,6 @@
 package priori.ui.container.layout;
 
-@:enum
-abstract PriUIVerticalAlignmentType(String) {
+enum abstract PriUIVerticalAlignmentType(String) {
     var TOP = 'TOP';
     var CENTER = 'CENTER';
     var BOTTOM = 'BOTTOM';

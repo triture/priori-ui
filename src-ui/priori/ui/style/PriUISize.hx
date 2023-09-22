@@ -1,7 +1,6 @@
 package priori.ui.style;
 
-@:enum
-abstract PriUISize(String) {
+enum abstract PriUISize(String) {
     var BIGGER = 'BIGGER';
     var SMALLER = 'SMALLER';
 

@@ -1,7 +1,6 @@
 package priori.ui.style;
 
-@:enum
-abstract PriUIDisplayType(String) {
+enum abstract PriUIDisplayType(String) {
 
     var NONE = 'NONE';
     var INHERIT = 'INHERIT';

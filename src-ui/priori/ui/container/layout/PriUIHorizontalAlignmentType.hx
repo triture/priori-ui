@@ -1,7 +1,6 @@
 package priori.ui.container.layout;
 
-@:enum
-abstract PriUIHorizontalAlignmentType(String) {
+enum abstract PriUIHorizontalAlignmentType(String) {
     var LEFT = 'LEFT';
     var CENTER = 'CENTER';
     var RIGHT = 'RIGHT';

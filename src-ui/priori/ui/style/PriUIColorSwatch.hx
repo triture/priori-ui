@@ -165,8 +165,7 @@ private extern class TinyColor
     public static var names:Colors;
 }
 
-@:enum
-private abstract ReadableLevel(String) {
+private enum abstract ReadableLevel(String) {
     var AA = "AA";
     var AAA = "AAA";
 }
@@ -176,8 +175,7 @@ private typedef ReadableObject = {
     @:optional var size:ReadableSize;
 }
 
-@:enum
-private abstract ReadableSize(String) {
+private enum abstract ReadableSize(String) {
     var SMALL = "small";
     var LARGE = "large";
 }

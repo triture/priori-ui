@@ -1,7 +1,6 @@
 package priori.ui.style;
 
-@:enum
-abstract PriUIIntent(String) {
+enum abstract PriUIIntent(String) {
     
     var HEADER = "HEADER";
     var SUBTITLE = "SUBTITLE";

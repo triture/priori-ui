@@ -1,7 +1,6 @@
 package priori.ui.style;
 
-@:enum
-abstract PriUIShade(String) {
+enum abstract PriUIShade(String) {
     var BRIGHTER = 'BRIGHTER';
     var DEFAULT = 'DEFAULT';
     var DARKER = 'DARKER';
